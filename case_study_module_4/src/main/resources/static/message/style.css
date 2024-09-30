@@ -1,0 +1,102 @@
+
+.facebook-icon {
+    color: #385185;}
+.sing_in_face{
+    font-weight: 500;
+    color: #385185;
+
+}
+*{
+    text-decoration: none !important;
+}
+
+.logo_store{
+   width: 100%;
+}
+.logo_apple{
+    height: 70px;
+}
+
+.img-carousel {
+    max-width: 60%;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+.pic-ctn {
+    width: 100vw;
+    height: 200px;
+}
+
+@keyframes display {
+    0% {
+        transform: translateX(-100px);
+        opacity: 0;
+    }
+    10% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    20% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    30% {
+        transform: translateX(40px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(40px);
+        opacity: 0;
+    }
+}
+
+.pic-ctn {
+    position: relative;
+    width: 100vw;
+    height: 300px;
+}
+
+.pic-ctn > img {
+    position: absolute;
+    top: -143px;
+    left: calc(50% - 120px);
+    opacity: 0;
+    animation: display 10s infinite;
+}
+
+img:nth-child(2) {
+    animation-delay: 2s;
+}
+img:nth-child(3) {
+    animation-delay: 4s;
+}
+img:nth-child(4) {
+    animation-delay: 6s;
+}
+img:nth-child(5) {
+    animation-delay: 8s;
+}
+.img-carousel{
+    width:389px ;
+    height:574px ;
+    object-fit: cover;
+    border-radius: 10px;
+}
+.support{
+    color:#787878;
+}
+.footer{
+    margin: 0 auto;
+}
+.right_picture{
+   margin-left: 90px;
+}
+.desc,
+.input-custom::placeholder {
+    font-size: 12px;
+    color: #888;
+}
