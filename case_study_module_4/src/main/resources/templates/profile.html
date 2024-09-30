@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang cá nhân</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: #fafafa;
+            padding-top: 20px;
+            border-right: 1px solid #dbdbdb;
+            height: 100vh;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 15px 25px;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .sidebar a:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Main content */
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-header img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+
+        .profile-header h2 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .profile-header .follow-info {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        .profile-header button {
+            padding: 8px 15px;
+            background-color: #fafafa;
+            border: 1px solid #dbdbdb;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s, color 0.3s; /* Thêm hiệu ứng chuyển đổi */
+        }
+        /* Hover Effect */
+        .profile-header button:hover {
+            background-color: #3897f0; /* Màu nền khi hover */
+            color: #fff; /* Màu chữ khi hover */
+        }
+
+        .post-section {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .post-section h3 {
+            font-size: 20px;
+            color: #555;
+        }
+
+        .post-section button {
+            padding: 10px 20px;
+            background-color: #3897f0;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .post-section button:hover {
+            background-color: #1877f2;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="profile" style="font-size: x-large; margin-left: 20px">
+        <span>𝓥𝓷𝓰𝓻𝓪𝓶</span>
+    </div>
+    <div style="margin-top: 45px">
+        <a href="#"><i class="fas fa-home"></i> Trang chủ</a>
+        <a href="#"><i class="fas fa-search"></i> Tìm kiếm</a>
+        <a href="#"><i class="fa-solid fa-message"></i> Tin nhắn</a>
+        <a href="#"><i class="fa-solid fa-bell"></i></i> Thông báo</a>
+        <a href="#"><img src="linh.jfif" alt="profile" style="width: 30px; height: 30px;
+         border-radius: 50%; margin-right: 10px; ">Trang cá nhân</a>
+    </div>
+</div>
+
+<!-- Main content -->
+<div class="main-content">
+    <div style="justify-content: center" class="profile-header">
+        <img src="https://via.placeholder.com/150" alt="Avatar">
+        <div>
+            <p>Thái Quang Vỹ</p>
+            <div class="buttons" >
+                <button >Chỉnh sửa trang cá nhân</button>
+                <button>Xem kho lưu trữ</button>
+            </div>
+            <div class="follow-info">
+                <span>0 bài viết</span> |
+                <span>1 người theo dõi</span> |
+                <span>Đang theo dõi 2 người dùng</span>
+            </div>
+            <!-- Thêm 2 nút tại đây -->
+
+        </div>
+    </div>
+
+    <div class="post-section">
+        <h3>Chia sẻ ảnh</h3>
+        <p>Khi bạn chia sẻ ảnh, ảnh sẽ xuất hiện trên trang cá nhân của bạn.</p>
+        <button>Chia sẻ ảnh đầu tiên của bạn</button>
+    </div>
+</div>
+
+</body>
+</html>
