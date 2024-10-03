@@ -1,0 +1,309 @@
+body {
+    background-color: #fff; /* Set background to white */
+    font-family: 'Arial', sans-serif;
+    padding-top: 60px; /* Avoid overlap with fixed navbar */
+}
+
+/* Navbar */
+.navbar {
+    background-color: #fff;
+    border-bottom: 1px solid #ddd; /* Keep the border */
+    padding: 0.5rem 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.navbar-brand img {
+    height: 35px;
+}
+
+.navbar .icons a {
+    color: #262626;
+    font-size: 1.5rem;
+    margin-right: 15px;
+}
+
+/* Sidebar on the left with border, fixed position */
+.sidebar-left {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    border-right: 1px solid #ddd; /* Keep border for sidebar */
+    height: 100vh;
+    padding-top: 20px;
+    background-color: #fff; /* White background */
+    width: 80px; /* Narrow sidebar */
+    z-index: 1000; /* Keep it on top */
+}
+
+.sidebar-left .icons {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    padding: 10px 0;
+}
+
+.sidebar-left .icons a {
+    color: #262626;
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+/* Right sidebar (Profile Section) */
+.sidebar-right {
+    position: sticky;
+    top: 80px;
+    padding-left: 20px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.user-profile img {
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+}
+
+.suggestions .suggestion-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.suggestions img {
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    margin-right: 10px;
+}
+
+/* Centered Content */
+.content-area {
+    margin-left: auto; /* Push content to center */
+    margin-right: auto; /* Push content to center */
+    max-width: 600px; /* Restrict the width for smaller content */
+}
+
+
+.feed-post {
+    background-color: #fff;
+    border: none; /* No border for feed posts */
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+}
+
+.post-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    justify-content: space-between;
+
+}
+
+.post-header img {
+
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    margin-right: 15px;
+}
+
+.post-image {
+    width: 100%;
+    height: auto;
+}
+
+.post-footer {
+    padding: 10px 15px;
+}
+
+.post-footer .post-actions {
+    font-size: 1.5rem;
+    color: #262626;
+    margin-bottom: 10px;
+}
+
+.post-footer .post-actions i {
+    margin-right: 10px;
+}
+
+.post-footer .likes {
+    font-weight: bold;
+}
+
+/* Center Content Adjustment */
+@media (min-width: 992px) {
+    .main-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .sidebar-left {
+        flex: 0 0 80px;
+        margin-right: 20px;
+    }
+
+    .content-area {
+        flex: 0 0 600px;
+    }
+
+    .sidebar-right {
+        flex: 0 0 300px;
+        padding-left: 20px;
+    }
+}
+
+.carousel-inner {
+    height: 70%;
+    width: 100%;
+
+}
+
+.carousel-item {
+    height: 450px; /* Chiều cao cố định của container */
+}
+
+.carousel-item img {
+    width: 100%; /* Cố định độ rộng 100% */
+    height: 100%; /* Cố định chiều cao 100% */
+    object-fit: cover; /* Giữ nguyên tỷ lệ hình ảnh, cắt bớt nếu quá lớn */
+}
+
+* {
+    text-decoration: none !important;
+}
+
+.carousel-control-next, .carousel-control-prev {
+    justify-content: normal;
+}
+
+.link-icon {
+    display: flex;
+    align-items: center;
+    margin-top: 10px
+}
+
+.link-icon span {
+    margin-left: 18px;
+    font-weight: bold;
+
+
+}
+
+.icons2 {
+    justify-content: space-evenly;
+
+    font-size: 26px;
+
+
+}
+
+.feed-post {
+    width: 65%;
+    border-radius: 0 !important;
+    border-bottom: 1px solid black;
+}
+
+.carousel-control-next,
+.carousel-control-prev {
+    opacity: 0;
+    pointer-events: all;
+}
+
+.desc {
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 3em;
+    line-height: 1.5em;
+
+
+}
+
+.dot {
+    font-size: x-large;
+    font-weight: bolder;
+
+}
+
+.dots-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+}
+
+.dots-container::before,
+.dots-container::after,
+.dots-container div {
+    content: '';
+    width: 5px;
+    height: 5px;
+    background-color: black;
+    border-radius: 50%;
+}
+
+
+a {
+    color: black;
+}
+
+.suggestion-item {
+    display: none; /* Ẩn tất cả các mục gợi ý ban đầu */
+}
+
+.suggestion-item.show {
+    display: flex;
+}
+
+
+.link-icon {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;;
+    border-radius: 5px;
+    transition: box-shadow 0.3s;
+    flex-grow: 1;
+}
+
+.link-icon a:hover {
+    transform: scale(1.1) !important;
+
+}
+
+.link-icon:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+h3 {
+    margin-top: 15px;
+    font-size: x-large !important;
+}
+
+h3,
+.sidebar-left a {
+    font-size: medium;
+    padding: 10px;
+    width: 80%;
+    margin-left: 20px !important;
+}
+
+.time {
+    color: #737373;
+    margin-left: 8px;
+    font-size: 13px;
+
+}
