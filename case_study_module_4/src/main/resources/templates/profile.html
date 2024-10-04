@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vn">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +12,6 @@
 </head>
 <body>
 <div class="container-fluid main-container">
-
     <div class="sidebar-left  " style="width: 15%;margin-top: -5%;">
         <h3 class="mb-3">𝓥𝓷𝓰𝓻𝓪𝓶</h3>
         <a class="link-icon ms-3" href=""><i class="fa-brands fa-instagram home icons2"></i><span>Trang chủ</span>
@@ -27,7 +26,7 @@
     </div>
     <div class="main-content flex-grow-1 p-4">
         <div class="profile-header d-flex align-items-center mb-4">
-            <img src="../static/profile/image/file.png" alt="Avatar" class="mr-3">
+            <img th:src="@{/property/profile/image/file.png}" alt="Avatar" class="mr-3">
             <div>
                 <h2>Thái Quang Vỹ</h2>
                 <div>
@@ -40,27 +39,28 @@
                 </div>
             </div>
         </div>
-
         <div class="post-section text-center" style="margin-top: 50px">
             <button class="btn btn-light" style="font-size: 40px">
                 <i class="fas fa-camera"></i>
             </button>
         </div>
-
         <div class="underline"></div>
-        <p><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-collection" viewBox="0 0 16 16">
-            <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6zm1.5.5A.5.5 0 0 1 1 13V6a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5z"/>
-        </svg> BÀI VIẾT</p>
-
+        <p>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-collection"
+                 viewBox="0 0 16 16">
+                <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6zm1.5.5A.5.5 0 0 1 1 13V6a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5z"/>
+            </svg>
+            BÀI VIẾT
+        </p>
         <div class="gallery row mt-4 justify-content-center">
             <div class="col-4 mb-2">
-                <img src="../static/profile/image/file.png" class="img-fluid" alt="Post Image">
+                <img th:src="@{/property/profile/image/file.png}" class="img-fluid" alt="Post Image">
             </div>
             <div class="col-4 mb-2">
-                <img src="../static/profile/image/file.png" class="img-fluid" alt="Post Image">
+                <img th:src="@{/property/profile/image/file.png}" class="img-fluid" alt="Post Image">
             </div>
             <div class="col-4 mb-2">
-                <img src="../static/profile/image/file.png" class="img-fluid" alt="Post Image">
+                <img th:src="@{/property/profile/image/file.png}" class="img-fluid" alt="Post Image">
             </div>
         </div>
     </div>
