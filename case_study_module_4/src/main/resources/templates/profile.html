@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang cá nhân Instagram</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/property/profile/css/body.css}">
+</head>
+<body>
+<div class="d-flex">
+    <div class="sidebar" style="width: 18%">
+        <div class="font-weight-bold" style="font-size: x-large; padding-left: 20px;">
+            𝓥𝓷𝓰𝓻𝓪𝓶
+        </div>
+        <div class="mt-4">
+            <a class="d-block p-3" href="#"><i class="fa-brands fa-instagram home icons"></i> Trang chủ</a>
+            <a class="d-block p-3" href="#"><i class="fas fa-search icons" title="Search"></i> Tìm kiếm</a>
+            <a class="d-block p-3" href="#"><i class="fa-regular fa-comments icons"></i> Tin nhắn</a>
+            <a class="d-block p-3" href="#"><i class="fa-regular fa-bell icons"></i> Thông báo</a>
+            <a class="d-block p-3" href="#"><i class="far fa-user icons" title="Profile"></i> Trang cá nhân</a>
+        </div>
+    </div>
+    <div class="main-content flex-grow-1 p-4">
+        <div class="profile-header d-flex align-items-center mb-4">
+            <img th:src="@{/property/profile/image/file.png}" alt="Avatar" class="mr-3">
+            <div>
+                <h2>Thái Quang Vỹ</h2>
+                <div>
+                    <button class="btn btn-outline-secondary mr-2">Chỉnh sửa trang cá nhân</button>
+                </div>
+                <div class="mt-2">
+                    <span>0 bài viết</span> |
+                    <span>1 người theo dõi</span> |
+                    <span>Đang theo dõi 2 người dùng</span>
+                </div>
+            </div>
+        </div>
+        <div class="post-section text-center" style="margin-top: 50px">
+            <button class="btn btn-light" style="font-size: 40px">+</button>
+        </div>
+        <div class="underline"></div>
+        <p>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-collection"
+                 viewBox="0 0 16 16">
+                <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6zm1.5.5A.5.5 0 0 1 1 13V6a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5z"/>
+            </svg>
+            BÀI VIẾT
+        </p>
+        <div class="gallery row mt-4 justify-content-center">
+            <div class="col-4 mb-2">
+                <img th:src="@{/property/profile/image/file.png}" class="img-fluid" alt="Post Image">
+            </div>
+            <div class="col-4 mb-2">
+                <img th:src="@{/property/profile/image/file.png}" class="img-fluid" alt="Post Image">
+            </div>
+            <div class="col-4 mb-2">
+                <img th:src="@{/property/profile/image/file.png}" class="img-fluid" alt="Post Image">
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
