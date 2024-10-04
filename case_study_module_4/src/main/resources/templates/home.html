@@ -1,79 +1,62 @@
 <!DOCTYPE html>
-<html lang="vn">
+<html lang="vn" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instagram Home Clone</title>
+    <title>Vngram</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../static/home/home.css">
-
+    <link rel="stylesheet" th:href="@{/property/home/home.css}">
 </head>
 <body>
-
 <div class="container-fluid main-container">
-
     <div class="sidebar-left  " style="width: 15%;margin-top: -5%;">
         <h3 class="mb-3">𝓥𝓷𝓰𝓻𝓪𝓶</h3>
-        <a class="link-icon ms-3" href=""><i class="fa-brands fa-instagram home icons2"></i><span>Trang chủ</span>
-        </a>
+        <a class="link-icon ms-3" href=""><i class="fa-brands fa-instagram home icons2"></i><span>Trang chủ</span></a>
         <a class=" link-icon " href=""> <i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
         <a class=" link-icon  " href=""> <i class="far fa-heart icons2" title="Likes"></i><span>Thông báo</span></a>
         <a class=" link-icon  " href=""> <i class="fa-regular fa-message icons2"></i><span>Tin nhắn</span></a>
         <a class=" link-icon " href=""> <i class="far fa-user icons2" title="Profile"></i><span>Trang cá nhân</span></a>
-        <a class=" link-icon " style="margin-top: 100%" href=""> <i
-                class="fa-solid fa-arrow-right-from-bracket icons2" title="Logout"
-        ></i><span>Đăng xuất</span></a>
+        <a class=" link-icon " style="margin-top: 100%" href="/logout"><i
+                class="fa-solid fa-arrow-right-from-bracket icons2"
+                title="Logout"></i><span>Đăng xuất</span></a>
     </div>
-
-    <!-- Main Feed Section -->
     <div class="content-area " style="margin-left: 34%;margin-top: -3%">
-
-
-        <!-- Another Post -->
-        <div class="feed-post mt-1 mb-5  ">
+        <div class="feed-post mt-1 mb-5" th:each="postDTO,postIdx :${postDTOS}">
             <div class="post-header">
                 <div>
                     <a href="">
-                        <img src="https://antimatter.vn/wp-content/uploads/2022/11/hinh-anh-gai-xinh-chau-au-my.jpg"
+                        <img th:src="@{__${postDTO.user.profilePic}__}"
                              alt="Profile" class="profile-img">
-                        <strong style="color: black">Nguyễn Thị Tạch</strong><span class="fw-bold time">12 giờ</span>
+                        <strong style="color: black" th:text="${postDTO.user.fullName}">Nguyễn Thị Tạch</strong>
+                        <span class="fw-bold time" th:text="${postDTO.post.createdAt}">12 giờ</span>
                     </a>
-
                 </div>
                 <a href="">
                     <div class="dots-container">
                         <div class="dot"></div>
                     </div>
                 </a>
-
-
             </div>
-
-            <!-- Carousel for multiple images -->
-            <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+            <div th:id="'carouselExample_' + ${postIdx.index}" class="carousel slide" data-bs-ride="carousel">
                 <a href="">
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="https://antimatter.vn/wp-content/uploads/2022/11/hinh-anh-gai-xinh-chau-au-my.jpg"
-                                 alt="Post Image 1">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="https://i.pinimg.com/originals/8c/e6/6d/8ce66d8e034e88a6487e073a28d6624e.jpg"
-                                 alt="Post Image 2">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="https://allimages.sgp1.digitaloceanspaces.com/tipeduvn/2022/01/1641352656_433_Hinh-anh-gai-xinh-Chau-Au-My-xinh-dep-hut.jpg"
-                                 alt="Post Image 3">
-                        </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+                        <th:block th:each="media,s :${postDTO.mediaList}">
+                            <div th:class="'carousel-item' + ${s.count == 1 ? ' active':''}">
+                                <img th:src="@{__${media.mediaUrl}__}"
+                                     th:alt="'media '+${s.count}">
+                            </div>
+                        </th:block>
+                        <button class="carousel-control-prev" type="button"
+                                th:attr="data-bs-target='#carouselExample_' + ${postIdx.index}"
                                 data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+                        <button class="carousel-control-next" type="button"
+                                th:attr="data-bs-target='#carouselExample_' + ${postIdx.index}"
                                 data-bs-slide="next" style="right: -20px;">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
@@ -81,108 +64,47 @@
                     </div>
                 </a>
             </div>
-
-
             <div class="post-footer " style="margin-left: -16px">
                 <div class="post-actions " style="color: black">
                     <a href=""> <i class="bi bi-heart " style="display:none"></i></a>
                     <a href=""><i class="fa-solid fa-heart" style="color:red;display: inline-block"></i></a>
-
                     <a href=""> <i class="bi bi-chat"></i></a>
                     <a href=""> <i class="bi bi-send"></i></a>
-
                 </div>
                 <div>
                     <p class="likes">250 likes</p>
-                    <p class="desc"><strong>Hôm nay buồn quá mọi người ạ 🥲 </strong></p>
-                    <span class="desc">Chuyện là hôm qua em mới chia tay người yêu Em buồn quá em đi học code.Có cái code khó quá em học không
+                    <p class="desc"><strong th:text="${postDTO.post.title}">Hôm nay buồn quá mọi người ạ 🥲 </strong></p>
+                    <span class="desc" th:text="${postDTO.post.content}">Chuyện là hôm qua em mới chia tay người yêu Em buồn quá em đi học code.Có cái code khó quá em học không
                     được em buồn nữa </span>
                 </div>
-
                 <div class="mt-3"><a href="" style="color:#737373 ;"> xem tất cả <span>300</span> bình luận</a></div>
             </div>
         </div>
-
-
     </div>
-
-
     <div class="sidebar-right" style="width: 15%;margin-top:-3%">
         <a href="">
             <div class="user-profile">
-
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ888DCbHoLgMwx279BZ2Oe4J9vyfq3wrgs7A&s"
-                     alt="fff">
+                <img th:src="@{__${user.profilePic}__}" alt="avatar">
                 <div>
-                    <strong>Lọ Lem 006</strong><br>
-                    <small>@Nguyễn Thị Vỹ</small>
+                    <strong th:text="${user.fullName}">Lọ Lem 006</strong><br>
+                    <small th:text="${user.email}">@Nguyễn Thị Vỹ</small>
                 </div>
             </div>
         </a>
-
-
         <div class="suggestions">
             <p class="fw-bold" style="color:#737373 ;">Gợi ý cho bạn</p>
-            <a href="">
+            <a href="" th:each="user :${top4User}">
                 <div class="suggestion-item">
-                    <img src="https://antimatter.vn/wp-content/uploads/2022/11/hinh-anh-gai-xinh-chau-au-my.jpg" alt="">
+                    <img th:src="@{__${user.profilePic}__}" alt="">
                     <div>
-                        <strong>Linh Lòng</strong><br>
-                        <small>@Hoàng Thị Linh</small>
-                    </div>
-                </div>
-            </a>
-            <a href="">
-                <div class="suggestion-item">
-                    <img src="https://antimatter.vn/wp-content/uploads/2022/11/hinh-anh-gai-xinh-chau-au-my.jpg" alt="">
-                    <div>
-                        <strong>Linh Lòng</strong><br>
-                        <small>@Hoàng Thị Linh</small>
-                    </div>
-                </div>
-            </a>
-            <a href="">
-                <div class="suggestion-item">
-                    <img src="https://antimatter.vn/wp-content/uploads/2022/11/hinh-anh-gai-xinh-chau-au-my.jpg" alt="">
-                    <div>
-                        <strong>Linh Lòng</strong><br>
-                        <small>@Hoàng Thị Linh</small>
-                    </div>
-                </div>
-            </a>
-            <a href="">
-                <div class="suggestion-item">
-                    <img src="https://antimatter.vn/wp-content/uploads/2022/11/hinh-anh-gai-xinh-chau-au-my.jpg" alt="">
-                    <div>
-                        <strong>Linh Lòng</strong><br>
-                        <small>@Hoàng Thị Linh</small>
-                    </div>
-                </div>
-            </a>
-            <a href="">
-                <div class="suggestion-item">
-                    <img src="https://antimatter.vn/wp-content/uploads/2022/11/hinh-anh-gai-xinh-chau-au-my.jpg" alt="">
-                    <div>
-                        <strong>Linh Lòng</strong><br>
-                        <small>@Hoàng Thị Linh</small>
-                    </div>
-                </div>
-            </a>
-            <a href="">
-                <div class="suggestion-item">
-                    <img src="https://antimatter.vn/wp-content/uploads/2022/11/hinh-anh-gai-xinh-chau-au-my.jpg" alt="">
-                    <div>
-                        <strong>Linh Lòng</strong><br>
-                        <small>@Hoàng Thị Linh</small>
+                        <strong th:text="${user.fullName}">Linh Lòng</strong><br>
+                        <small th:text="${user.email}">@Hoàng Thị Linh</small>
                     </div>
                 </div>
             </a>
             <div>
                 <a href=""><p class="fw-bold" style="color:#737373 ;margin-top: 30px">Xem tất cả</p></a>
             </div>
-
-
-            <!-- Add more suggestion items -->
         </div>
     </div>
 </div>
@@ -198,7 +120,6 @@
             }
         });
     });
-
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
