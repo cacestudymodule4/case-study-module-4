@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface FollowRepository extends JpaRepository<Follow, Integer> {
+public interface FollowRepository extends JpaRepository<Follow, Long> {
     @Query("SELECT f.followee FROM Follow f WHERE f.follower.id = :followerId")
     List<User> findFolloweeByFollower(Long followerId);
 }
