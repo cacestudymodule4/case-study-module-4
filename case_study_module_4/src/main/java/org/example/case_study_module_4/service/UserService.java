@@ -10,4 +10,6 @@ public interface UserService {
     void save(User user);
 
     List<User> findTop4User();
+
+    User findUserById(Long id);
 }

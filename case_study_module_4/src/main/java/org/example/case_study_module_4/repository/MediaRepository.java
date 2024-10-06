@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MediaRepository extends CrudRepository<Media, Integer> {
+public interface MediaRepository extends CrudRepository<Media, Long> {
     @Query("SELECT m FROM Media m WHERE m.post.id = :postId")
     List<Media> findByPostId(@Param("postId") Long postId);
 }
