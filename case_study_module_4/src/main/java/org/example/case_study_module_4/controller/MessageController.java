@@ -46,19 +46,11 @@ public class MessageController {
     }
 
     @MessageMapping("/sendMessage")
-    public void sendMessage(@Payload Message message, Principal principal) {
-        System.out.println(principal.getName());
-        System.out.println(message);
-        System.out.println("ok1");
+    public void sendMessage(@Payload Message message) {
         User user = userService.findUserById(message.getReceiver().getId());
-        System.out.println(user);
         String destination = "/topic/messages/" + user.getUsername();
-        System.out.println(destination);
         Message newMessage = messageService.saveMessage(message);
-        System.out.println(newMessage);
-        System.out.println("ok2");
         messagingTemplate.convertAndSend(destination, newMessage);
-        System.out.println("ok3");
     }
 
     @PostMapping("/history")
