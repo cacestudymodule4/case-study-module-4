@@ -136,7 +136,6 @@
                 }
             }),
             success: function (data) {
-                console.log("1")
                 console.log(data);
                 displayMessages(data);
             }
@@ -144,7 +143,6 @@
     }
 
     function displayMessages(messages) {
-        console.log("2")
         const messagesDiv = document.getElementById('messages');
         messages.forEach(message => {
             const {sender, content} = message;
@@ -161,7 +159,6 @@
             }
         });
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        console.log("3")
     }
 
     var stompClient = null;
@@ -172,7 +169,6 @@
         stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/messages/' + username, function (message) {
-                console.log("5")
                 console.log(message)
                 receiveMessage(JSON.parse(message.body));
             });
@@ -197,7 +193,6 @@
             <div class="message-content">${content}</div>
         </div>`;
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        console.log("4")
     }
 
     function receiveMessage(message) {
