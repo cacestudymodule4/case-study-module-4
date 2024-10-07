@@ -28,4 +28,9 @@ public class UserServiceImpl implements UserService {
     public List<User> findTop4User() {
         return userRepository.findTop4User();
     }
+
+    @Override
+    public User findUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
 }

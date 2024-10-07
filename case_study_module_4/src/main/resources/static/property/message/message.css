@@ -27,7 +27,6 @@ body {
 }
 
 
-
 .friends-list {
     background-color: #fff;
     width: 20%;
@@ -140,7 +139,6 @@ body {
     cursor: pointer;
 }
 
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .sidebar {
@@ -191,12 +189,14 @@ body {
     transform: scale(1.1);
     color: #007bff;
 }
-.text-message{
+
+.text-message {
     width: 40px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
 .friend-name, .text-message {
     display: block;
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Integer> {
+public interface UserRepository extends CrudRepository<User, Long> {
     User findByEmail(String email);
 
     @Query("SELECT u FROM User u ORDER BY u.createdAt DESC LIMIT 4")

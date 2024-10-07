@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post</title>
+    <link rel="stylesheet" th:href="@{/profile/css/create-post.css}">
+</head>
+<body>
+<div class="post-container">
+    <div class="post-header">
+        <img src="https://via.placeholder.com/40" alt="User Profile">
+        <div class="user-info">
+            <span class="username">Kay Thai</span><br>
+            <span class="post-visibility">Friends</span>
+        </div>
+    </div>
+    <div class="post-title">
+        <label for="post-title"></label><input type="text" placeholder="Share your feelings" id="post-title">
+    </div>
+    <div class="post-input">
+        <label for="post-content"></label><textarea placeholder="What's on your mind?" id="post-content"></textarea>
+    </div>
+    <div class="post-add-media">
+        <label for="file-upload">
+            <img src="https://img.icons8.com/ios-filled/50/000000/camera.png" alt="Camera Icon">
+        </label>
+        <input type="file" id="file-upload" accept="image/*" multiple onchange="previewImages(event)">
+        <div id="image-preview-container"></div>
+    </div>
+    <div class="post-footer">
+        <div class="icons">
+            <img src="https://img.icons8.com/?size=100&id=13800&format=png&color=000000" alt="Location Icon">
+            <img src="https://img.icons8.com/color/48/000000/tag.png" alt="Tag Icon">
+            <img src="https://img.icons8.com/color/48/000000/happy.png" alt="Emoji Icon">
+        </div>
+        <button onclick="submitPost()">Post</button>
+    </div>
+</div>
+<script>
+    function previewImages(event) {
+        const files = event.target.files;
+        const previewContainer = document.getElementById('image-preview-container');
+        previewContainer.innerHTML = '';
+        Array.from(files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                previewContainer.appendChild(img);
+            }
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function submitPost() {
+        const title = document.getElementById('post-title').value;
+        const content = document.getElementById('post-content').value;
+        console.log("Title:", title);
+        console.log("Content:", content);
+        alert("Post submitted!");
+    }
+</script>
+</body>
+</html>
