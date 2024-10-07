@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bình luận Bài viết Instagram</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/property/detail_page/detail.css}">
+
+
+</head>
+<body>
+
+<div class="container">
+    <div class="post-image">
+
+
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="https://khoinguonsangtao.vn/wp-content/uploads/2022/10/hinh-anh-gai-xinh-chau-au-my-khien-ban-me-man.jpg"
+                         alt="Image 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://cdn.pixabay.com/photo/2023/05/23/02/08/girl-8011728_1280.jpg" alt="Image 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://picture.dzogame.vn/img/CosplayGenshin-02-20-2_pp_057.jpg" alt="Image 3">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Phần bình luận -->
+    <div class="comment-section">
+        <div class="post-header">
+            <img src="https://cdn.pixabay.com/photo/2023/05/23/02/08/girl-8011728_1280.jpg" style="object-fit: cover"
+                 alt="User Avatar">
+            <h5 style="font-size: 16px;font-weight: bold">Ngô Ra Khoai</h5>
+        </div>
+        <div class="story" style="font-size: 15px">
+            đây là một câu chuyện cảm động nhà quý vị ơi
+            đây là một câu chuyện cảm động nhà quý vị ơi
+        </div>
+
+        <div class="comment-list">
+
+            <div class="comment">
+                <img src="https://cdn.pixabay.com/photo/2023/05/23/02/08/girl-8011728_1280.jpg "
+                     style="object-fit: cover" alt="User Avatar">
+                <div class="comment-content">
+                    <strong>Người dùng 2</strong>: Cảm ơn vì đã chia sẻ!
+
+                    <div class="time-like ">
+                        <span class="day ml-3">
+                            5 ngày
+                        </span>
+                        <span class="like  ml-3"> 12 lượt thích </span>
+                        <span class="answer  ml-3">Trả lời</span>
+                        <a href=""><i class="fa-solid fa-heart  icon-comment" style="color:#737373"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="comment">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+                <div class="comment-content">
+                    <strong>Người dùng 3</strong>: Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ
+                    ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận
+                    thứ ba!
+
+                    <a href=""><i class="fa-solid fa-heart" style="color:red;display: inline-block"></i></a>
+                </div>
+            </div>
+            <div class="comment">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+                <div class="comment-content">
+                    <strong>Người dùng 3</strong>: Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ
+                    ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận
+                    thứ ba!
+
+                    <a href=""><i class="fa-solid fa-heart" style="color:red;display: inline-block"></i></a>
+                </div>
+            </div>
+            <div class="comment">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+                <div class="comment-content">
+                    <strong>Người dùng 3</strong>: Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ
+                    ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận
+                    thứ ba!
+
+                    <a href=""><i class="fa-solid fa-heart" style="color:red;display: inline-block"></i></a>
+                </div>
+            </div>
+            <div class="comment">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+                <div class="comment-content">
+                    <strong>Người dùng 3</strong>: Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ
+                    ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận
+                    thứ ba!
+
+                    <a href=""><i class="fa-solid fa-heart" style="color:red;display: inline-block"></i></a>
+                </div>
+            </div>
+            <div class="comment">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+                <div class="comment-content">
+                    <strong>Người dùng 3</strong>: Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ
+                    ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận
+                    thứ ba!
+
+                    <a href=""><i class="fa-solid fa-heart" style="color:red;display: inline-block"></i></a>
+                </div>
+            </div>
+            <div class="comment">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+                <div class="comment-content">
+                    <strong>Người dùng 3</strong>: Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ
+                    ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận
+                    thứ ba!
+
+                    <a href=""><i class="fa-solid fa-heart" style="color:red;display: inline-block"></i></a>
+                </div>
+            </div>
+            <div class="comment">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+                <div class="comment-content">
+                    <strong>Người dùng 3</strong>: Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ
+                    ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận thứ ba!Bình luận
+                    thứ ba!
+
+                    <a href=""><i class="fa-solid fa-heart" style="color:red;display: inline-block"></i></a>
+                </div>
+            </div>
+
+            <div class="comment">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+                <div class="comment-content">
+                    <strong>Người dùng 3</strong>: Bình luận thứ ba!
+                </div>
+            </div>
+            <div class="comment">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+                <div class="comment-content">
+                    <strong>Người dùng 3</strong>: Bình luận thứ ba!
+                </div>
+            </div>
+            <div class="comment">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+                <div class="comment-content">
+                    <strong>Người dùng 3</strong>: Bình luận thứ ba!
+                </div>
+            </div>
+            <div class="comment">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+                <div class="comment-content">
+                    <strong>Người dùng 3</strong>: Bình luận thứ ba!
+                </div>
+            </div>
+
+        </div>
+        <div class="foot">
+            <div class="icon-foot">
+                <a href=""> <i class="bi bi-heart;" style="display: block"></i></a>
+                <a href=""><i class="fa-solid fa-heart  " style="color:red;display: inline-block"></i></a>
+
+                <a href=""> <i class="bi bi-chat"></i></a>
+                <a href=""> <i class="bi bi-send"></i></a>
+            </div>
+
+            <div>
+                <p style="font-weight: bold;font-size: 15px" class="total_like">111.23 lượt thích </p>
+                <div class="day-foot">
+                    <span class="day day-foot"> 27 tháng 9</span>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="input-area">
+            <a href="" style="font-size: 30px;margin-right:5px">🙂</a>
+            <input type="text" class="form-control" placeholder="Nhập bình luận...">
+            <button class="btn btn-primary">Gửi</button>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
