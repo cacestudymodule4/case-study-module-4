@@ -144,6 +144,7 @@
 
     function displayMessages(messages) {
         const messagesDiv = document.getElementById('messages');
+        messagesDiv.innerHTML = "";
         messages.forEach(message => {
             const {sender, content} = message;
             if (sender.id == id) {
@@ -197,13 +198,15 @@
 
     function receiveMessage(message) {
         console.log(message)
-        const messagesDiv = document.getElementById('messages');
-        messagesDiv.innerHTML += `
-        <div class="message">
-            <div class="message-content">${message.content}
-            </div>
-        </div>`;
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        if (message.receiver.id == friendId) {
+            const messagesDiv = document.getElementById('messages');
+            messagesDiv.innerHTML += `
+            <div class="message">
+                <div class="message-content">${message.content}
+                </div>
+            </div>`;
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
     }
 
     document.getElementById('send').onclick = function () {
