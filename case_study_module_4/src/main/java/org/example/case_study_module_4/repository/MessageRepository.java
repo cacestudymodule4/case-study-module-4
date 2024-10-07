@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface MessageRepository extends CrudRepository<Message, Long> {
-    @Query("SELECT m FROM Message m WHERE m.sender.id IN :senderIds")
-    List<Message> findMessagesBySenderIds(@Param("senderIds") List<Long> senderIds);
+    @Query("SELECT m FROM Message m WHERE m.sender.id = :senderId AND m.receiver.id = :receiverId OR m.sender.id = :receiverId AND m.receiver.id = :senderId")
+    List<Message> findMessagesBySenderIds(@Param("senderId") Long senderId, @Param("receiverId") Long receiverId);
 }

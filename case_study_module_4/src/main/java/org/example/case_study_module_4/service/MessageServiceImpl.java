@@ -17,7 +17,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<Message> getMessages(List<Long> ids) {
-        List<Message> messages = messageRepository.findMessagesBySenderIds(ids);
+        List<Message> messages = messageRepository.findMessagesBySenderIds(ids.get(0), ids.get(1));
         messages.sort(Comparator.comparing(Message::getCreatedAt));
         return messages;
     }
