@@ -1,0 +1,209 @@
+* {
+    text-decoration: none !important;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+.container {
+    justify-content: center;
+    display: flex;
+    height: 95vh; /* Chiều cao bằng chiều cao viewport */
+    margin-top: 20px;
+    flex-wrap: wrap; /* Cho phép các phần tử gập lại trên màn hình nhỏ */
+}
+
+.post-image {
+    flex: 1; /* Chiếm 50% chiều rộng */
+    max-width: 45%; /* Chiếm 50% chiều rộng */
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+ img {
+    width: 100%;
+    height: 100%; /* Để đảm bảo tỉ lệ ảnh không bị méo */
+    object-fit: cover;
+    object-position: center;
+
+}
+
+.comment-section {
+    height: 100%;
+    flex: 1; /* Chiếm 50% chiều rộng */
+    max-width: 40%; /* Chiếm 50% chiều rộng */
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column; /* Sắp xếp theo cột */
+}
+
+.post-header {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+
+}
+
+.post-header img {
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    margin-right: 10px;
+}
+
+.story {
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.comment-list {
+    border-top: 1px solid #ddd; /* Đường viền dưới */
+    flex: 1; /* Chiếm không gian còn lại */
+    overflow-y: auto; /* Cho phép cuộn */
+    padding: 10px;
+    max-height: 90%; /* Chiều cao cố định cho phần bình luận */
+
+}
+
+.comment {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 3px;
+    font-size: 14px; /* Giảm kích thước font */
+    padding: 5px;
+}
+
+.comment img {
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    margin-right: 8px;
+    margin-left: 10px;
+
+}
+
+.comment-content {
+    background: #f0f2f5;
+    padding: 10px;
+    border-radius: 8px;
+    flex: 1;
+}
+
+.input-area {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-top: 1px solid #ddd; /* Đường viền trên */
+}
+
+.input-area input {
+    flex: 1;
+    margin-right: 10px;
+}
+
+/* Media Queries cho Responsive */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Chuyển hướng thành cột */
+        height: auto; /* Thay đổi chiều cao cho màn hình nhỏ */
+    }
+
+    .post-image, .comment-section {
+        max-width: 100%; /* Đặt chiều rộng tối đa cho mỗi phần là 100% */
+        margin-left: 0; /* Bỏ margin trái */
+        margin-bottom: 20px; /* Thêm khoảng cách dưới mỗi phần */
+    }
+}
+
+@media (max-width: 576px) {
+    .input-area {
+        flex-direction: column; /* Chuyển hướng thành cột cho ô nhập */
+    }
+
+    .input-area input {
+        margin-right: 0; /* Bỏ margin phải */
+        margin-bottom: 10px; /* Thêm margin dưới cho ô nhập */
+    }
+}
+
+.icon-comment {
+    font-size: smaller;
+    margin-left: 10px;
+}
+
+.like, .answer, .day {
+    margin-left: 10px; /* Hoặc giá trị bạn muốn */
+    font-size: small;
+    font-weight: bold;
+    color: #737373
+}
+
+input:focus {
+    outline: none !important;
+    border: black !important;
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
+.total_like {
+
+    font-weight: bold;
+    font-size: 15px;
+    margin-left: 20px;
+
+
+
+}
+
+.day-foot {
+    margin-left: 10px;
+    margin-top: -12px;
+    margin-bottom: 10px;
+}
+
+.icon-foot a {
+
+    margin-left: 10px;
+    color: black;
+    font-size: 150% !important;
+    font-weight: bolder !important;
+}
+
+.icon-foot {
+
+    margin-left: 10px;
+    margin-top: -30px;
+    margin-bottom: 10px;
+
+}
+.foot{
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+
+
+}
+.total_like, .day-foot {
+    line-height: 1;
+}
+.comment-list::-webkit-scrollbar {
+    display: none; /* Ẩn thanh cuộn trong Webkit (Chrome, Safari) */
+}
+
+.carousel-item img {
+    width: 100%; /* Đảm bảo ảnh chiếm toàn bộ chiều rộng */
+    height: 100%; /* Để giữ tỉ lệ */
+}
+.carousel-item {
+    height: 95vh; /* Chiếm 95% chiều cao của viewport */
+}

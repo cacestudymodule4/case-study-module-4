@@ -53,9 +53,10 @@ body {
 
 /* Right sidebar (Profile Section) */
 .sidebar-right {
-    position: sticky;
+    position: fixed;
     top: 80px;
     padding-left: 20px;
+    right: 0;
 }
 
 .user-profile {
@@ -194,7 +195,7 @@ body {
 
 .link-icon span {
     margin-left: 18px;
-    font-weight: bold;
+
 
 
 }
@@ -208,7 +209,7 @@ body {
 }
 
 .feed-post {
-    width: 65%;
+    width: 90%;
     border-radius: 0 !important;
     border-bottom: 1px solid black;
 }
@@ -305,5 +306,9 @@ h3,
     color: #737373;
     margin-left: 8px;
     font-size: 13px;
+
+}
+img{
+    object-fit: cover;
 
 }

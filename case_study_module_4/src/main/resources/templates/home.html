@@ -8,11 +8,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" th:href="@{/property/home/home.css}">
+        <link rel="stylesheet" th:href="@{/property/home/home.css}">
 </head>
 <body>
 <div class="container-fluid main-container">
-    <div class="sidebar-left  " style="width: 15%;margin-top: -5%;">
+    <div class="sidebar-left  " style="width: 15%;margin-top: -3%;">
         <h3 class="mb-3">𝓥𝓷𝓰𝓻𝓪𝓶</h3>
         <a class="link-icon ms-3" href=""><i class="fa-brands fa-instagram home icons2"></i><span>Trang chủ</span></a>
         <a class=" link-icon " href=""> <i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
@@ -23,12 +23,13 @@
                 class="fa-solid fa-arrow-right-from-bracket icons2"
                 title="Logout"></i><span>Đăng xuất</span></a>
     </div>
-    <div class="content-area " style="margin-left: 34%;margin-top: -3%">
+    <div class="content-area " style="margin-left: 34%;margin-top: -2%">
         <div class="feed-post mt-1 mb-5" th:each="postDTO,postIdx :${postDTOS}">
             <div class="post-header">
                 <div>
                     <a href="">
                         <img th:src="@{__${postDTO.user.profilePic}__}"
+
                              alt="Profile" class="profile-img">
                         <strong style="color: black" th:text="${postDTO.user.fullName}">Nguyễn Thị Tạch</strong>
                         <span class="fw-bold time" th:text="${postDTO.post.createdAt}">12 giờ</span>
@@ -47,6 +48,7 @@
                             <div th:class="'carousel-item' + ${s.count == 1 ? ' active':''}">
                                 <img th:src="@{__${media.mediaUrl}__}"
                                      th:alt="'media '+${s.count}">
+
                             </div>
                         </th:block>
                         <button class="carousel-control-prev" type="button"
@@ -57,7 +59,7 @@
                         </button>
                         <button class="carousel-control-next" type="button"
                                 th:attr="data-bs-target='#carouselExample_' + ${postIdx.index}"
-                                data-bs-slide="next" style="right: -20px;">
+                                data-bs-slide="next" style="right: -9%;">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
                         </button>
@@ -66,8 +68,7 @@
             </div>
             <div class="post-footer " style="margin-left: -16px">
                 <div class="post-actions " style="color: black">
-                    <a href=""> <i class="bi bi-heart " style="display:none"></i></a>
-                    <a href=""><i class="fa-solid fa-heart" style="color:red;display: inline-block"></i></a>
+                    <a href=""><i class="fa-solid fa-heart" style="color:white;display: inline-block"></i></a>
                     <a href=""> <i class="bi bi-chat"></i></a>
                     <a href=""> <i class="bi bi-send"></i></a>
                 </div>
@@ -81,10 +82,11 @@
             </div>
         </div>
     </div>
-    <div class="sidebar-right" style="width: 15%;margin-top:-3%">
+    <div class="sidebar-right" style="width: 15%;margin-top:-2%">
         <a href="">
             <div class="user-profile">
                 <img th:src="@{__${user.profilePic}__}" alt="avatar">
+
                 <div>
                     <strong th:text="${user.fullName}">Lọ Lem 006</strong><br>
                     <small th:text="${user.email}">@Nguyễn Thị Vỹ</small>
@@ -96,6 +98,7 @@
             <a href="" th:each="user :${top4User}">
                 <div class="suggestion-item">
                     <img th:src="@{__${user.profilePic}__}" alt="">
+
                     <div>
                         <strong th:text="${user.fullName}">Linh Lòng</strong><br>
                         <small th:text="${user.email}">@Hoàng Thị Linh</small>

@@ -1,19 +1,17 @@
-
 .facebook-icon {
-    color: #385185;}
-.sing_in_face{
+    color: #385185;
+}
+
+.sing_in_face {
     font-weight: 500;
     color: #385185;
-
-}
-*{
-    text-decoration: none !important;
 }
 
-.logo_store{
-   width: 100%;
+.logo_store {
+    width: 100%;
 }
-.logo_apple{
+
+.logo_apple {
     height: 70px;
 }
 
@@ -27,8 +25,9 @@ html, body {
 }
 
 .pic-ctn {
+    position: relative;
     width: 100vw;
-    height: 200px;
+    height: 300px;
 }
 
 @keyframes display {
@@ -54,12 +53,6 @@ html, body {
     }
 }
 
-.pic-ctn {
-    position: relative;
-    width: 100vw;
-    height: 300px;
-}
-
 .pic-ctn > img {
     position: absolute;
     top: -143px;
@@ -80,23 +73,50 @@ img:nth-child(4) {
 img:nth-child(5) {
     animation-delay: 8s;
 }
-.img-carousel{
-    width:389px ;
-    height:574px ;
+
+.img-carousel {
+    width: 389px;
+    height: 574px;
     object-fit: cover;
     border-radius: 10px;
 }
-.support{
-    color:#787878;
+
+.support {
+    color: #787878;
 }
-.footer{
+
+.footer {
     margin: 0 auto;
 }
-.right_picture{
-   margin-left: 90px;
+
+.right_picture {
+    margin-left: 100px;
+    margin-right: -2%;
 }
+
 .desc,
 .input-custom::placeholder {
     font-size: 12px;
     color: #888;
+}
+
+.input-custom {
+    width: 120%;
+    margin-left: -10%;
+}
+
+.input-custom:focus {
+    outline: none !important;
+}
+
+a {
+    text-decoration: none; /* Đặt gạch chân mặc định cho thẻ a */
+}
+input.form-control:focus {
+    outline: none !important; /* Ghi đè các quy tắc khác từ Bootstrap */
+}
+
+.footer a:hover {
+    color: #787878;
+    text-decoration: underline !important; /* Gạch chân khi hover */
 }
