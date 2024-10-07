@@ -124,10 +124,9 @@ h2 {
 }
 
 .post-footer button:hover:not(:disabled) {
-    background-color: #145dbf; /* Darker blue on hover */
-    transform: scale(1.05); /* Slight scale up effect */
+    background-color: #145dbf;
+    transform: scale(1.05);
 }
-
 
 .post-footer .icons {
     display: flex;
