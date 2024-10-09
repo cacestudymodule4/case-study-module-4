@@ -4,28 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Post</title>
-    <link rel="stylesheet" th:href="@{/profile/css/create-post.css}">
+    <link rel="stylesheet" th:href="@{/property/profile/css/create-post.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 <div class="post-container">
     <div class="post-header">
         <img src="https://via.placeholder.com/40" alt="User Profile">
         <div class="user-info">
-            <span class="username">Kay Thai</span><br>
-            <span class="post-visibility">Friends</span>
+            <span class="username" th:text="${user.fullName}">Kay Thai</span><br>
+            <span class="post-visibility" th:text="${user.email}">Friends</span>
         </div>
     </div>
     <div class="post-title">
-        <label for="post-title"></label><input type="text" placeholder="Share your feelings" id="post-title">
+        <label for="title"></label><input type="text" placeholder="Share your feelings" id="title" name="title">
     </div>
     <div class="post-input">
-        <label for="post-content"></label><textarea placeholder="What's on your mind?" id="post-content"></textarea>
+        <label for="content"></label><textarea placeholder="What's on your mind?" id="content"
+                                               name="content"></textarea>
     </div>
     <div class="post-add-media">
-        <label for="file-upload">
+        <label for="media">
             <img src="https://img.icons8.com/ios-filled/50/000000/camera.png" alt="Camera Icon">
         </label>
-        <input type="file" id="file-upload" accept="image/*" multiple onchange="previewImages(event)">
+        <input type="file" id="media" accept="image/*" multiple onchange="previewImages(event)" name="media">
         <div id="image-preview-container"></div>
     </div>
     <div class="post-footer">
@@ -34,7 +37,7 @@
             <img src="https://img.icons8.com/color/48/000000/tag.png" alt="Tag Icon">
             <img src="https://img.icons8.com/color/48/000000/happy.png" alt="Emoji Icon">
         </div>
-        <button onclick="submitPost()">Post</button>
+        <button type="submit">Post</button>
     </div>
 </div>
 <script>
@@ -53,13 +56,53 @@
         });
     }
 
-    function submitPost() {
-        const title = document.getElementById('post-title').value;
-        const content = document.getElementById('post-content').value;
-        console.log("Title:", title);
-        console.log("Content:", content);
-        alert("Post submitted!");
-    }
+    $(function () {
+        $("button[type='submit']").click(function (event) {
+            event.preventDefault();
+            const formData = new FormData();
+            formData.append('title', $("#title").val());
+            formData.append('content', $("#content").val());
+            const files = $("#media")[0].files;
+            for (let i = 0; i < files.length; i++) {
+                formData.append('media', files[i]);
+            }
+
+            Swal.fire({
+                title: 'Uploading...',
+                text: 'Please wait while your files are being uploaded.',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            $.ajax({
+                url: "http://localhost:8080/api/post/create",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Your files have been uploaded successfully.',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = 'http://localhost:8080/home';
+                        }
+                    });
+                },
+                error: function (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'There was an error uploading your files.',
+                    });
+                }
+            });
+        });
+    });
 </script>
 </body>
 </html>

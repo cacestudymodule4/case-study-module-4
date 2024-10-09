@@ -139,7 +139,6 @@ body {
     cursor: pointer;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .sidebar {
         width: 10%;

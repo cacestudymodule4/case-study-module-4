@@ -6,8 +6,7 @@ import org.example.case_study_module_4.model.User;
 import org.example.case_study_module_4.repository.MediaRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class MediaServiceImpl implements MediaService {
@@ -20,12 +19,14 @@ public class MediaServiceImpl implements MediaService {
     }
 
     @Override
-    public List<Media> findAll(User user) {
-        List<Media> result = new ArrayList<>();
-        List<Post> posts = postService.findByUserId(user);
+    public Map<Post, String> findAll(User user) {
+        Map<Post, String> result = new TreeMap<>(Comparator.comparing(Post::getCreatedAt).reversed());
+        List<Post> posts = postService.findPostsByUser(user);
         for (Post p : posts) {
             List<Media> media = mediaRepository.findByPostId(p.getId());
-            result.addAll(media);
+            if (!media.isEmpty()) {
+                result.put(p, media.getFirst().getMediaUrl());
+            }
         }
         return result;
     }

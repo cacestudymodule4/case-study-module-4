@@ -24,6 +24,8 @@ public class RegisterService {
         if (user.getEmail() == null || user.getEmail().isEmpty()) {
             throw new IllegalArgumentException("Email cannot be null or empty");
         }
+        String username = user.getEmail().replaceAll("@.*", "");
+        user.setUsername(username);
         User newUser = userRepository.save(user);
         Role role = new Role();
         role.setUser(newUser);
