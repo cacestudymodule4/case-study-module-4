@@ -1,10 +1,10 @@
 package org.example.case_study_module_4.service;
 
-import org.example.case_study_module_4.model.Media;
+import org.example.case_study_module_4.model.Post;
 import org.example.case_study_module_4.model.User;
 
-import java.util.List;
+import java.util.Map;
 
 public interface MediaService {
-    List<Media> findAll(User user);
+    Map<Post, String> findAll(User user);
 }
