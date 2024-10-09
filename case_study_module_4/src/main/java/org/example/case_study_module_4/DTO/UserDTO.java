@@ -14,6 +14,7 @@ import java.util.Map;
 public class UserDTO {
     private Long id;
     private String email;
+    private String username;
     private String fullName;
     private String bio;
     private String profilePic;
