@@ -100,7 +100,7 @@ img:nth-child(5) {
 .desc,
 .input-custom::placeholder {
     font-size: 12px;
-    color: #888;
+
 }
 
 .input-custom {
@@ -118,6 +118,8 @@ a {
 
 input.form-control:focus {
     outline: none !important;
+    border-color: #cfd4da;
+    box-shadow: none !important;
 }
 
 .footer a:hover {
