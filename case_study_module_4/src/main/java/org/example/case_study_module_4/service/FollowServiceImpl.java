@@ -18,4 +18,9 @@ public class FollowServiceImpl implements FollowService {
     public List<User> findFolloweeByFollower(Long followerId) {
         return followRepository.findFolloweeByFollower(followerId);
     }
+
+    @Override
+    public List<User> findFollowerByFollowee(Long followeeId) {
+        return followRepository.findFollowerByFollowee(followeeId);
+    }
 }

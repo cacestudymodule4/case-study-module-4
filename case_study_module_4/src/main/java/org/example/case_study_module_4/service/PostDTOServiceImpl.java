@@ -1,9 +1,12 @@
 package org.example.case_study_module_4.service;
 
 import org.example.case_study_module_4.DTO.PostDTO;
+import org.example.case_study_module_4.model.Comment;
 import org.example.case_study_module_4.model.Media;
 import org.example.case_study_module_4.model.Post;
 import org.example.case_study_module_4.model.User;
+import org.example.case_study_module_4.repository.CommentRepository;
+import org.example.case_study_module_4.repository.LikeRepository;
 import org.example.case_study_module_4.repository.MediaRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +17,17 @@ import java.util.List;
 public class PostDTOServiceImpl implements PostDTOService {
     private final PostService postService;
     private final MediaRepository mediaRepository;
+    private final LikeRepository likeRepository;
+    private final CommentRepository commentRepository;
 
-    public PostDTOServiceImpl(PostService postService, MediaRepository mediaRepository) {
+    public PostDTOServiceImpl(PostService postService,
+                              MediaRepository mediaRepository,
+                              LikeRepository likeRepository,
+                              CommentRepository commentRepository) {
         this.postService = postService;
         this.mediaRepository = mediaRepository;
+        this.likeRepository = likeRepository;
+        this.commentRepository = commentRepository;
     }
 
     @Override
@@ -26,7 +36,9 @@ public class PostDTOServiceImpl implements PostDTOService {
         List<PostDTO> postDTOs = new ArrayList<>();
         for (Post p : posts) {
             List<Media> mediaList = mediaRepository.findByPostId(p.getId());
-            postDTOs.add(new PostDTO(mediaList, p, p.getUser()));
+            int likes = likeRepository.findByPostId(p.getId()).size();
+            List<Comment> comments = commentRepository.findByPost(p.getId());
+            postDTOs.add(new PostDTO(mediaList, p, p.getUser(), likes, comments));
         }
         return postDTOs;
     }

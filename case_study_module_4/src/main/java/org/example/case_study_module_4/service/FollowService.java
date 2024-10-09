@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface FollowService {
     List<User> findFolloweeByFollower(Long followerId);
+
+    List<User> findFollowerByFollowee(Long followeeId);
 }
