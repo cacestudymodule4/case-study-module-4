@@ -200,3 +200,14 @@ body {
 .friend-name, .text-message {
     display: block;
 }
+.message-default{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.chat-input input{
+    outline: none !important; /* Ghi đè các quy tắc khác từ Bootstrap */
+    border-color: #cfd4da;
+    box-shadow: none !important;
+}
