@@ -14,7 +14,7 @@ public class FirebaseConfig {
     @PostConstruct
     public void initialize() {
         try {
-            FileInputStream serviceAccount = new FileInputStream("src/main/resources/casestudy-c10eb-firebase-adminsdk-uv8z7-5115eef007.json");
+            FileInputStream serviceAccount = new FileInputStream("src/main/resources/resources/casestudy-c10eb-firebase-adminsdk-uv8z7-abbe1e0d8e.json");
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                     .setDatabaseUrl("https://casestudy-c10eb-default-rtdb.firebaseio.com")
