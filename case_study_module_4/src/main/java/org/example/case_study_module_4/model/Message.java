@@ -23,6 +23,8 @@ public class Message {
     private User receiver;
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
+    @Column(nullable = false)
+    private String status = "unRead";
     @Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp createdAt;
 }

@@ -27,7 +27,10 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public void CreateFollower(Follow follow) {
-        followRepository.save(follow);
+        Follow f = getFollow(follow.getFollower(), follow.getFollowee());
+        if (f == null) {
+            followRepository.save(follow);
+        }
     }
 
     @Override

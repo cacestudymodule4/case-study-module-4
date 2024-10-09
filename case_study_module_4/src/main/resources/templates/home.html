@@ -12,14 +12,15 @@
 </head>
 <body>
 <div class="container-fluid main-container">
-    <div class="sidebar-left  " style="width: 15%;margin-top: -3%;">
-        <h3 class="mb-3">𝓥𝓷𝓰𝓻𝓪𝓶</h3>
-        <a class="link-icon ms-3" href=""><i class="fa-brands fa-instagram home icons2"></i><span>Trang chủ</span></a>
-        <a class=" link-icon " href=""> <i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
-        <a class=" link-icon  " href=""> <i class="far fa-heart icons2" title="Likes"></i><span>Thông báo</span></a>
-        <a class=" link-icon  " href="/message"> <i class="fa-regular fa-message icons2"></i><span>Tin nhắn</span></a>
-        <a class=" link-icon " href=""> <i class="far fa-user icons2" title="Profile"></i><span>Trang cá nhân</span></a>
-        <a class=" link-icon " style="margin-top: 100%" href="/logout"><i
+    <div class="sidebar-left" style="width: 15%;margin-top: -3%;">
+        <a href="/home"><h3 class="mb-3">𝓥𝓷𝓰𝓻𝓪𝓶</h3></a>
+        <a class="link-icon ms-3" href="/home"><i class="fa-brands fa-instagram home icons2"></i><span>Trang chủ</span></a>
+        <a class=" link-icon" href=""> <i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
+        <a class=" link-icon" href=""> <i class="far fa-heart icons2" title="Likes"></i><span>Thông báo</span></a>
+        <a class=" link-icon" href="/message"> <i class="fa-regular fa-message icons2"></i><span>Tin nhắn</span></a>
+        <a class=" link-icon" th:href="@{/user/__${user.id}__}"> <i class="far fa-user icons2"
+                                                                    title="Profile"></i><span>Trang cá nhân</span></a>
+        <a class=" link-icon" style="margin-top: 100%" href="/logout"><i
                 class="fa-solid fa-arrow-right-from-bracket icons2"
                 title="Logout"></i><span>Đăng xuất</span></a>
     </div>
@@ -77,7 +78,8 @@
                     <span class="desc" th:text="${postDTO.post.content}">Chuyện là hôm qua em mới chia tay người yêu Em buồn quá em đi học code.Có cái code khó quá em học không
                     được em buồn nữa </span>
                 </div>
-                <div class="mt-3"><a href="" style="color:#737373 ;"> xem tất cả <span th:text="${postDTO.commentList.size()}">300</span> bình luận</a></div>
+                <div class="mt-3"><a href="" style="color:#737373 ;"> xem tất cả <span
+                        th:text="${postDTO.commentList.size()}">300</span> bình luận</a></div>
             </div>
         </div>
 
@@ -95,15 +97,15 @@
         <div class="suggestions">
             <p class="fw-bold" style="color:#737373 ;">Gợi ý cho bạn</p>
             <th:block th:each="usert :${top4User}">
-            <a th:href="@{/user/__${usert.id}__}">
-                <div class="suggestion-item">
-                    <img th:src="@{__${usert.profilePic}__}" alt="">
-                    <div>
-                        <strong th:text="${usert.fullName}">Linh Lòng</strong><br>
-                        <small th:text="${usert.email}">@Hoàng Thị Linh</small>
+                <a th:href="@{/user/__${usert.id}__}">
+                    <div class="suggestion-item">
+                        <img th:src="@{__${usert.profilePic}__}" alt="">
+                        <div>
+                            <strong th:text="${usert.fullName}">Linh Lòng</strong><br>
+                            <small th:text="${usert.email}">@Hoàng Thị Linh</small>
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
             </th:block>
             <div>
                 <a href=""><p class="fw-bold" style="color:#737373 ;margin-top: 30px">Xem tất cả</p></a>
