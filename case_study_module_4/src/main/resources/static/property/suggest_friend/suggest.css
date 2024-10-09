@@ -1,0 +1,42 @@
+.list-add {
+    min-height: 70vh;
+    height: auto;
+}
+
+.support a {
+    color: #787878 !important;
+}
+
+.support a:hover {
+    color: #787878;
+    text-decoration: underline !important;
+}
+
+.sidebar-left {
+    width: 15%;
+    margin-top: -3%
+}
+
+.suggest {
+    margin-left: 30%;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 3%;
+    margin-top: -1%
+}
+.name-list{
+    font-size: 15px;
+}
+.name-real{
+    font-size: 15px;
+}
+.avatar-img{
+    height: 52px; width: 52px; object-fit: cover; border-radius: 50%; margin-left: 30%
+}
+.follow{
+    width: 12%;
+    height: 12%;
+    background-color: #0295f6 !important;
+    font-size: small;
+    font-weight: bold;
+}
