@@ -1,5 +1,6 @@
 package org.example.case_study_module_4.service;
 
+import org.example.case_study_module_4.model.Follow;
 import org.example.case_study_module_4.model.User;
 import org.example.case_study_module_4.repository.FollowRepository;
 import org.springframework.stereotype.Service;
@@ -22,5 +23,20 @@ public class FollowServiceImpl implements FollowService {
     @Override
     public List<User> findFollowerByFollowee(Long followeeId) {
         return followRepository.findFollowerByFollowee(followeeId);
+    }
+
+    @Override
+    public void CreateFollower(Follow follow) {
+        followRepository.save(follow);
+    }
+
+    @Override
+    public Follow getFollow(User follower, User followee) {
+        return followRepository.findByFollowerAndFollowee(follower.getId(), followee.getId());
+    }
+
+    @Override
+    public void deleteFollow(Follow follow) {
+        followRepository.delete(follow);
     }
 }

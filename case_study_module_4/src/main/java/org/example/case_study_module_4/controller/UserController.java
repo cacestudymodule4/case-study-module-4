@@ -30,15 +30,14 @@ public class UserController {
     public String user(@PathVariable("id") Long id, Principal principal, Model model) {
         User user = userService.findUserByEmail(principal.getName());
         User otherUsers = userService.findUserById(id);
-        UserDTO userDTO;
         if (user.getId() == otherUsers.getId()) {
-            userDTO = userDTOService.getUserDTO(user);
-            model.addAttribute("user", userDTO);
+            model.addAttribute("isUser", true);
         } else {
-            userDTO = userDTOService.getUserDTO(otherUsers);
-            model.addAttribute("user", userDTO);
-            model.addAttribute("otherUsers", user);
+            model.addAttribute("isUser", false);
         }
+        UserDTO userDTO = userDTOService.getUserDTO(otherUsers);
+        model.addAttribute("user", user);
+        model.addAttribute("userDetail", userDTO);
         return "profile";
     }
 
