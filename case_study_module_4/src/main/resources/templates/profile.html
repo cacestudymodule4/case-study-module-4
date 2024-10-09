@@ -31,9 +31,9 @@
                 <h2 th:text="${user.fullName}">Thái Quang Vỹ</h2>
                 <div>
                     <th:block th:if="${otherUsers == null}">
-                        <button class="btn btn-outline-secondary mr-2">Chỉnh sửa trang cá
+                        <a th:href="@{/user/edit-profile}" class="btn btn-outline-secondary mr-2">Chỉnh sửa trang cá
                             nhân
-                        </button>
+                        </a>
                     </th:block>
                     <th:block th:if="${otherUsers != null}">
                         <div id="friend-actions">
