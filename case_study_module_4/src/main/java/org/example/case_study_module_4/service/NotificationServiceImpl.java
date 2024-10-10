@@ -31,4 +31,24 @@ public class NotificationServiceImpl implements NotificationService {
         notification.setPost(post);
         notificationRepository.save(notification);
     }
+
+    @Override
+    public void sendFollowNotification(User follower, User followee) {
+        Notification notification = new Notification();
+        notification.setMessage(follower.getUsername() + "has followed you.");
+        notification.setRecipient(followee);
+        notification.setSender(follower);
+        notification.setPost(null);
+        notificationRepository.save(notification);
+    }
+
+    @Override
+    public void sendFriendNotification(User user, User otherUser) {
+        Notification notification = new Notification();
+        notification.setMessage(user.getUsername() + " asking to be friendship.");
+        notification.setRecipient(otherUser);
+        notification.setSender(user);
+        notification.setPost(null);
+        notificationRepository.save(notification);
+    }
 }
