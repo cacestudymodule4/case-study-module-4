@@ -13,17 +13,17 @@
 </head>
 <body>
 <div class="container-fluid main-container">
-    <div class="sidebar-left  " style="width: 15%;margin-top: -5%;">
-        <h3 class="mb-3">𝓥𝓷𝓰𝓻𝓪𝓶</h3>
-        <a class="link-icon ms-3" href=""><i class="fa-brands fa-instagram home icons2"></i><span>Trang chủ</span>
-        </a>
-        <a class=" link-icon " href=""> <i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
-        <a class=" link-icon  " href=""> <i class="far fa-heart icons2" title="Likes"></i><span>Thông báo</span></a>
-        <a class=" link-icon  " href=""> <i class="fa-regular fa-message icons2"></i><span>Tin nhắn</span></a>
-        <a class=" link-icon " href=""> <i class="far fa-user icons2" title="Profile"></i><span>Trang cá nhân</span></a>
-        <a class=" link-icon " style="margin-top: 70%" href=""> <i
-                class="fa-solid fa-arrow-right-from-bracket icons2" title="Logout"
-        ></i><span>Đăng xuất</span></a>
+    <div class="sidebar-left" style="width: 15%;margin-top: -3%;">
+        <a href="/home"><h3 class="mb-3">𝓥𝓷𝓰𝓻𝓪𝓶</h3></a>
+        <a class="link-icon ms-3" href="/home"><i class="fa-brands fa-instagram home icons2"></i><span>Trang chủ</span></a>
+        <a class=" link-icon" href=""> <i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
+        <a class=" link-icon" href=""> <i class="far fa-heart icons2" title="Likes"></i><span>Thông báo</span></a>
+        <a class=" link-icon" href="/message"> <i class="fa-regular fa-message icons2"></i><span>Tin nhắn</span></a>
+        <a class=" link-icon" th:href="@{/user/__${user.id}__}"> <i class="far fa-user icons2"
+                                                                    title="Profile"></i><span>Trang cá nhân</span></a>
+        <a class=" link-icon" style="margin-top: 100%" href="/logout"><i
+                class="fa-solid fa-arrow-right-from-bracket icons2"
+                title="Logout"></i><span>Đăng xuất</span></a>
     </div>
     <div class="main-content flex-grow-1 p-4">
         <div class="profile-header d-flex align-items-center mb-4">
@@ -32,7 +32,8 @@
                 <h2 th:text="${userDetail.fullName}">Thái Quang Vỹ</h2>
                 <div>
                     <th:block th:if="${isUser}">
-                        <a th:href="@{/user/edit-profile}" class="btn btn-outline-secondary mr-2">Chỉnh sửa trang cá nhân</a>
+                        <a th:href="@{/user/edit-profile}" class="btn btn-outline-secondary mr-2">Chỉnh sửa trang cá
+                            nhân</a>
                     </th:block>
                     <th:block th:unless="${isUser}">
                         <div id="friend-actions">
@@ -48,7 +49,7 @@
                             <button id="reject-request" class="btn btn-outline-secondary mr-2" style="display:none;">Từ
                                 chối
                             </button>
-                            <button id="friend" class="btn btn-outline-secondary mr-2" style="display:none;">Xóa bạn
+                            <button id="d-friend" class="btn btn-outline-secondary mr-2" style="display:none;">Xóa bạn
                                 bè
                             </button>
                             <button id="follow" class="btn btn-outline-secondary mr-2" style="display:none;">Theo dõi
@@ -68,7 +69,7 @@
             </div>
         </div>
         <div class="post-section text-center" style="margin-top: 50px" th:if="${isUser}">
-            <a class="btn btn-light" style="font-size: 40px" href="/create">
+            <a class="btn btn-light" style="font-size: 40px" href="/post/create">
                 <i class="fas fa-camera"></i>
             </a>
         </div>
@@ -110,15 +111,15 @@
         function updateFriendButtons(status) {
             if (status === "notFriend") {
                 $('#add-friend').show();
-                $('#cancel-request, #accept-request, #reject-request, #friend').hide();
+                $('#cancel-request, #accept-request, #reject-request, #d-friend').hide();
             } else if (status === 'pending') {
                 $('#cancel-request').show();
-                $('#add-friend, #accept-request, #reject-request, #friend').hide();
+                $('#add-friend, #accept-request, #reject-request, #d-friend').hide();
             } else if (status === 'received') {
                 $('#accept-request, #reject-request').show();
-                $('#add-friend, #cancel-request, #friend').hide();
+                $('#add-friend, #cancel-request, #d-friend').hide();
             } else if (status === 'accepted') {
-                $('#friend').show();
+                $('#d-friend').show();
                 $('#add-friend, #cancel-request, #accept-request, #reject-request').hide();
             }
         }
@@ -212,6 +213,7 @@
                 }),
                 success: function (data) {
                     updateFriendButtons(data);
+                    updateFollowButtons(true);
                 },
                 error: function (xhr, status, error) {
                     console.log('Lỗi khi chấp nhận lời mời kết bạn:', error);
@@ -234,7 +236,7 @@
                 }
             });
         });
-        $('#friend').click(function () {
+        $('#d-friend').click(function () {
             $.ajax({
                 url: `/friend/delete`,
                 method: 'POST',
@@ -244,6 +246,7 @@
                 }),
                 success: function (data) {
                     updateFriendButtons(data);
+                    updateFollowButtons(false)
                 },
                 error: function (xhr, status, error) {
                     console.log('Lỗi khi từ chối lời mời kết bạn:', error);

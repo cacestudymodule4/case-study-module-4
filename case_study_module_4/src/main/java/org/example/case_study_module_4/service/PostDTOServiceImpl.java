@@ -42,4 +42,12 @@ public class PostDTOServiceImpl implements PostDTOService {
         }
         return postDTOs;
     }
+
+    @Override
+    public PostDTO getPostDTO(Post post) {
+        List<Media> mediaList = mediaRepository.findByPostId(post.getId());
+        int likes = likeRepository.findByPostId(post.getId()).size();
+        List<Comment> comments = commentRepository.findByPost(post.getId());
+        return new PostDTO(mediaList, post, post.getUser(), likes, comments);
+    }
 }

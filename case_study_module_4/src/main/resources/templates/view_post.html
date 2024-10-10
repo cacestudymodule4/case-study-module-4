@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bình luận Bài viết Instagram</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/property/detail_page/detail.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="post-image">
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <th:block th:each="media,s :${post.mediaList}">
+                    <div th:class="'carousel-item' + ${s.count == 1 ? ' active':''}">
+                        <img th:src="@{__${media.mediaUrl}__}"
+                             th:alt="'media '+${s.count}">
+                    </div>
+                </th:block>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+    <div class="comment-section">
+        <div class="post-header">
+            <img th:src="@{__${post.user.profilePic}__}" style="object-fit: cover"
+                 alt="User Avatar">
+            <h5 style="font-size: 16px;font-weight: bold" th:text="${post.user.fullName}"></h5>
+        </div>
+        <div class="story" style="font-size: 15px" th:text="${post.post.title}">
+            đây là một câu chuyện cảm động nhà quý vị ơi
+            đây là một câu chuyện cảm động nhà quý vị ơi
+        </div>
+        <div class="story" style="font-size: 15px" th:text="${post.post.content}">
+            đây là một câu chuyện cảm động nhà quý vị ơi
+            đây là một câu chuyện cảm động nhà quý vị ơi
+        </div>
+        <div class="comment-list">
+            <div class="comment" th:each="comment : ${post.commentList}">
+                <img th:src="@{__${comment.user.profilePic}__}"
+                     style="object-fit: cover" alt="User Avatar">
+                <div class="comment-content">
+                    <strong th:text="${comment.user.fullName}"></strong>: <span
+                        th:text="${comment.content}"></span>
+                    <div class="time-like ">
+                        <span class="day ml-3" th:text="${comment.createdAt}">
+                            5 ngày
+                        </span>
+                        <span class="like ml-3"> 12 lượt thích </span>
+                        <span class="answer ml-3">Trả lời</span>
+                        <a href=""><i class="fa-solid fa-heart icon-comment" style="color:#737373"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="foot">
+            <div class="icon-foot">
+                <a href=""><i class="bi bi-heart;" style="display: block"></i></a>
+                <a href=""><i class="fa-solid fa-heart  " style="color:red;display: inline-block"></i></a>
+                <a href=""><i class="bi bi-chat"></i></a>
+                <a href=""><i class="bi bi-send"></i></a>
+            </div>
+            <div>
+                <p style="font-weight: bold;font-size: 15px" class="total_like"
+                   th:text="${post.like} + ' lượt thích'">111.23 lượt thích </p>
+                <div class="day-foot">
+                    <span class="day day-foot" th:text="${post.post.createdAt}"> 27 tháng 9</span>
+                </div>
+            </div>
+        </div>
+        <div class="input-area">
+            <a href="" style="font-size: 30px;margin-right:5px">🙂</a>
+            <input type="text" class="form-control" placeholder="Nhập bình luận..." id="comment"
+                   onkeydown="handleEnterPress(event)" oninput="checkInput()">
+            <button class="btn btn-primary" id="send" disabled>Gửi</button>
+        </div>
+    </div>
+</div>
+<div id="post" th:attr="data-id=${post.post.id}"></div>
+<script>
+    const postElement = document.getElementById('post');
+    const postId = postElement.getAttribute('data-id');
+
+    function handleEnterPress(event) {
+        if (event.key === "Enter") {
+            const input = document.getElementById("comment");
+            if (input.value.trim() !== "") {
+                $('#send').prop('disabled', true);
+                sendComment();
+            }
+        }
+    }
+
+    function checkInput() {
+        const input = document.getElementById("comment");
+        const sendButton = document.getElementById("send");
+        if (input.value.trim() !== "") {
+            sendButton.disabled = false;
+        } else {
+            sendButton.disabled = true;
+        }
+    }
+
+    document.getElementById('send').onclick = function () {
+        $('#send').prop('disabled', true);
+        sendComment();
+    };
+
+    function sendComment() {
+        const content = document.getElementById('comment').value;
+        $.ajax({
+            url: "http://localhost:8080/comment/create",
+            type: "post",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({
+                post: {
+                    id: postId
+                },
+                content: content
+            }),
+            success: function (data) {
+                displayComment(data);
+            }
+        })
+    }
+
+    function displayComment(data) {
+        $('.comment-list').append(`
+          <div class="comment">
+                <img src="${data.user.profilePic}"
+                     style="object-fit: cover" alt="User Avatar">
+                <div class="comment-content">
+                    <strong>${data.user.fullName}</strong>: <span>${data.content}</span>
+                    <div class="time-like ">
+                        <span class="day ml-3">${data.createdAt}</span>
+                        <span class="like ml-3"> 12 lượt thích </span>
+                        <span class="answer ml-3">Trả lời</span>
+                        <a href=""><i class="fa-solid fa-heart icon-comment" style="color:#737373"></i></a>
+                    </div>
+                </div>
+            </div>`);
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

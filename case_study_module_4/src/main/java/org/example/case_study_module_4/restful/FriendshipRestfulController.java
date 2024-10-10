@@ -41,6 +41,10 @@ public class FriendshipRestfulController {
         User user = userService.findUserByEmail(principal.getName());
         Friendship friendship = friendshipService.getFriendship(user, otherUser);
         friendshipService.deleteFriend(friendship);
+        Follow follow = followService.getFollow(user, otherUser);
+        if (follow != null) {
+            followService.deleteFollow(follow);
+        }
         return ResponseEntity.ok("notFriend");
     }
 
@@ -69,6 +73,10 @@ public class FriendshipRestfulController {
         Friendship friendship = friendshipService.getFriendship(user, otherUser);
         friendship.setStatus("accepted");
         friendshipService.updateFriendship(friendship);
+        Follow follow = new Follow();
+        follow.setFollower(user);
+        follow.setFollowee(otherUser);
+        followService.CreateFollower(follow);
         return ResponseEntity.ok(friendship.getStatus());
     }
 

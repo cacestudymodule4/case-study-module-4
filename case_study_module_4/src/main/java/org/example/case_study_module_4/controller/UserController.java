@@ -11,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
-import java.util.Objects;
 
 @Controller
 public class UserController {
@@ -58,16 +57,13 @@ public class UserController {
             , @RequestParam("profilePicture") MultipartFile profilePicture
             , RedirectAttributes redirectAttributes) {
         User updateUser = userService.findUserByEmail(principal.getName());
-
         if (profilePicture != null && !profilePicture.isEmpty()) {
             String avatarUrl = fileStorageService.storeFile(profilePicture);
             updateUser.setProfilePic(avatarUrl);
         }
-
         updateUser.setFullName(name);
         updateUser.setBio(bio);
         updateUser.setPassword(password);
-
         userService.save(updateUser);
         redirectAttributes.addFlashAttribute("message", "Cập nhật thông tin thành công!");
         return "redirect:/user/edit-profile";

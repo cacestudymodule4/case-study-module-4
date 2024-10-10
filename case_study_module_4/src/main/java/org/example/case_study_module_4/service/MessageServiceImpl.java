@@ -1,6 +1,7 @@
 package org.example.case_study_module_4.service;
 
 import org.example.case_study_module_4.model.Message;
+import org.example.case_study_module_4.model.User;
 import org.example.case_study_module_4.repository.MessageRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<Message> getMessages(List<Long> ids) {
-        List<Message> messages = messageRepository.findMessagesBySenderIds(ids.get(0), ids.get(1));
+        List<Message> messages = messageRepository.findMessages(ids.get(0), ids.get(1));
         messages.sort(Comparator.comparing(Message::getCreatedAt));
         return messages;
     }
@@ -25,5 +26,18 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public Message saveMessage(Message message) {
         return messageRepository.save(message);
+    }
+
+    @Override
+    public List<Message> getMessagesByStatus(User sender, User receiver) {
+        return messageRepository.findMessageByStatus(sender.getId(), receiver.getId());
+    }
+
+    @Override
+    public void saveMessages(List<Message> messages) {
+        for (Message message : messages) {
+            message.setStatus("isRead");
+        }
+        messageRepository.saveAll(messages);
     }
 }

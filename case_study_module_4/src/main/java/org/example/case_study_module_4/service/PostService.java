@@ -14,4 +14,6 @@ public interface PostService {
     Map<Post, List<Media>> createPost(Post post, MultipartFile[] mediaFiles);
 
     List<Post> findPostsByUser(User user);
+
+    Post findPostById(Long postId);
 }
