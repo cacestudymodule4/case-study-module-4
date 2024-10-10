@@ -5,6 +5,7 @@ import org.example.case_study_module_4.model.Friendship;
 import org.example.case_study_module_4.model.User;
 import org.example.case_study_module_4.service.FollowService;
 import org.example.case_study_module_4.service.FriendshipService;
+import org.example.case_study_module_4.service.NotificationService;
 import org.example.case_study_module_4.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +18,15 @@ public class FriendshipRestfulController {
     private final UserService userService;
     private final FriendshipService friendshipService;
     private final FollowService followService;
+    private final NotificationService notificationService;
 
     public FriendshipRestfulController(UserService userService,
                                        FriendshipService friendshipService,
-                                       FollowService followService) {
+                                       FollowService followService, NotificationService notificationService) {
         this.userService = userService;
         this.friendshipService = friendshipService;
         this.followService = followService;
+        this.notificationService = notificationService;
     }
 
     @PostMapping("/status")
@@ -52,6 +55,7 @@ public class FriendshipRestfulController {
     public ResponseEntity<String> add(@RequestBody User otherUser, Principal principal) {
         User user = userService.findUserByEmail(principal.getName());
         Friendship friendship = friendshipService.createFriendship(user, otherUser);
+        notificationService.sendFriendNotification(user, otherUser);
         Follow follow = new Follow();
         follow.setFollower(user);
         follow.setFollowee(otherUser);
