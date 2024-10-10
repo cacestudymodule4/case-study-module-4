@@ -5,4 +5,5 @@ import org.example.case_study_module_4.model.User;
 
 public interface NotificationService {
     void sendLikeNotification(User user, Post post);
+    void sendCommentNotification(User user, Post post);
 }
