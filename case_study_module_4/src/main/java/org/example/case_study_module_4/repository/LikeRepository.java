@@ -18,5 +18,6 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
 
     Optional<Like> findByPostAndUser(Post post, User user);
 
-    Long countByPost(Post post);
+    @Query("SELECT COUNT(l) FROM Like l WHERE l.post = :post AND l.isLiked = true")
+    Long countLikesByPost(Post post);
 }

@@ -19,7 +19,7 @@ public class LikeServiceImpl implements LikeService {
     private UserRepository userRepository;
 
     @Override
-    public void updateLike(Long postId, Long userId) {
+    public Post updateLike(Long postId, Long userId) {
         Post post = postRepository.findById(postId).orElse(null);
         if (post == null) {
             throw new RuntimeException("Post not found");
@@ -29,14 +29,20 @@ public class LikeServiceImpl implements LikeService {
             throw new RuntimeException("User not found");
         }
         Like existingLike = likeRepository.findByPostAndUser(post, user).orElse(null);
-        if (existingLike != null) {
-            likeRepository.delete(existingLike);
+        if (existingLike == null) {
+            existingLike = new Like();
+            existingLike.setPost(post);
+            existingLike.setUser(user);
+            existingLike.setLiked(true);
+            likeRepository.save(existingLike);
+
+            return post;
         } else {
-            Like like = new Like();
-            like.setPost(post);
-            like.setUser(user);
-            likeRepository.save(like);
+            existingLike.setLiked(!existingLike.isLiked());
+            likeRepository.save(existingLike);
         }
+
+        return null;
     }
 
     @Override
@@ -45,6 +51,18 @@ public class LikeServiceImpl implements LikeService {
         if (post == null) {
             throw new RuntimeException("Post not found");
         }
-        return likeRepository.countByPost(post);
+        return likeRepository.countLikesByPost(post);
+    }
+
+    @Override
+    public boolean isLikedByUser(Long postId, Long userId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("Post not found"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        Like like = likeRepository.findByPostAndUser(post, user).orElse(null);
+
+        return like != null && like.isLiked();
     }
 }
