@@ -35,11 +35,40 @@
                         <span class="fw-bold time" th:text="${postDTO.post.createdAt}">12 giờ</span>
                     </div>
                 </a>
-                <a href="">
+                <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     <div class="dots-container">
                         <div class="dot"></div>
                     </div>
                 </a>
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <a href="#">
+                                    <div class="modal-a a1 text-center">
+                                        Bỏ theo dõi
+                                    </div>
+                                </a>
+                                <a href="#">
+                                    <div class="modal-a text-center">
+                                        Ẩn bài viết
+                                    </div>
+                                </a>
+                                <a href="#">
+                                    <div class="modal-a text-center">
+                                        Báo cáo
+                                    </div>
+                                </a>
+                                <a href="#" data-bs-dismiss="modal">
+                                    <div class="modal-a a1 text-center">
+                                        Huỷ
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div th:id="'carouselExample_' + ${postIdx.index}" class="carousel slide" data-bs-ride="carousel">
                 <a th:href="@{/post/view/__${postDTO.post.id}__}">
@@ -67,13 +96,21 @@
             </div>
             <div class="post-footer " style="margin-left: -16px">
                 <div class="post-actions " style="color: black">
-                    <a href=""><i class="fa-solid fa-heart" style="color:red;display: none"></i></a>
-                    <a href=""><i class="bi bi-heart" style="display: inline-block"></i></a>
-                    <a href=""><i class="bi bi-chat"></i></a>
-                    <a href=""><i class="bi bi-send"></i></a>
+                    <a th:data-user-id="${user.id}" th:data-post-id="${postDTO.post.id}"
+                       th:onclick="toggleLike(this.getAttribute('data-post-id'), this.getAttribute('data-user-id'))">
+                        <i class="fa-solid fa-heart" style="color:red;   display: none"
+                           id="like-icon-${postDTO.post.id}"></i>
+                    </a>
+                    <a th:data-user-id="${user.id}" th:data-post-id="${postDTO.post.id}"
+                       th:onclick="toggleLike(this.getAttribute('data-post-id'), this.getAttribute('data-user-id'))">
+                        <i class="bi bi-heart" style="display: inline-block" id="unlike-icon-${postDTO.post.id}"></i>
+                    </a>
+                    <a href=""> <i class="bi bi-chat"></i></a>
+                    <a href=""> <i class="bi bi-send"></i></a>
                 </div>
                 <div>
-                    <p class="likes" th:text="${postDTO.like} + ' Likes'">250 likes</p>
+                    <p class="likes" th:id="'like-count-' + ${postDTO.post.id}" th:text="${postDTO.like} + ' likes'">0
+                        likes</p>
                     <p class="desc"><strong th:text="${postDTO.post.title}">Hôm nay buồn quá mọi người ạ 🥲 </strong></p>
                     <span class="desc" th:text="${postDTO.post.content}">Chuyện là hôm qua em mới chia tay người yêu Em buồn quá em đi học code.Có cái code khó quá em học không
                     được em buồn nữa </span>
@@ -84,7 +121,6 @@
                     bình luận</a></div>
             </div>
         </div>
-
     </div>
     <div class="sidebar-right" style="width: 15%;margin-top:-2%">
         <a th:href="@{/user/__${user.id}__}">
@@ -127,6 +163,30 @@
             }
         });
     });
+</script>
+<script>
+    function toggleLike(postId, userId) {
+        fetch(`/api/like/${postId}?userId=${userId}`, {
+            method: 'POST',
+        }).then(response => {
+            if (response.ok) {
+                fetch(`/api/like/${postId}`)
+                    .then(res => res.json())
+                    .then(likeCount => {
+                        document.getElementById('like-count-' + postId).innerText = likeCount + " likes";
+                        const filledHeart = document.querySelector(`[data-post-id="${postId}"] .fa-solid.fa-heart`);
+                        const emptyHeart = document.querySelector(`[data-post-id="${postId}"] .bi.bi-heart`);
+                        if (filledHeart.style.display === 'none') {
+                            filledHeart.style.display = 'inline-block';
+                            emptyHeart.style.display = 'none';
+                        } else {
+                            filledHeart.style.display = 'none';
+                            emptyHeart.style.display = 'inline-block';
+                        }
+                    });
+            }
+        });
+    }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>

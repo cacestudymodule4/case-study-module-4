@@ -295,3 +295,39 @@ h3,
 img {
     object-fit: cover;
 }
+
+.modal-content {
+    width: 80%;
+    margin-top: 62%;
+}
+
+.modal-a {
+
+    padding: 20px 0;
+    border-bottom: 1px solid #dbdbdb !important;
+}
+
+.modal-a a {
+    margin: 0 auto !important;
+
+}
+
+.modal-a:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.modal-body {
+    padding: 0;
+}
+.search-input input:focus{
+    outline: none !important;
+    border-color: #cfd4da;
+    box-shadow: none !important;
+}
+.search-input {
+    width: 70%;
+    margin: -4% 0 3% 30%;
+
+
+}
