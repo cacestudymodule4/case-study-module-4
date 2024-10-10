@@ -2,15 +2,15 @@ package org.example.case_study_module_4.repository;
 
 import org.example.case_study_module_4.model.Friendship;
 import org.example.case_study_module_4.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface FriendshipRepository extends CrudRepository<Friendship, Long> {
+public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
     @Query("SELECT f.friend FROM Friendship f WHERE f.user.id = :userId AND f.status = :status")
     List<User> findFriendsByUserId(@Param("userId") Long userId, @Param("status") String status);
 
