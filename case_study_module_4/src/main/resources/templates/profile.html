@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" th:href="@{/property/profile/css/profile.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
 <div class="container-fluid main-container">
@@ -26,35 +27,65 @@
     </div>
     <div class="main-content flex-grow-1 p-4">
         <div class="profile-header d-flex align-items-center mb-4">
-            <img th:src="@{/property/profile/image/file.png}" alt="Avatar" class="mr-3">
+            <img th:src="@{__${userDetail.profilePic}__}" alt="Avatar" class="mr-3">
             <div>
-                <h2>Thái Quang Vỹ</h2>
+                <h2 th:text="${userDetail.fullName}">Thái Quang Vỹ</h2>
                 <div>
-                    <button class="btn btn-outline-secondary mr-2">Chỉnh sửa trang cá nhân</button>
+                    <th:block th:if="${isUser}">
+                        <a th:href="@{/user/edit-profile}" class="btn btn-outline-secondary mr-2">Chỉnh sửa trang cá nhân</a>
+                    </th:block>
+                    <th:block th:unless="${isUser}">
+                        <div id="friend-actions">
+                            <button id="add-friend" class="btn btn-outline-secondary mr-2" style="display:none;">Kết
+                                bạn
+                            </button>
+                            <button id="cancel-request" class="btn btn-outline-secondary mr-2" style="display:none;">Xóa
+                                lời mời
+                            </button>
+                            <button id="accept-request" class="btn btn-outline-secondary mr-2" style="display:none;">
+                                Chấp nhận
+                            </button>
+                            <button id="reject-request" class="btn btn-outline-secondary mr-2" style="display:none;">Từ
+                                chối
+                            </button>
+                            <button id="friend" class="btn btn-outline-secondary mr-2" style="display:none;">Xóa bạn
+                                bè
+                            </button>
+                            <button id="follow" class="btn btn-outline-secondary mr-2" style="display:none;">Theo dõi
+                            </button>
+                            <button id="un-follow" class="btn btn-outline-secondary mr-2" style="display:none;">Huy theo
+                                dõi
+                            </button>
+                        </div>
+                    </th:block>
                 </div>
                 <div class="mt-2">
-                    <span>0 bài viết</span> |
-                    <span>1 người theo dõi</span> |
-                    <span>Đang theo dõi 2 người dùng</span>
+                    <span th:text="${userDetail.posts.size()} + ' bài viết'">0 bài viết</span> |
+                    <span th:text="${userDetail.countFollower} + ' người theo dõi'">1 người theo dõi</span> |
+                    <span th:text="'Đang theo dõi ' + ${userDetail.countFollowee}">Đang theo dõi 2</span> |
+                    <span th:text="${userDetail.countFriends} + ' bạn bè'">2 bạn bè</span>
                 </div>
             </div>
         </div>
-        <div class="post-section text-center" style="margin-top: 50px">
-            <button class="btn btn-light" style="font-size: 40px">
+        <div class="post-section text-center" style="margin-top: 50px" th:if="${isUser}">
+            <a class="btn btn-light" style="font-size: 40px" href="/create">
                 <i class="fas fa-camera"></i>
-            </button>
+            </a>
         </div>
         <div class="underline"></div>
         <p>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-collection"
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                 class="bi bi-collection"
                  viewBox="0 0 16 16">
                 <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6zm1.5.5A.5.5 0 0 1 1 13V6a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5z"/>
             </svg>
             BÀI VIẾT
         </p>
         <div class="gallery row mt-4 justify-content-center">
-            <div class="col-4 mb-2">
-                <img th:src="@{/property/profile/image/file.png}" class="img-fluid" alt="Post Image">
+            <div class="col-4 mb-2" th:each="post :${userDetail.posts}">
+                <a th:href="@{/post/__${post.key.id}__}">
+                    <img th:src="@{__${post.value}__}" class="img-fluid" alt="Post Image">
+                </a>
             </div>
             <div class="col-4 mb-2">
                 <img th:src="@{/property/profile/image/file.png}" class="img-fluid" alt="Post Image">
@@ -65,6 +96,194 @@
         </div>
     </div>
 </div>
+<div id="user" th:attr="data-id=${user.id}"></div>
+<div id="userDetail" th:attr="data-id=${userDetail.id}"></div>
+<script>
+    const userDetail = document.getElementById('userDetail');
+    const userDetailId = userDetail.getAttribute("data-id");
+    const user = document.getElementById('user');
+    const userId = user.getAttribute('data-id');
+    $(document).ready(function () {
+        const requesterId = userId;
+        const receiverId = userDetailId;
+
+        function updateFriendButtons(status) {
+            if (status === "notFriend") {
+                $('#add-friend').show();
+                $('#cancel-request, #accept-request, #reject-request, #friend').hide();
+            } else if (status === 'pending') {
+                $('#cancel-request').show();
+                $('#add-friend, #accept-request, #reject-request, #friend').hide();
+            } else if (status === 'received') {
+                $('#accept-request, #reject-request').show();
+                $('#add-friend, #cancel-request, #friend').hide();
+            } else if (status === 'accepted') {
+                $('#friend').show();
+                $('#add-friend, #cancel-request, #accept-request, #reject-request').hide();
+            }
+        }
+
+        function updateFollowButtons(status) {
+            if (status) {
+                $('#follow').hide();
+                $('#un-follow').show();
+            } else {
+                $('#follow').show();
+                $('#un-follow').hide();
+            }
+        }
+
+        if (requesterId != receiverId) {
+            $.ajax({
+                url: "/friend/status",
+                method: 'post',
+                contentType: 'application/json',
+                dataType: "json",
+                data: JSON.stringify({
+                    id: receiverId
+                }),
+                success: function (response) {
+                    if (response.status == "accepted") {
+                        updateFriendButtons(response.status);
+                    } else if (userId == response.friend.id) {
+                        updateFriendButtons("received");
+                    } else {
+                        updateFriendButtons(response.status);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    updateFriendButtons("notFriend");
+                }
+            });
+            $.ajax({
+                url: "/follow/status",
+                method: 'post',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    id: receiverId
+                }),
+                success: function (response) {
+                    updateFollowButtons(response);
+                },
+                error: function (xhr, status, error) {
+                }
+            })
+        }
+        $('#add-friend').click(function () {
+            $.ajax({
+                url: '/friend/add',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    id: receiverId
+                }),
+                success: function (data) {
+                    updateFriendButtons(data);
+                    updateFollowButtons(true);
+                },
+                error: function (xhr, status, error) {
+                    console.log('Lỗi khi gửi lời mời kết bạn:', error);
+                }
+            });
+        });
+        $('#cancel-request').click(function () {
+            $.ajax({
+                url: `/friend/cancel`,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    id: receiverId
+                }),
+                success: function (data) {
+                    updateFriendButtons(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log('Lỗi khi hủy lời mời kết bạn:', error);
+                }
+            });
+        });
+        $('#accept-request').click(function () {
+            $.ajax({
+                url: `/friend/accept`,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    id: receiverId
+                }),
+                success: function (data) {
+                    updateFriendButtons(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log('Lỗi khi chấp nhận lời mời kết bạn:', error);
+                }
+            });
+        });
+        $('#reject-request').click(function () {
+            $.ajax({
+                url: `/friend/reject`,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    id: receiverId
+                }),
+                success: function (data) {
+                    updateFriendButtons(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log('Lỗi khi từ chối lời mời kết bạn:', error);
+                }
+            });
+        });
+        $('#friend').click(function () {
+            $.ajax({
+                url: `/friend/delete`,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    id: receiverId
+                }),
+                success: function (data) {
+                    updateFriendButtons(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log('Lỗi khi từ chối lời mời kết bạn:', error);
+                }
+            });
+        });
+        $('#follow').click(function () {
+            $.ajax({
+                url: `/follow/add`,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    id: receiverId
+                }),
+                success: function (data) {
+                    updateFollowButtons(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log('Lỗi khi từ chối lời mời kết bạn:', error);
+                }
+            });
+        });
+        $('#un-follow').click(function () {
+            $.ajax({
+                url: `/follow/delete`,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    id: receiverId
+                }),
+                success: function (data) {
+                    updateFollowButtons(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log('Lỗi khi từ chối lời mời kết bạn:', error);
+                }
+            });
+        });
+    });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 </body>

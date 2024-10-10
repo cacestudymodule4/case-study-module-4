@@ -26,14 +26,14 @@
     <div class="content-area " style="margin-left: 34%;margin-top: -2%">
         <div class="feed-post mt-1 mb-5" th:each="postDTO,postIdx :${postDTOS}">
             <div class="post-header">
-                <div>
-                    <a href="">
+                <a th:href="@{/user/__${postDTO.user.id}__}">
+                    <div style="width: 459px">
                         <img th:src="@{__${postDTO.user.profilePic}__}"
                              alt="Profile" class="profile-img">
                         <strong style="color: black" th:text="${postDTO.user.fullName}">Nguyễn Thị Tạch</strong>
                         <span class="fw-bold time" th:text="${postDTO.post.createdAt}">12 giờ</span>
-                    </a>
-                </div>
+                    </div>
+                </a>
                 <a href="">
                     <div class="dots-container">
                         <div class="dot"></div>
@@ -76,17 +76,17 @@
                     <a href=""> <i class="bi bi-send"></i></a>
                 </div>
                 <div>
-                    <p th:id="'like-count-' + ${postDTO.post.id}">0 likes</p>
+                    <p class="likes" th:id="'like-count-' + ${postDTO.post.id}" th:text="${postDTO.like} + ' likes'">0 likes</p>
                     <p class="desc"><strong th:text="${postDTO.post.title}">Hôm nay buồn quá mọi người ạ 🥲 </strong></p>
                     <span class="desc" th:text="${postDTO.post.content}">Chuyện là hôm qua em mới chia tay người yêu Em buồn quá em đi học code.Có cái code khó quá em học không
                     được em buồn nữa </span>
                 </div>
-                <div class="mt-3"><a href="" style="color:#737373 ;"> xem tất cả <span>300</span> bình luận</a></div>
+                <div class="mt-3"><a th:href="@{/comments/view/__${postDTO.post.getId()}__/__${postDTO.user.fullName}__}" style="color:#737373 ;"> xem tất cả <span th:text="${postDTO.commentList.size()}">300</span> bình luận</a></div>
             </div>
         </div>
     </div>
     <div class="sidebar-right" style="width: 15%;margin-top:-2%">
-        <a href="">
+        <a th:href="@{/user/__${user.id}__}">
             <div class="user-profile">
                 <img th:src="@{__${user.profilePic}__}" alt="avatar">
                 <div>
@@ -97,15 +97,17 @@
         </a>
         <div class="suggestions">
             <p class="fw-bold" style="color:#737373 ;">Gợi ý cho bạn</p>
-            <a href="" th:each="user :${top4User}">
+            <th:block th:each="usert :${top4User}">
+            <a th:href="@{/user/__${usert.id}__}">
                 <div class="suggestion-item">
-                    <img th:src="@{__${user.profilePic}__}" alt="">
+                    <img th:src="@{__${usert.profilePic}__}" alt="">
                     <div>
-                        <strong th:text="${user.fullName}">Linh Lòng</strong><br>
-                        <small th:text="${user.email}">@Hoàng Thị Linh</small>
+                        <strong th:text="${usert.fullName}">Linh Lòng</strong><br>
+                        <small th:text="${usert.email}">@Hoàng Thị Linh</small>
                     </div>
                 </div>
             </a>
+            </th:block>
             <div>
                 <a href=""><p class="fw-bold" style="color:#737373 ;margin-top: 30px">Xem tất cả</p></a>
             </div>
@@ -127,11 +129,11 @@
 </script>
 <script>
     function toggleLike(postId, userId) {
-        fetch(`/api/posts/${postId}/like?userId=${userId}`, {
+        fetch(`/api/like/${postId}?userId=${userId}`, {
             method: 'POST',
         }).then(response => {
             if (response.ok) {
-                fetch(`/api/posts/${postId}/likes`)
+                fetch(`/api/like/${postId}`)
                     .then(res => res.json())
                     .then(likeCount => {
                         document.getElementById('like-count-' + postId).innerText = likeCount + " likes";

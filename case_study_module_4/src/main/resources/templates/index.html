@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết bạn</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body>
+<div id="friend-actions">
+    <button id="add-friend" style="display:none;">Kết bạn</button>
+    <button id="cancel-request" style="display:none;">Xóa lời mời</button>
+    <button id="accept-request" style="display:none;">Chấp nhận</button>
+    <button id="reject-request" style="display:none;">Từ chối</button>
+    <button id="friend" style="display:none;" disabled>Đã là bạn bè</button>
+</div>
+<script>
+    $(document).ready(function () {
+        const requesterId = 1; // Giả sử đây là ID của người dùng hiện tại (lấy từ session)
+        const receiverId = 2; // ID của người dùng trên trang cá nhân mà bạn đang xem
+
+        // Hàm để cập nhật giao diện nút dựa trên trạng thái hiện tại
+        function updateFriendButtons(status) {
+            if (status === null) {
+                $('#add-friend').show();
+                $('#cancel-request, #accept-request, #reject-request, #friend').hide();
+            } else if (status === 'pending') {
+                $('#cancel-request').show();
+                $('#add-friend, #accept-request, #reject-request, #friend').hide();
+            } else if (status === 'received') {
+                $('#accept-request, #reject-request').show();
+                $('#add-friend, #cancel-request, #friend').hide();
+            } else if (status === 'accepted') {
+                $('#friend').show();
+                $('#add-friend, #cancel-request, #accept-request, #reject-request').hide();
+            }
+        }
+
+        // Gửi yêu cầu GET để lấy trạng thái kết bạn hiện tại
+        $.ajax({
+            url: `/friend-request/status/${requesterId}/${receiverId}`,
+            method: 'GET',
+            success: function (response) {
+                updateFriendButtons(response.status);
+            },
+            error: function (xhr, status, error) {
+                console.log('Lỗi khi lấy trạng thái kết bạn:', error);
+            }
+        });
+
+        // Sự kiện khi nhấn vào nút "Kết bạn"
+        $('#add-friend').click(function () {
+            $.ajax({
+                url: '/friend-request',
+                method: 'POST',
+                data: {requester_id: requesterId, receiver_id: receiverId},
+                success: function () {
+                    updateFriendButtons('pending');
+                },
+                error: function (xhr, status, error) {
+                    console.log('Lỗi khi gửi lời mời kết bạn:', error);
+                }
+            });
+        });
+
+        // Sự kiện khi nhấn nút "Xóa lời mời"
+        $('#cancel-request').click(function () {
+            $.ajax({
+                url: `/friend-request/cancel/${requesterId}/${receiverId}`,
+                method: 'POST',
+                success: function () {
+                    updateFriendButtons(null);
+                },
+                error: function (xhr, status, error) {
+                    console.log('Lỗi khi hủy lời mời kết bạn:', error);
+                }
+            });
+        });
+
+        // Sự kiện khi nhấn "Chấp nhận lời mời"
+        $('#accept-request').click(function () {
+            $.ajax({
+                url: `/friend-request/accept/${requesterId}/${receiverId}`,
+                method: 'POST',
+                success: function () {
+                    updateFriendButtons('accepted');
+                },
+                error: function (xhr, status, error) {
+                    console.log('Lỗi khi chấp nhận lời mời kết bạn:', error);
+                }
+            });
+        });
+
+        // Sự kiện khi nhấn "Từ chối lời mời"
+        $('#reject-request').click(function () {
+            $.ajax({
+                url: `/friend-request/reject/${requesterId}/${receiverId}`,
+                method: 'POST',
+                success: function () {
+                    updateFriendButtons(null);
+                },
+                error: function (xhr, status, error) {
+                    console.log('Lỗi khi từ chối lời mời kết bạn:', error);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

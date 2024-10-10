@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" th:href="@{/profile/css/profile-detail.css}">
+    <link rel="stylesheet" th:href="@{/property/profile/css/profile-detail.css}">
 
 </head>
 <body>
@@ -25,23 +25,23 @@
     </div>
     <div class="main-container2">
         <div class="container">
-            <h2>Chỉnh sửa trang cá nhân</h2>
-            <div class="profile-header">
-                <img src="../profile/image/1.jpg" alt="Profile Picture">
-                <div class="profile-info">
-                    <div class="username">kaythai211</div>
-                    <div class="fullname">Thái Quang Vỹ</div>
+            <form th:action="@{/user/edit-profile}" method="post" enctype="multipart/form-data">
+                <h2>Chỉnh sửa trang cá nhân</h2>
+                <div class="profile-header">
+                    <img id="profilePicture" name="profilePictrue" th:src="@{${user.profilePic}}" alt="Profile Picture">
+                    <div class="profile-info">
+                        <div class="username" th:text="${user.username}"></div>
+                        <div class="fullname" th:text="${user.fullName}"></div>
+                    </div>
+                    <input type="file" id="imageInput" name="profilePicture" accept=".png, .jpg, .jpeg">
                 </div>
-                <button>Đổi ảnh</button>
-            </div>
-            <form action="/submit-profile" method="POST">
                 <div class="form-group">
                     <label for="name">Tên</label>
-                    <input type="text" id="name" name="name" placeholder="Tên của bạn">
+                    <input type="text" id="name" name="name" placeholder="Tên của bạn" th:value="${user.fullName}">
                 </div>
                 <div class="form-group">
                     <label for="bio">Tiểu sử</label>
-                    <textarea id="bio" name="bio" rows="3" placeholder="Mô tả ngắn về bản thân..."></textarea>
+                    <textarea id="bio" name="bio" rows="3" placeholder="Mô tả ngắn về bản thân..." th:text="${user.bio}"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="password">Mật khẩu mới</label>
@@ -51,6 +51,9 @@
                     <label for="confirm-password">Xác nhận mật khẩu</label>
                     <input type="password" id="confirm-password" name="confirm-password"
                            placeholder="Xác nhận mật khẩu mới">
+                </div>
+                <div class="form-group">
+                    <p id="text-validate"></p>
                 </div>
                 <button type="submit" class="save-btn">Lưu thay đổi</button>
             </form>
@@ -76,7 +79,33 @@
         </div>
     </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $("#imageInput").on('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                $('#profilePicture').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(file);
+        }
+    })
+
+    $("form").on("submit", function(event) {
+        const password = $("#password").val();
+        const confirmPassword = $("#confirm-password").val();
+        if (password === "") {
+            event.preventDefault();
+            $("#text-validate").addClass("text-danger").html("Mật khẩu không được để trống")
+        } else if (password != confirmPassword) {
+            event.preventDefault();
+            $("#text-validate").addClass("text-danger").html("Mật khẩu không khớp")
+        }
+    })
+</script>
 </body>
 </html>
