@@ -7,7 +7,9 @@ body {
     display: flex;
     flex-direction: row;
 }
-
+a{
+    color: black ;
+}
 .sidebar {
     background-color: #fff;
     width: 4%;
