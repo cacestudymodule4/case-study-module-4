@@ -2,7 +2,6 @@ package org.example.case_study_module_4.restful;
 
 import org.example.case_study_module_4.DTO.CommentRequest;
 import org.example.case_study_module_4.model.Comment;
-import org.example.case_study_module_4.model.Post;
 import org.example.case_study_module_4.model.User;
 import org.example.case_study_module_4.service.CommentService;
 import org.example.case_study_module_4.service.UserService;
@@ -33,6 +32,7 @@ public class CommentRestfulController {
         comment.setContent(commentRequest.getContent());
         comment.setUser(user);
         comment.setPost(commentRequest.getPost());
-        return ResponseEntity.ok(commentService.createComment(comment));
+        comment = commentService.createComment(comment);
+        return ResponseEntity.ok(comment);
     }
 }
