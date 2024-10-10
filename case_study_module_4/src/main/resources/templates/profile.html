@@ -13,61 +13,58 @@
 </head>
 <body>
 <div class="container-fluid main-container">
-    <div class="sidebar-left" style="width: 15%;margin-top: -3%;">
+    <div class="sidebar-left" style="width: 15%;margin-top: -5%;">
         <a href="/home"><h3 class="mb-3">𝓥𝓷𝓰𝓻𝓪𝓶</h3></a>
         <a class="link-icon ms-3" href="/home"><i class="fa-brands fa-instagram home icons2"></i><span>Trang chủ</span></a>
         <a class=" link-icon" href=""> <i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
         <a class=" link-icon" href=""> <i class="far fa-heart icons2" title="Likes"></i><span>Thông báo</span></a>
         <a class=" link-icon" href="/message"> <i class="fa-regular fa-message icons2"></i><span>Tin nhắn</span></a>
         <a class=" link-icon" th:href="@{/user/__${user.id}__}" style="color: #0c6efd"><i class="far fa-user icons2"
-                                                                    title="Profile"></i><span>Trang cá nhân</span></a>
+                                                                                          title="Profile"></i><span>Trang cá nhân</span></a>
         <a class=" link-icon" style="margin-top: 70%" href="/logout"><i
                 class="fa-solid fa-arrow-right-from-bracket icons2"
                 title="Logout"></i><span>Đăng xuất</span></a>
     </div>
-    <div class="main-content flex-grow-1 p-4">
-        <div class="profile-header d-flex align-items-center mb-4">
-            <img th:src="@{__${userDetail.profilePic}__}" alt="Avatar" class="mr-3">
-            <div>
-                <h2 th:text="${userDetail.fullName}">Thái Quang Vỹ</h2>
-                <div>
-                    <th:block th:if="${isUser}">
-                        <a th:href="@{/user/edit-profile}" class="btn btn-outline-secondary mr-2">Chỉnh sửa trang cá
-                            nhân</a>
-                    </th:block>
-                    <th:block th:unless="${isUser}">
-                        <div id="friend-actions">
-                            <button id="add-friend" class="btn btn-outline-secondary mr-2" style="display:none;">Kết
-                                bạn
-                            </button>
-                            <button id="cancel-request" class="btn btn-outline-secondary mr-2" style="display:none;">Xóa
-                                lời mời
-                            </button>
-                            <button id="accept-request" class="btn btn-outline-secondary mr-2" style="display:none;">
-                                Chấp nhận
-                            </button>
-                            <button id="reject-request" class="btn btn-outline-secondary mr-2" style="display:none;">Từ
-                                chối
-                            </button>
-                            <button id="d-friend" class="btn btn-outline-secondary mr-2" style="display:none;">Xóa bạn
-                                bè
-                            </button>
-                            <button id="follow" class="btn btn-outline-secondary mr-2" style="display:none;">Theo dõi
-                            </button>
-                            <button id="un-follow" class="btn btn-outline-secondary mr-2" style="display:none;">Huy theo
-                                dõi
-                            </button>
-                        </div>
-                    </th:block>
-                </div>
-                <div class="mt-2">
-                    <span th:text="${userDetail.posts.size()} + ' bài viết'">0 bài viết</span> |
-                    <span th:text="${userDetail.countFollower} + ' người theo dõi'">1 người theo dõi</span> |
-                    <span th:text="'Đang theo dõi ' + ${userDetail.countFollowee}">Đang theo dõi 2</span> |
-                    <span th:text="${userDetail.countFriends} + ' bạn bè'">2 bạn bè</span>
-                </div>
-            </div>
+    <div class="profile-header">
+        <div class="profile-detail">
+            <span th:text="${userDetail.fullName}" class="profile-name">Thái Quang Vỹ</span>
+            <th:block th:if="${isUser}">
+                <a th:href="@{/user/edit-profile}" class="btn btn-outline-secondary mr-2">Chỉnh sửa trang cá
+                    nhân</a>
+            </th:block>
+            <th:block th:unless="${isUser}">
+                <button id="add-friend" class="btn btn-outline-secondary mr-2" style="display:none;">Kết
+                    bạn
+                </button>
+                <button id="cancel-request" class="btn btn-outline-secondary mr-2" style="display:none;">Xóa
+                    lời mời
+                </button>
+                <button id="accept-request" class="btn btn-outline-secondary mr-2" style="display:none;">
+                    Chấp nhận
+                </button>
+                <button id="reject-request" class="btn btn-outline-secondary mr-2" style="display:none;">Từ
+                    chối
+                </button>
+                <button id="d-friend" class="btn btn-outline-secondary mr-2" style="display:none;">Xóa bạn
+                    bè
+                </button>
+                <button id="follow" class="btn btn-outline-secondary mr-2" style="display:none;">Theo dõi
+                </button>
+                <button id="un-follow" class="btn btn-outline-secondary mr-2" style="display:none;">Huy theo
+                    dõi
+                </button>
+            </th:block>
         </div>
+        <img th:src="@{__${userDetail.profilePic}__}" alt="Avatar" class="profile-image">
+        <div class="profile-info">
+            <span th:text="${userDetail.posts.size()} + ' bài viết'">0 bài viết</span>
+            <span th:text="${userDetail.countFollower} + ' người theo dõi'">1 người theo dõi</span>
+            <span th:text="'Đang theo dõi ' + ${userDetail.countFollowee}">Đang theo dõi 2</span>
+            <span th:text="${userDetail.countFriends} + ' bạn bè'">2 bạn bè</span>
+            <p style="font-size: 14px; margin-top: 3%" th:text="${userDetail.bio}"></p>
+        </div>
+    </div>
+    <div class="main-content flex-grow-1 p-4">
         <div class="post-section text-center" style="margin-top: 50px" th:if="${isUser}">
             <a class="btn btn-light" style="font-size: 40px" href="/post/create">
                 <i class="fas fa-camera"></i>
@@ -82,20 +79,68 @@
             </svg>
             BÀI VIẾT
         </p>
-        <div class="gallery row mt-4 justify-content-center">
-            <div class="col-4 mb-2" th:each="post :${userDetail.posts}">
-                <a th:href="@{/post/__${post.key.id}__}">
-                    <img th:src="@{__${post.value}__}" class="img-fluid" alt="Post Image">
-                </a>
+        <th:block th:if="${user.id == userDetail.id}">
+            <th:block th:unless="${isPost}">
+                <div class="container-default">
+                    <div class="share-photo">
+                        <div class="icon">
+                            <i class="bi bi-camera"></i>
+                        </div>
+                        <div class="main-text">
+                            Chia sẻ ảnh
+                        </div>
+                        <div class="sub-text">
+                            Khi bạn chia sẻ ảnh, ảnh sẽ xuất hiện trên trang cá nhân của bạn.
+                        </div>
+                        <a href="/post/create" class="link">Chia sẻ ảnh đầu tiên của bạn</a>
+                    </div>
+                </div>
+            </th:block>
+        </th:block>
+        <th:block th:if="${user.id != userDetail.id}">
+            <th:block th:unless="${isPost}">
+                <div class="container-default">
+                    <div class="share-photo">
+                        <div class="icon">
+                            <i class="bi bi-camera"></i>
+                        </div>
+                        <div class="main-text">
+                            Chưa có bài viết
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+        </th:block>
+        <th:block th:if="${isPost}">
+            <div class="gallery row mt-4">
+                <div class="col-4 mb-2" th:each="post :${userDetail.posts}">
+                    <a th:href="@{/post/view/__${post.key.id}__}">
+                        <img th:src="@{__${post.value}__}" class="img-fluid" alt="Post Image">
+                    </a>
+                </div>
             </div>
-            <div class="col-4 mb-2">
-                <img th:src="@{/property/profile/image/file.png}" class="img-fluid" alt="Post Image">
-            </div>
-            <div class="col-4 mb-2">
-                <img th:src="@{/property/profile/image/file.png}" class="img-fluid" alt="Post Image">
-            </div>
-        </div>
+        </th:block>
     </div>
+    <footer class="footer">
+        <div class="container">
+            <ul class="footer-links">
+                <li><a href="#">Meta</a></li>
+                <li><a href="#">Giới thiệu</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Việc làm</a></li>
+                <li><a href="#">Trợ giúp</a></li>
+                <li><a href="#">API</a></li>
+                <li><a href="#">Quyền riêng tư</a></li>
+                <li><a href="#">Điều khoản</a></li>
+                <li><a href="#">Vị trí</a></li>
+                <li><a href="#">Instagram Lite</a></li>
+                <li><a href="#">Threads</a></li>
+                <li><a href="#">Tải thông tin</a></li>
+            </ul>
+            <p>Meta đã xác minh</p>
+            <p>Tiếng Việt &nbsp; © 2024 Instagram from Meta</p>
+        </div>
+    </footer>
 </div>
 <div id="user" th:attr="data-id=${user.id}"></div>
 <div id="userDetail" th:attr="data-id=${userDetail.id}"></div>
