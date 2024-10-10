@@ -17,13 +17,14 @@ body {
 
 .post-image {
     flex: 1; /* Chiếm 50% chiều rộng */
-    max-width: 45%; /* Chiếm 50% chiều rộng */
+    max-width: 40%; /* Chiếm 50% chiều rộng */
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 
  img {
     width: 100%;
@@ -90,8 +91,14 @@ body {
 
 
 }
-
+.comment-content span {
+    display: inline-block;
+    max-width: 100%; /* Đảm bảo chiều rộng tối đa không vượt quá khung cha */
+    word-wrap: break-word;
+    white-space: normal;
+}
 .comment-content {
+    width: 80%;
     background: #f0f2f5;
     padding: 10px;
     border-radius: 8px;
