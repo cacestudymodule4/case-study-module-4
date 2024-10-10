@@ -4,6 +4,7 @@ import org.example.case_study_module_4.model.Follow;
 import org.example.case_study_module_4.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,6 +13,10 @@ import java.util.List;
 public interface FollowRepository extends JpaRepository<Follow, Long> {
     @Query("SELECT f.followee FROM Follow f WHERE f.follower.id = :followerId")
     List<User> findFolloweeByFollower(Long followerId);
+
     @Query("SELECT f.follower FROM Follow f WHERE f.followee.id = :followeeId")
     List<User> findFollowerByFollowee(Long followeeId);
+
+    @Query("SELECT f FROM Follow f WHERE f.follower.id = :followerId AND f.followee.id = :followeeId")
+    Follow findByFollowerAndFollowee(@Param("followerId") Long followerId, @Param("followeeId") Long followeeId);
 }

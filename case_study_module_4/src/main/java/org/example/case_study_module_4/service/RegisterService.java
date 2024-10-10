@@ -26,6 +26,7 @@ public class RegisterService {
         }
         String username = user.getEmail().replaceAll("@.*", "");
         user.setUsername(username);
+        user.setProfilePic("https://bizweb.dktcdn.net/100/363/455/articles/aa764fc66c05b85be114-3fa80f6c-ec4d-4d16-9784-eb3f250ca551.jpg?v=1697101218753");
         User newUser = userRepository.save(user);
         Role role = new Role();
         role.setUser(newUser);
