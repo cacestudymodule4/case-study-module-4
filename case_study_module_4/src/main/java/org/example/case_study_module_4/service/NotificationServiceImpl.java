@@ -21,4 +21,14 @@ public class NotificationServiceImpl implements NotificationService {
         notification.setPost(post);
         notificationRepository.save(notification);
     }
+
+    @Override
+    public void sendCommentNotification(User sender, Post post) {
+        Notification notification = new Notification();
+        notification.setMessage(sender.getUsername() + " comment your post.");
+        notification.setRecipient(post.getUser());
+        notification.setSender(sender);
+        notification.setPost(post);
+        notificationRepository.save(notification);
+    }
 }
