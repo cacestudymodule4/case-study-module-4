@@ -24,4 +24,5 @@ public class Like {
     @ManyToOne
     @JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "fk_like_user"))
     private User user;
+    private boolean isLiked;
 }
