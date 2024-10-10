@@ -8,7 +8,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <<<<<<< HEAD
+    <link rel="stylesheet" th:href="@{/property/detail_page/view_post.css}">
+    =======
     <link rel="stylesheet" th:href="@{/property/view_post/detail.css}">
+    >>>>>>> 1df03e6a6b68e0ac415c4f4924216287ffce15bd
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
@@ -171,24 +175,70 @@
                 content: content
             }),
             success: function (data) {
+                document.getElementById('comment').value = "";
                 displayComment(data);
             }
         });
     }
 
+    function formatCurrentDate() {
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+        const day = String(currentDate.getDate()).padStart(2, '0');
+        const hours = String(currentDate.getHours()).padStart(2, '0');
+        const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+        const seconds = String(currentDate.getSeconds()).padStart(2, '0');
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.0`;
+    }
+
     function displayComment(data) {
-        console.log(data.createdAt)
         $('.comment-list').prepend(`
           <div class="comment">
-                <img src="${data.user.profilePic}"
+             <img src="${data.user.profilePic}"
                      style="object-fit: cover" alt="User Avatar">
                 <div class="comment-content">
-                    <strong>${data.user.fullName}</strong> <span>${data.content}</span>
-                    <div class="time-like ">
-                        <span class="day ml-3">${data.createdAt}</span>
+                    <strong>${data.user.fullName}</strong>
+                    <span>${data.content}</span>
+                    <div class="time-like">
+                        <span class="day ml-3">${formatCurrentDate()}</span>
                         <span class="like ml-3"> 12 lượt thích </span>
                         <span class="answer ml-3">Trả lời</span>
                         <a href=""><i class="fa-solid fa-heart icon-comment" style="color:#737373"></i></a>
+                    </div>
+                </div>
+                <a href="" data-bs-toggle="modal" data-bs-target="'#modal-' + ${data.id}"
+                   style="margin-left: -4%">
+                    <i class="fa-solid fa-ellipsis"></i>
+                </a>
+                <div class="modal fade" id="'modal-' + ${data.id}" tabindex="-1"
+                     aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <a href="#">
+                                    <div class="modal-a a1 text-center">
+                                        Chỉnh sửa
+                                    </div>
+                                </a>
+                                <a href="#">
+                                    <div class="modal-a text-center">
+                                        Xoá
+                                    </div>
+                                </a>
+                                <a href="#">
+                                    <div class="modal-a text-center">
+                                        Báo cáo
+                                    </div>
+                                </a>
+                                <a href="#" data-bs-dismiss="modal">
+                                    <div class="modal-a a1 text-center">
+                                        Huỷ
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>`);
