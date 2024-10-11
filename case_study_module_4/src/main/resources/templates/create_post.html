@@ -7,18 +7,16 @@
     <link rel="stylesheet" th:href="@{/property/profile/css/create-post.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@3.0.3/dist/index.min.js"></script>
 </head>
 <body>
 <div class="post-container">
     <div class="post-header">
-        <img th:src="@{${user.getProfilePic()}}" alt="User Profile">
+        <img th:src="@{__${user.profilePic}__}" alt="User Profile">
         <div class="user-info">
             <span class="username" th:text="${user.fullName}">Kay Thai</span><br>
             <span class="post-visibility" th:text="${user.email}">Friends</span>
         </div>
-    </div>
-    <div class="post-title">
-        <label for="title"></label><input type="text" placeholder="Share your feelings" id="title" name="title">
     </div>
     <div class="post-input">
         <label for="content"></label><textarea placeholder="What's on your mind?" id="content"
@@ -28,20 +26,31 @@
         <label for="media" class="camera">
             <img src="https://img.icons8.com/ios-filled/50/000000/camera.png" alt="Camera Icon">
         </label>
-        <input type="file" id="media" accept="image/*" multiple onchange="previewImages(event)" name="media" required>
+        <input type="file" id="media" accept="image/*" multiple onchange="previewImages(event)" name="media">
         <div id="image-preview-container"></div>
     </div>
     <div class="post-footer">
         <div class="icons">
             <img src="https://img.icons8.com/?size=100&id=13800&format=png&color=000000" alt="Location Icon">
             <img src="https://img.icons8.com/color/48/000000/tag.png" alt="Tag Icon">
-            <img src="https://img.icons8.com/color/48/000000/happy.png" alt="Emoji Icon">
+            <a href="#" style="font-size: 30px; margin-right:5px; text-decoration: none" id="emoji-btn">🙂</a>
         </div>
-        <button type="submit">Post</button>
+        <button id="post" disabled>Post</button>
     </div>
 </div>
 <script>
+    const picker = new EmojiButton();
+    const button = document.querySelector('#emoji-btn');
+    const input = document.querySelector('#content');
+    button.addEventListener('click', () => {
+        picker.togglePicker(button);
+    });
+    picker.on('emoji', emoji => {
+        input.value += emoji;
+    });
+
     function previewImages(event) {
+        $('#post').prop("disabled", false);
         const files = event.target.files;
         const previewContainer = document.getElementById('image-preview-container');
         previewContainer.innerHTML = '';
@@ -54,13 +63,15 @@
             }
             reader.readAsDataURL(file);
         });
+        if (files.length == 0) {
+            $('#post').prop("disabled", true);
+        }
     }
 
     $(function () {
         $("button[type='submit']").click(function (event) {
             event.preventDefault();
             const formData = new FormData();
-            formData.append('title', $("#title").val());
             formData.append('content', $("#content").val());
             const files = $("#media")[0].files;
             for (let i = 0; i < files.length; i++) {

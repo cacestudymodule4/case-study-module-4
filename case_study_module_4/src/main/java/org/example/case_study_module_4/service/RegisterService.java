@@ -21,9 +21,6 @@ public class RegisterService {
 
     public void registerUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if (user.getEmail() == null || user.getEmail().isEmpty()) {
-            throw new IllegalArgumentException("Email cannot be null or empty");
-        }
         String username = user.getEmail().replaceAll("@.*", "");
         user.setUsername(username);
         user.setProfilePic("https://bizweb.dktcdn.net/100/363/455/articles/aa764fc66c05b85be114-3fa80f6c-ec4d-4d16-9784-eb3f250ca551.jpg?v=1697101218753");

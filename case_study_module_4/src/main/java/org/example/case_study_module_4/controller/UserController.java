@@ -3,6 +3,8 @@ package org.example.case_study_module_4.controller;
 import org.example.case_study_module_4.DTO.UserDTO;
 import org.example.case_study_module_4.model.User;
 import org.example.case_study_module_4.service.*;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +29,13 @@ public class UserController {
 
     @GetMapping("/user/{id}")
     public String user(@PathVariable("id") Long id, Principal principal, Model model) {
-        User user = userService.findUserByEmail(principal.getName());
+        User user;
+        if (principal instanceof OAuth2AuthenticationToken) {
+            OAuth2User oAuth2User = ((OAuth2AuthenticationToken) principal).getPrincipal();
+            user = userService.findUserByEmail(oAuth2User.getAttribute("email"));
+        } else {
+            user = userService.findUserByEmail(principal.getName());
+        }
         User otherUsers = userService.findUserById(id);
         if (user.getId() == otherUsers.getId()) {
             model.addAttribute("isUser", true);
@@ -48,7 +56,13 @@ public class UserController {
     @GetMapping("/user/edit-profile")
     public ModelAndView editProfile(Principal principal, Model model) {
         ModelAndView modelAndView = new ModelAndView("profile_detail");
-        User user = userService.findUserByEmail(principal.getName());
+        User user;
+        if (principal instanceof OAuth2AuthenticationToken) {
+            OAuth2User oAuth2User = ((OAuth2AuthenticationToken) principal).getPrincipal();
+            user = userService.findUserByEmail(oAuth2User.getAttribute("email"));
+        } else {
+            user = userService.findUserByEmail(principal.getName());
+        }
         UserDTO userDTO = userDTOService.getUserDTO(user);
         model.addAttribute("user", userDTO);
         return modelAndView;

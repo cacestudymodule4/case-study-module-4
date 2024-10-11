@@ -7,6 +7,8 @@ import org.example.case_study_module_4.service.NotificationService;
 import org.example.case_study_module_4.service.PostService;
 import org.example.case_study_module_4.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -32,7 +34,13 @@ public class LikeRestfulController {
 
     @PostMapping("/{id}")
     public ResponseEntity<?> like(@PathVariable("id") Long postId, Principal principal) {
-        User user = userService.findUserByEmail(principal.getName());
+        User user;
+        if (principal instanceof OAuth2AuthenticationToken) {
+            OAuth2User oAuth2User = ((OAuth2AuthenticationToken) principal).getPrincipal();
+            user = userService.findUserByEmail(oAuth2User.getAttribute("email"));
+        } else {
+            user = userService.findUserByEmail(principal.getName());
+        }
         Post post = postService.findPostById(postId);
         Post postLike = likeService.updateLike(postId, user.getId());
         if (postLike!=null && !Objects.equals(user.getId(), post.getUser().getId())) {
@@ -43,7 +51,13 @@ public class LikeRestfulController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getLike(@PathVariable("id") Long postId, Principal principal) {
-        User user = userService.findUserByEmail(principal.getName());
+        User user;
+        if (principal instanceof OAuth2AuthenticationToken) {
+            OAuth2User oAuth2User = ((OAuth2AuthenticationToken) principal).getPrincipal();
+            user = userService.findUserByEmail(oAuth2User.getAttribute("email"));
+        } else {
+            user = userService.findUserByEmail(principal.getName());
+        }
         boolean liked = likeService.isLikedByUser(postId, user.getId());
         Long countLike = likeService.countLikes(postId);
         Map<String, Object> response = new HashMap<>();

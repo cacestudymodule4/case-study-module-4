@@ -10,6 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@3.0.3/dist/index.min.js"></script>
 </head>
 <body>
 <div class="container-fluid chat-container">
@@ -83,13 +84,24 @@
             <input type="text" placeholder="Type a message..." id="message" onkeydown="handleEnterPress(event)"
                    oninput="checkInput()">
             <i class="fas fa-camera"></i>
-            <i class="fas fa-heart"></i>
+            <a href="#" style="font-size: 30px; margin-right:5px; text-decoration: none" id="emoji-btn">🙂</a>
             <button id="send" disabled>Send</button>
         </div>
     </div>
 </div>
 <div id="user" th:attr="data-email=${user.email}, data-id=${user.id}, data-username=${user.username}"></div>
 <script>
+    const picker = new EmojiButton();
+    const button = document.querySelector('#emoji-btn');
+    const input = document.querySelector('#message');
+    button.addEventListener('click', () => {
+        picker.togglePicker(button);
+    });
+    picker.on('emoji', emoji => {
+        input.value += emoji;
+        $('#send').prop('disabled', false);
+    });
+
     function checkInput() {
         const input = document.getElementById("message");
         const sendButton = document.getElementById("send");

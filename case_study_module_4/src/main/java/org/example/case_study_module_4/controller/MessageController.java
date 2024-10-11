@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,7 +40,13 @@ public class MessageController {
 
     @GetMapping("/message")
     public String message(Principal principal, Model model) {
-        User user = userService.findUserByEmail(principal.getName());
+        User user;
+        if (principal instanceof OAuth2AuthenticationToken) {
+            OAuth2User oAuth2User = ((OAuth2AuthenticationToken) principal).getPrincipal();
+            user = userService.findUserByEmail(oAuth2User.getAttribute("email"));
+        } else {
+            user = userService.findUserByEmail(principal.getName());
+        }
         model.addAttribute("user", user);
         List<User> friends = friendshipService.getFriends(user);
         model.addAttribute("friends", friends);

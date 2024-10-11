@@ -37,7 +37,7 @@ public class PostDTOServiceImpl implements PostDTOService {
         for (Post p : posts) {
             List<Media> mediaList = mediaRepository.findByPostId(p.getId());
             int likes = likeRepository.findByPostId(p.getId()).size();
-            List<Comment> comments = commentRepository.findByPost(p.getId());
+            List<Comment> comments = commentRepository.findByPostId(p.getId());
             postDTOs.add(new PostDTO(mediaList, p, p.getUser(), likes, comments));
         }
         return postDTOs;
@@ -47,7 +47,7 @@ public class PostDTOServiceImpl implements PostDTOService {
     public PostDTO getPostDTO(Post post) {
         List<Media> mediaList = mediaRepository.findByPostId(post.getId());
         int likes = likeRepository.findByPostId(post.getId()).size();
-        List<Comment> comments = commentRepository.findByPost(post.getId());
+        List<Comment> comments = commentRepository.findByPostId(post.getId());
         return new PostDTO(mediaList, post, post.getUser(), likes, comments);
     }
 }

@@ -3,6 +3,8 @@ package org.example.case_study_module_4.controller;
 import org.example.case_study_module_4.DTO.PostDTO;
 import org.example.case_study_module_4.model.User;
 import org.example.case_study_module_4.service.*;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +24,13 @@ public class HomeController {
 
     @GetMapping("/home")
     public String home(Principal principal, Model model) {
-        String email = principal.getName();
-        User user = userService.findUserByEmail(email);
+        User user;
+        if (principal instanceof OAuth2AuthenticationToken) {
+            OAuth2User oAuth2User = ((OAuth2AuthenticationToken) principal).getPrincipal();
+            user = userService.findUserByEmail(oAuth2User.getAttribute("email"));
+        } else {
+            user = userService.findUserByEmail(principal.getName());
+        }
         model.addAttribute("user", user);
         List<User> top4User = userService.findTop4User();
         model.addAttribute("top4User", top4User);

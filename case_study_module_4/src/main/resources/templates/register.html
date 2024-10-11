@@ -18,7 +18,7 @@
     <div class=" text-center " style="margin-top: 2%">
         <div class="d-flex flex-column w-50 left_sig_in" style="margin-left: 38%">
             <div class="p-4 border rounded left-main " style="width: 50%">
-                <form action="/register" method="post">
+                <form action="/register" method="post" th:object="${user}">
                     <h2 class="mb-4">𝓥𝓷𝓰𝓻𝓪𝓶</h2>
                     <div class="mb-3">
                         <span class="sing_in_face" style="color:#737373 ;">Đăng ký để xem ảnh và video từ bạn bè.</span>
@@ -39,21 +39,31 @@
                     <div class="mb-3">
                         <label>
                             <input type="text" class="form-control input-custom "
-                                   placeholder="Tên đầy đủ" name="fullName" required>
+                                   placeholder="Tên đầy đủ" name="fullName" required th:field="*{fullName}">
                         </label>
                     </div>
+                    <th:block th:if="${emailError != null}">
+                        <div>
+                            <span th:text="${emailError}" style="font-size: 14px; color: red"></span>
+                        </div>
+                    </th:block>
                     <div class="mb-3">
                         <label>
                             <input type="text" class="form-control input-custom "
-                                   placeholder="Số điện thoại hoặc email" name="email" required>
+                                   placeholder="Số điện thoại hoặc email" name="email" required th:field="*{email}">
                         </label>
                     </div>
                     <div class="mb-3">
                         <label>
                             <input type="password" class="form-control input-custom " placeholder="Mật khẩu"
-                                   name="password" required>
+                                   name="password" required th:value="${password}">
                         </label>
                     </div>
+                    <th:block th:if="${passwordError != null}">
+                        <div>
+                            <span th:text="${passwordError}" style="font-size: 14px; color: red"></span>
+                        </div>
+                    </th:block>
                     <div class="mb-3">
                         <label>
                             <input type="password" class="form-control input-custom " placeholder="Nhập lại Mật khẩu"

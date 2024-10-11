@@ -13,13 +13,15 @@
 </head>
 <body>
 <div class="container-fluid main-container ">
-    <div class="sidebar-left">
-        <h3 class="mb-3">𝓥𝓷𝓰𝓻𝓪𝓶</h3>
-        <a class="link-icon ms-3" href=""><i class="fa-brands fa-instagram home icons2"></i><span>Trang chủ</span></a>
-        <a class="link-icon" href=""> <i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
-        <a class="link-icon" href="/notification"> <i class="far fa-heart icons2" title="Likes"></i><span>Thông báo</span></a>
+    <div class="sidebar-left" style="width: 15%;margin-top: -3%;">
+        <a href="/home"><h3 class="mb-3">𝓥𝓷𝓰𝓻𝓪𝓶</h3></a>
+        <a class="link-icon ms-3" href="/home"><i class="fa-brands fa-instagram home icons2"></i><span>Trang chủ</span></a>
+        <a class="link-icon" href=""><i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
+        <a class="link-icon" href="/notification"><i class="far fa-heart icons2"
+                                                     title="Likes"></i><span>Thông báo</span></a>
         <a class="link-icon" href="/message"> <i class="fa-regular fa-message icons2"></i><span>Tin nhắn</span></a>
-        <a class="link-icon" href=""> <i class="far fa-user icons2" title="Profile"></i><span>Trang cá nhân</span></a>
+        <a class="link-icon" th:href="@{/user/__${user.id}__}"><i class="far fa-user icons2"
+                                                                  title="Profile"></i><span>Trang cá nhân</span></a>
         <a class="link-icon" style="margin-top: 100%" href="/logout"><i
                 class="fa-solid fa-arrow-right-from-bracket icons2"
                 title="Logout"></i><span>Đăng xuất</span></a>
@@ -87,7 +89,7 @@
         $.ajax({
             url: 'http://localhost:8080/api/notification/update/' + notiId,
             method: 'PUT',
-            data: {isRead : true},
+            data: {isRead: true},
             success: (response) => {
                 console.log("Notification updated successfully");
                 window.location.href = $(event.target).closest('a').attr('href');
