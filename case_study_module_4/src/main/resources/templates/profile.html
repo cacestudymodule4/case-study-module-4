@@ -16,12 +16,20 @@
     <div class="sidebar-left" style="width: 15%;margin-top: -3%;">
         <a href="/home"><h3 class="mb-3">𝓥𝓷𝓰𝓻𝓪𝓶</h3></a>
         <a class="link-icon ms-3" href="/home"><i class="fa-brands fa-instagram home icons2"></i><span>Trang chủ</span></a>
-        <a class="link-icon" href=""><i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
-        <a class="link-icon" href=""><i class="far fa-heart icons2" title="Likes"></i><span>Thông báo</span></a>
-        <a class="link-icon" href="/message"> <i class="fa-regular fa-message icons2"></i><span>Tin nhắn</span></a>
-        <a class="link-icon" th:href="@{/user/__${user.id}__}"><i class="far fa-user icons2"
-                                                                  title="Profile"></i><span>Trang cá nhân</span></a>
-        <a class=" link-icon" style="margin-top: 100%" href="/logout"><i
+        <a class=" link-icon" href=""> <i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
+        <a class=" link-icon notification" href="">
+            <i class="far fa-heart icons2" title="Likes"></i>
+            <span>Thông báo</span>
+            <span class="notification-badge">6</span>
+        </a>
+        <a class=" link-icon notification" href="/message">
+            <i class="fa-regular fa-message icons2"></i>
+            <span>Tin nhắn</span>
+            <span class="notification-badge">5</span>
+        </a>
+        <a class=" link-icon" th:href="@{/user/__${user.id}__}" style="color: #0c6efd"><i class="far fa-user icons2"
+                                                                                          title="Profile"></i><span>Trang cá nhân</span></a>
+        <a class=" link-icon" style="margin-top: 70%" href="/logout"><i
                 class="fa-solid fa-arrow-right-from-bracket icons2"
                 title="Logout"></i><span>Đăng xuất</span></a>
     </div>
@@ -29,8 +37,8 @@
         <div class="profile-detail">
             <span th:text="${userDetail.fullName}" class="profile-name">Thái Quang Vỹ</span>
             <th:block th:if="${isUser}">
-                <a th:href="@{/user/edit-profile}" class="btn btn-outline-secondary mr-2">Chỉnh sửa trang cá
-                    nhân</a>
+                <a th:href="@{/user/edit-profile}" class="btn btn-outline-secondary mr-2">Chỉnh sửa trang cá nhân</a>
+                <a th:href="@{/user/change-password}" class="btn btn-outline-secondary mr-2">Đổi mật khẩu</a>
             </th:block>
             <th:block th:unless="${isUser}">
                 <button id="add-friend" class="btn btn-outline-secondary mr-2" style="display:none;">Kết

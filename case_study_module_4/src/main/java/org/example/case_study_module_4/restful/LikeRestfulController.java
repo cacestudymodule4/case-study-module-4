@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/like")
@@ -42,7 +43,7 @@ public class LikeRestfulController {
         }
         Post post = postService.findPostById(postId);
         Post postLike = likeService.updateLike(postId, user.getId());
-        if (postLike!=null) {
+        if (postLike!=null && !Objects.equals(user.getId(), post.getUser().getId())) {
             notificationService.sendLikeNotification(user, post);
         }
         return ResponseEntity.ok().build();

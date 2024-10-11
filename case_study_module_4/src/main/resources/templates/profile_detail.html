@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" th:href="@{/property/profile/css/profile-detail.css}">
     <style>
         #imageInput {
@@ -29,20 +30,25 @@
 <body>
 <div class="container-fluid main-container">
     <div class="sidebar-left" style="width: 15%;margin-top: -3%;">
-        <a href="/home"><h3 class="mb-3">𝓥𝓷𝓰𝓻𝓪𝓶</h3></a>
+        <h3 class="mb-3">𝓥𝓷𝓰𝓻𝓪𝓶</h3>
         <a class="link-icon ms-3" href="/home"><i class="fa-brands fa-instagram home icons2"></i><span>Trang chủ</span></a>
-        <a class="link-icon" href=""><i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
-        <a class="link-icon" href=""><i class="far fa-heart icons2" title="Likes"></i><span>Thông báo</span></a>
-        <a class="link-icon" href="/message"> <i class="fa-regular fa-message icons2"></i><span>Tin nhắn</span></a>
-        <a class="link-icon" th:href="@{/user/__${user.id}__}"><i class="far fa-user icons2"
-                                                                  title="Profile"></i><span>Trang cá nhân</span></a>
-        <a class=" link-icon" style="margin-top: 100%" href="/logout"><i
-                class="fa-solid fa-arrow-right-from-bracket icons2"
-                title="Logout"></i><span>Đăng xuất</span></a>
+        <a class="link-icon" href=""> <i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
+        <a class="link-icon notification" href="">
+            <i class="far fa-heart icons2" title="Likes"></i>
+            <span>Thông báo</span>
+            <span class="notification-badge">5</span>
+        </a>
+        <a class="link-icon notification" href="/message">
+            <i class="fa-regular fa-message icons2"></i>
+            <span>Tin nhắn</span>
+            <span class="notification-badge">5</span>
+        </a>
+        <a class="link-icon" th:href="@{/user/__${user.id}__}"> <i class="far fa-user icons2" title="Profile"></i><span>Trang cá nhân</span></a>
+        <a class="link-icon" style="margin-top: 100%" href="/logout"> <i class="fa-solid fa-arrow-right-from-bracket icons2"
+                                                                   title="Logout"></i><span>Đăng xuất</span></a>
     </div>
     <div class="main-container2">
         <div class="container">
-            <form th:action="@{/user/edit-profile}" method="post" enctype="multipart/form-data">
                 <h2>Chỉnh sửa trang cá nhân</h2>
                 <div class="profile-header">
                     <img id="profilePicture" name="profilePictrue" th:src="@{${user.profilePic}}" alt="Profile Picture">
@@ -56,27 +62,13 @@
                 </div>
                 <div class="form-group">
                     <label for="name">Tên</label>
-                    <input type="text" id="name" name="name" placeholder="Tên của bạn" th:value="${user.fullName}">
+                    <input type="text" id="name" name="name" placeholder="Tên của bạn" th:value="${user.fullName}" required>
                 </div>
                 <div class="form-group">
                     <label for="bio">Tiểu sử</label>
-                    <textarea id="bio" name="bio" rows="3" placeholder="Mô tả ngắn về bản thân..."
-                              th:text="${user.bio}"></textarea>
+                    <textarea id="bio" name="bio" rows="3" placeholder="Mô tả ngắn về bản thân..." th:text="${user.bio}" required></textarea>
                 </div>
-                <div class="form-group">
-                    <label for="password">Mật khẩu mới</label>
-                    <input type="password" id="password" name="password" placeholder="Nhập mật khẩu mới">
-                </div>
-                <div class="form-group">
-                    <label for="confirm-password">Xác nhận mật khẩu</label>
-                    <input type="password" id="confirm-password" name="confirm-password"
-                           placeholder="Xác nhận mật khẩu mới">
-                </div>
-                <div class="form-group">
-                    <p id="text-validate"></p>
-                </div>
-                <button type="submit" class="save-btn">Lưu thay đổi</button>
-            </form>
+                <button type="submit" class="save-btn" id="saveUpdate">Lưu thay đổi</button>
             <div class="footer" style="font-size: small; text-align:center; margin-top: 40px">
                 <div>
                     <a class="support" href="">Meta</a>
@@ -105,25 +97,87 @@
 <script>
     $("#imageInput").on('change', (event) => {
         const file = event.target.files[0];
+        let formData = new FormData();
         if (file) {
+            formData.append("profilePicture", file)
             const reader = new FileReader();
             reader.onload = function (e) {
                 $('#profilePicture').attr('src', e.target.result);
             }
             reader.readAsDataURL(file);
+
+            Swal.fire({
+                title: 'Uploading...',
+                text: 'Please wait while your files are being uploaded.',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            $.ajax({
+                url: "http://localhost:8080/api/user/update-avatar",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: () => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Your files have been uploaded successfully.',
+                    })
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'There was an error uploading your files.',
+                    });
+                }
+            })
         }
     })
 
-    $("form").on("submit", function (event) {
-        const password = $("#password").val();
-        const confirmPassword = $("#confirm-password").val();
-        if (password === "") {
-            event.preventDefault();
-            $("#text-validate").addClass("text-danger").html("Mật khẩu không được để trống")
-        } else if (password != confirmPassword) {
-            event.preventDefault();
-            $("#text-validate").addClass("text-danger").html("Mật khẩu không khớp")
-        }
+    $("#saveUpdate").on("click", (event) => {
+        const name = $("#name").val();
+        const bio = $("#bio").val();
+
+        let formData = new FormData();
+        formData.append("name", name);
+        formData.append("bio", bio);
+
+        Swal.fire({
+            title: 'Uploading...',
+            text: 'Please wait while your files are being uploaded.',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        $.ajax({
+            url: "http://localhost:8080/api/user/update-info",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: () => {
+                $(".fullname").html(name)
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Your files have been uploaded successfully.',
+                })
+            },
+            error: () => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'There was an error uploading your files.',
+                });
+            }
+        })
     })
 </script>
 </body>

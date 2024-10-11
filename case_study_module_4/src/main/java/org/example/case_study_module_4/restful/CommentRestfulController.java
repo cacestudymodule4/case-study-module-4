@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/comment")
@@ -49,7 +50,9 @@ public class CommentRestfulController {
         comment.setUser(user);
         comment.setPost(commentRequest.getPost());
         comment = commentService.createComment(comment);
-        notificationService.sendCommentNotification(user, post);
+        if (!Objects.equals(user.getId(), comment.getUser().getId())) {
+            notificationService.sendCommentNotification(user, post);
+        }
         return ResponseEntity.ok(comment);
     }
 
