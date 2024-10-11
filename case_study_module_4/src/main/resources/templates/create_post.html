@@ -11,7 +11,7 @@
 <body>
 <div class="post-container">
     <div class="post-header">
-        <img src="https://via.placeholder.com/40" alt="User Profile">
+        <img th:src="@{${user.getProfilePic()}}" alt="User Profile">
         <div class="user-info">
             <span class="username" th:text="${user.fullName}">Kay Thai</span><br>
             <span class="post-visibility" th:text="${user.email}">Friends</span>
