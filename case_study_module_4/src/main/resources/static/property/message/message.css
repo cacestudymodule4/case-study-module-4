@@ -51,7 +51,7 @@ a{
 
 .friend-item img {
     width: 40px;
-    height: 40px;
+    height: 50px;
     border-radius: 50%;
     margin-right: 10px;
 }
@@ -204,13 +204,23 @@ a{
     display: block;
 }
 .message-default{
+    margin-right: -350%;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column ;
+    justify-content: center ;
+    align-items: center ;
 }
+
 .chat-input input{
     outline: none !important; /* Ghi đè các quy tắc khác từ Bootstrap */
     border-color: #cfd4da;
     box-shadow: none !important;
+}
+.message-content{
+    max-width: 60% !important;
+}
+.message-content span{
+    max-width: 60%;
+    word-wrap: break-word;
+    word-break: break-all;
 }
