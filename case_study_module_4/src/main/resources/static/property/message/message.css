@@ -97,7 +97,6 @@ a {
 
 .message-content {
     max-width: 60%;
-
     padding: 10px 15px;
     background-color: #fff;
     border-radius: 20px;
@@ -192,7 +191,6 @@ a {
 
 .icons:hover {
     transform: scale(1.1);
-    color: #007bff;
 }
 
 .text-message {
