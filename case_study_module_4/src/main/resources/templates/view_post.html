@@ -37,12 +37,13 @@
     </div>
     <div class="comment-section">
         <div class="post-header d-flex justify-content-between">
-            <div><img th:src="@{__${post.user.profilePic}__}" style="object-fit: cover"
-                      alt="User Avatar">
-                <span style="font-size: 16px;font-weight: bold" th:text="${post.user.fullName}"></span></div>
-            <a href="/home" style="margin-bottom: 40px">
-                <i class="fa-solid fa-x"></i>
+            <a th:href="@{/user/__${user.id}__}">
+                <div><img th:src="@{__${post.user.profilePic}__}" style="object-fit: cover"
+                          alt="User Avatar">
+                    <span style="font-size: 16px;font-weight: bold" th:text="${post.user.fullName}"></span></div>
             </a>
+            <a href="/home" style="margin-bottom: 40px">
+                <i class="fa-solid fa-x"></i></a>
         </div>
         <div class="story" style="font-size: 15px" th:text="${post.post.title}">
             đây là một câu chuyện cảm động nhà quý vị ơi

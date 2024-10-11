@@ -6,7 +6,7 @@ body {
 
 .container {
     margin-top: 20px;
-    margin-left: 30%;
+    margin-left: 37%;
     max-width: 700px;
     background-color: white;
     padding: 20px;
@@ -102,13 +102,12 @@ h2 {
 
 .sidebar-left {
     position: fixed;
-    top: 60px;
     left: 0;
     border-right: 1px solid #ddd;
     height: 100vh;
     padding-top: 20px;
     background-color: #fff;
-    width: 80px;
+    width: 15%;
     z-index: 1000;
 }
 

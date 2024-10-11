@@ -4,15 +4,14 @@ body {
     padding-top: 60px;
 }
 
-.main-content {
-    margin-left: 30%;
-    max-width: 800px;
-    margin-top: 20px;
+.main-container {
+    position: absolute;
 }
 
 .mt-2 {
-    font-size: 15px;
+    font-size: 12px;
 }
+
 
 .sidebar-left {
     position: fixed;
@@ -43,6 +42,24 @@ body {
     text-decoration: none !important;
 }
 
+.img {
+    object-fit: cover;
+}
+
+.gallery img {
+    margin-top: 5%;
+    width: 100%;
+    height: auto;
+    max-height: 300px; /* Giới hạn chiều cao */
+    object-fit: cover; /* Giữ tỷ lệ và cắt bớt phần thừa nếu cần */
+    aspect-ratio: 16 / 9; /* Thiết lập tỷ lệ khung hình 16:9 */
+}
+
+.gallery {
+    margin-left: 10%;
+    width: 80%;
+}
+
 .carousel-control-next, .carousel-control-prev {
     justify-content: normal;
 }
@@ -55,7 +72,6 @@ body {
 
 .link-icon span {
     margin-left: 18px;
-    font-weight: bold;
 }
 
 .icons2 {
@@ -66,7 +82,6 @@ body {
 a {
     color: black;
 }
-
 
 h3 {
     margin-top: 15px;
@@ -81,27 +96,74 @@ h3,
     margin-left: 20px !important;
 }
 
-.profile-header img {
-    margin-right: 10%;
+.profile-header {
+    position: relative;
+
+}
+
+.profile-image {
+    position: absolute;
+    margin-left: 40%;
     width: 150px;
     height: 150px;
     border-radius: 50%;
     border: 2px solid #e0e0e0;
 }
 
+.profile-detail {
+    position: absolute;
+    margin-left: 50%;
+}
+
+.profile-info {
+    position: absolute;
+    margin-left: 50%;
+    margin-top: 3%;
+}
+
+.profile-info span {
+    margin-right: 20px; /* Điều chỉnh giá trị margin-right theo nhu cầu */
+    font-size: 16px;
+}
+
+.profile-name {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.profile-detail.btn {
+    margin-left: 10px;
+}
+
+.link-icon a:hover {
+    transform: scale(1.1) !important;
+}
+
+.link-icon:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
 .main-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    margin-top: 10%;
+    margin-left: 18%;
+    max-width: 80%;
+    text-align: center;
 }
 
 .btn-outline-secondary {
+    font-weight: bold;
+    font-size: 14px;
     color: #333;
     border-color: #e0e0e0;
 }
 
 .btn-outline-secondary:hover {
     background-color: #e0e0e0;
+    color: black;
+}
+
+.btn-outline-secondary.btn {
+    margin-left: 8px;
 }
 
 .underline {
@@ -109,4 +171,105 @@ h3,
     height: 2px;
     background-color: #e0e0e0;
     margin: 10px 0;
+}
+
+.share-photo {
+    text-align: center;
+    margin-top: 100px;
+    height: 300px;
+}
+
+.share-photo .icon {
+    font-size: 50px;
+    margin-bottom: 20px;
+    color: #000; /* Đổi màu icon (nếu cần) */
+}
+
+.share-photo .main-text {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.share-photo .sub-text {
+    color: #8e8e8e;
+    margin-bottom: 20px;
+}
+
+.share-photo .link {
+    color: #0095f6;
+    font-weight: bold;
+}
+
+.share-photo .link:hover {
+    text-decoration: underline;
+}
+
+.footer {
+    margin-left: 14%;
+    background-color: #f8f9fa; /* Màu nền nhạt */
+    padding: 20px 0;
+    text-align: center;
+    font-size: 12px;
+    color: #6c757d; /* Màu chữ nhạt */
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 10px 0;
+}
+
+.footer-links li {
+    display: inline;
+    margin: 0 10px;
+}
+
+.footer-links a {
+    color: #6c757d; /* Màu liên kết */
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+.footer p {
+    margin: 5px 0;
+    color: #6c757d;
+}
+
+.share-photo {
+    text-align: center;
+    margin-top: 100px;
+}
+
+.share-photo .icon {
+    font-size: 60px;
+    margin-bottom: 20px;
+    color: #000; /* Đổi màu icon (nếu cần) */
+}
+
+.share-photo .main-text {
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.share-photo .sub-text {
+    color: #8e8e8e;
+    margin-bottom: 20px;
+}
+
+.share-photo .link {
+    color: #0095f6;
+    font-weight: bold;
+}
+
+.share-photo .link:hover {
+    text-decoration: underline;
+}
+#image-preview-container img{
+    height: 500px;
+    width: 500px;
 }
