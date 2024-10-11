@@ -11,33 +11,7 @@
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" th:href="@{/property/view_post/view_post.css}">
     <style>
-        .modal-edit {
-            .custom_dropdown {
-                border: none; /* Loại bỏ viền của nút */
-                background-color: transparent; /* Làm cho nền trong suốt */
-                font-size: 24px; /* Kích thước của biểu tượng */
-                color: #000; /* Màu sắc của biểu tượng */
-                cursor: pointer; /* Hiển thị con trỏ khi hover */
-            }
 
-            .custom_dropdown::after {
-                display: none !important;
-                color: white
-            }
-
-            margin-left: 10% !important;
-            margin-top: 20%;
-        }
-
-        .hide-t {
-            z-index: 10000;
-            bottom: 19%;
-            right: 23%;
-            background-color: #ffffff;
-            position: absolute;
-            width: 7px;
-            height: 7px;
-        }
     </style>
 </head>
 <body>
@@ -166,6 +140,47 @@
                     <li><a class="dropdown-item" href="#">Báo cáo</a></li>
                 </ul>
             </div>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content modal-edit">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel"
+                                style="margin-left: 36%;font-weight: bold">Chỉnh sửa bài viết</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="">
+                            <div class="modal-body ">
+                                <div class="d-flex mb-3 mt-2 ms-2">
+                                    <img src="https://via.placeholder.com/40" alt="Profile Picture"
+                                         class="profile-pic me-2" style="width: 40px;height: 40px;border-radius: 50%">
+                                    <div>
+                                        <h6 class="mb-0" style="font-weight: bold">John Doe</h6>
+                                        <small class="text-muted">Public</small>
+                                    </div>
+                                </div>
+                                <!-- Form chỉnh sửa bài viết -->
+                                <div id="editPostForm">
+                                    <div class="mb-3">
+                                        <textarea class="form-control custom-textarea" id="postContent" rows="10"
+                                                  style="border:none;box-shadow: none;font-size: 20px"></textarea>
+                                    </div>
+                                    <div style=" display: flex;justify-content: flex-end;">
+                                        <a href="" style="margin-right: 5px;margin-bottom: 5px">
+                                            <span style="font-size: 30px"> 😊</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer" style="padding: 0">
+                                <button type="button" class="btn btn-primary"
+                                        style="width: 96%;height: 40px;margin-right: 1.5%">Lưu
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
         </div>
         <div class="input-area">
@@ -176,47 +191,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content modal-edit">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel"
-                    style="margin-left: 36%;font-weight: bold">Chỉnh sửa bài viết</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="">
-                <div class="modal-body ">
-                    <div class="d-flex mb-3 mt-2 ms-2">
-                        <img src="https://via.placeholder.com/40" alt="Profile Picture"
-                             class="profile-pic me-2">
-                        <div>
-                            <h6 class="mb-0" style="font-weight: bold">John Doe</h6>
-                            <small class="text-muted">Public</small>
-                        </div>
-                    </div>
-                    <!-- Form chỉnh sửa bài viết -->
-                    <form id="editPostForm">
-                        <div class="mb-3">
-                                        <textarea class="form-control custom-textarea" id="postContent" rows="10"
-                                                  style="border:none;box-shadow: none;font-size: 20px"></textarea>
-                        </div>
-                        <div style=" display: flex;justify-content: flex-end;">
-                            <a href="" style="margin-right: 5px;margin-bottom: 5px">
-                                <span style="font-size: 30px"> 😊</span>
-                            </a>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer" style="padding: 0">
-                    <button type="button" class="btn btn-primary"
-                            style="width: 96%;height: 40px;margin-right: 1.5%">Lưu
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+
 <div id="post" th:attr="data-id=${post.post.id}"></div>
 <script>
     const postElement = document.getElementById('post');

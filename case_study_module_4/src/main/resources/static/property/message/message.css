@@ -7,9 +7,11 @@ body {
     display: flex;
     flex-direction: row;
 }
-a{
-    color: black ;
+
+a {
+    color: black;
 }
+
 .sidebar {
     background-color: #fff;
     width: 4%;
@@ -203,27 +205,25 @@ a{
 .friend-name, .text-message {
     display: block;
 }
-.message-default{
-<<<<<<< HEAD
-    margin-right: -350%;
-=======
-    margin-top: 25%;
->>>>>>> 5b996f40cb0d8a43da814157e562396658c24b7c
+
+.message-default {
     display: flex;
-    flex-direction: column ;
-    justify-content: center ;
-    align-items: center ;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.chat-input input{
+.chat-input input {
     outline: none !important;
     border-color: #cfd4da;
     box-shadow: none !important;
 }
-.message-content{
+
+.message-content {
     max-width: 60% !important;
 }
-.message-content span{
+
+.message-content span {
     max-width: 60%;
     word-wrap: break-word;
     word-break: break-all;
