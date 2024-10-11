@@ -29,7 +29,8 @@
             <a href="" style="text-decoration: none;">
                 <img class="mb-2" th:src="@{__${user.profilePic}__}"
                      alt="avatar">
-                <span class="mb-2" style="font-size: larger;font-weight: bolder;color: black" th:text="${user.fullName}">
+                <span class="mb-2" style="font-size: larger;font-weight: bolder;color: black"
+                      th:text="${user.fullName}">
                     DaVid ToNy Tèo
                 </span>
 
@@ -44,16 +45,10 @@
                     <div class="d-flex justify-content-between align-items-center w-100">
                         <span th:text="${friend.fullName}" style="font-weight: bold;font-size: large"></span>
                         <span>
-                            <img src="https://static.thenounproject.com/png/944726-200.png "  style="display:none" th:id="'n-message' + ${friend.id}" alt="">
-<!--                        <i class="fa-regular fa-message icons " style="display:none"-->
-<!--                           th:id="'n-message' + ${friend.id}"></i>-->
-
+                            <img src="https://static.thenounproject.com/png/944726-200.png " style="display:none"
+                                 th:id="'n-message' + ${friend.id}" alt="">
                     </span>
-
-
                     </div>
-
-
                 </div>
             </a>
         </th:block>
@@ -70,8 +65,6 @@
             <button class="btn " style="background-color: #0295f6;color:white">Gửi tin nhắn</button>
         </div>
     </div>
-
-
     <div class="chat-box w-50" style="display: none" id="chat-box">
         <div class="chat-header" id="chat-header">
             <div class="friend-item" style="border-bottom: none "><img

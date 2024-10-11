@@ -21,16 +21,18 @@
             }
 
             .custom_dropdown::after {
-                display: none!important;
-               color: white
+                display: none !important;
+                color: white
             }
+
             margin-left: 10% !important;
             margin-top: 20%;
         }
-        .hide-t{
+
+        .hide-t {
             z-index: 10000;
             bottom: 19%;
-          right: 23%;
+            right: 23%;
             background-color: #ffffff;
             position: absolute;
             width: 7px;
@@ -64,54 +66,13 @@
     </div>
     <div class="comment-section">
         <div class="post-header d-flex justify-content-between">
-            <div><img th:src="@{__${post.user.profilePic}__}" style="object-fit: cover"
-                      alt="User Avatar">
-                <span style="font-size: 16px;font-weight: bold" th:text="${post.user.fullName}"></span></div>
-            <a href="/home" style="margin-bottom: 40px">
-                <i class="fa-solid fa-x"></i>
+            <a th:href="@{/user/__${user.id}__}">
+                <div><img th:src="@{__${post.user.profilePic}__}" style="object-fit: cover"
+                          alt="User Avatar">
+                    <span style="font-size: 16px;font-weight: bold" th:text="${post.user.fullName}"></span></div>
             </a>
-
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content modal-edit">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel"
-                                style="margin-left: 36%;font-weight: bold">Chỉnh sửa bài viết</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <form action="">
-                            <div class="modal-body ">
-                                <div class="d-flex mb-3 mt-2 ms-2">
-                                    <img src="https://via.placeholder.com/40" alt="Profile Picture"
-                                         class="profile-pic me-2">
-                                    <div>
-                                        <h6 class="mb-0" style="font-weight: bold">John Doe</h6>
-                                        <small class="text-muted">Public</small>
-                                    </div>
-                                </div>
-                                <!-- Form chỉnh sửa bài viết -->
-                                <form id="editPostForm">
-                                    <div class="mb-3">
-                                        <textarea class="form-control custom-textarea" id="postContent" rows="10"
-                                                  style="border:none;box-shadow: none;font-size: 20px"></textarea>
-                                    </div>
-                                    <div style=" display: flex;justify-content: flex-end;">
-                                        <a href="" style="margin-right: 5px;margin-bottom: 5px">
-                                            <span style="font-size: 30px"> 😊</span>
-                                        </a>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer" style="padding: 0">
-                                <button type="button" class="btn btn-primary"
-                                        style="width: 96%;height: 40px;margin-right: 1.5%">Lưu
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            <a href="/home" style="margin-bottom: 40px">
+                <i class="fa-solid fa-x"></i></a>
         </div>
         <div class="story" style="font-size: 15px" th:text="${post.post.title}">
             đây là một câu chuyện cảm động nhà quý vị ơi
@@ -189,16 +150,18 @@
                     </div>
                 </div>
             </div>
-<div class="hide-t">
+            <div class="hide-t">
 
-</div>
+            </div>
             <div class="dropdown">
-                <a class="dropdown-toggle custom_dropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="dropdown-toggle custom_dropdown" href="#" role="button" data-bs-toggle="dropdown"
+                   aria-expanded="false">
                     <i class="fa-solid fa-bars"></i>
                 </a>
 
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Chỉnh sửa</a></li>
+                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Chỉnh
+                        sửa</a></li>
                     <li><a class="dropdown-item" href="#">Xoá</a></li>
                     <li><a class="dropdown-item" href="#">Báo cáo</a></li>
                 </ul>
@@ -210,6 +173,47 @@
             <input type="text" class="form-control" placeholder="Nhập bình luận..." id="comment"
                    onkeydown="handleEnterPress(event)" oninput="checkInput()">
             <button class="btn btn-primary" id="send" disabled>Gửi</button>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content modal-edit">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel"
+                    style="margin-left: 36%;font-weight: bold">Chỉnh sửa bài viết</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="">
+                <div class="modal-body ">
+                    <div class="d-flex mb-3 mt-2 ms-2">
+                        <img src="https://via.placeholder.com/40" alt="Profile Picture"
+                             class="profile-pic me-2">
+                        <div>
+                            <h6 class="mb-0" style="font-weight: bold">John Doe</h6>
+                            <small class="text-muted">Public</small>
+                        </div>
+                    </div>
+                    <!-- Form chỉnh sửa bài viết -->
+                    <form id="editPostForm">
+                        <div class="mb-3">
+                                        <textarea class="form-control custom-textarea" id="postContent" rows="10"
+                                                  style="border:none;box-shadow: none;font-size: 20px"></textarea>
+                        </div>
+                        <div style=" display: flex;justify-content: flex-end;">
+                            <a href="" style="margin-right: 5px;margin-bottom: 5px">
+                                <span style="font-size: 30px"> 😊</span>
+                            </a>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="padding: 0">
+                    <button type="button" class="btn btn-primary"
+                            style="width: 96%;height: 40px;margin-right: 1.5%">Lưu
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -257,24 +261,70 @@
                 content: content
             }),
             success: function (data) {
+                document.getElementById('comment').value = "";
                 displayComment(data);
             }
         });
     }
 
+    function formatCurrentDate() {
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+        const day = String(currentDate.getDate()).padStart(2, '0');
+        const hours = String(currentDate.getHours()).padStart(2, '0');
+        const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+        const seconds = String(currentDate.getSeconds()).padStart(2, '0');
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.0`;
+    }
+
     function displayComment(data) {
-        console.log(data.createdAt)
         $('.comment-list').prepend(`
           <div class="comment">
-                <img src="${data.user.profilePic}"
+             <img src="${data.user.profilePic}"
                      style="object-fit: cover" alt="User Avatar">
                 <div class="comment-content">
-                    <strong>${data.user.fullName}</strong> <span>${data.content}</span>
-                    <div class="time-like ">
-                        <span class="day ml-3">${data.createdAt}</span>
+                    <strong>${data.user.fullName}</strong>
+                    <span>${data.content}</span>
+                    <div class="time-like">
+                        <span class="day ml-3">${formatCurrentDate()}</span>
                         <span class="like ml-3"> 12 lượt thích </span>
                         <span class="answer ml-3">Trả lời</span>
                         <a href=""><i class="fa-solid fa-heart icon-comment" style="color:#737373"></i></a>
+                    </div>
+                </div>
+                <a href="" data-bs-toggle="modal" data-bs-target="'#modal-' + ${data.id}"
+                   style="margin-left: -4%">
+                    <i class="fa-solid fa-ellipsis"></i>
+                </a>
+                <div class="modal fade" id="'modal-' + ${data.id}" tabindex="-1"
+                     aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <a href="#">
+                                    <div class="modal-a a1 text-center">
+                                        Chỉnh sửa
+                                    </div>
+                                </a>
+                                <a href="#">
+                                    <div class="modal-a text-center">
+                                        Xoá
+                                    </div>
+                                </a>
+                                <a href="#">
+                                    <div class="modal-a text-center">
+                                        Báo cáo
+                                    </div>
+                                </a>
+                                <a href="#" data-bs-dismiss="modal">
+                                    <div class="modal-a a1 text-center">
+                                        Huỷ
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>`);

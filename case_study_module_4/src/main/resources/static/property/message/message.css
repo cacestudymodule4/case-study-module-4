@@ -204,7 +204,11 @@ a{
     display: block;
 }
 .message-default{
+<<<<<<< HEAD
     margin-right: -350%;
+=======
+    margin-top: 25%;
+>>>>>>> 5b996f40cb0d8a43da814157e562396658c24b7c
     display: flex;
     flex-direction: column ;
     justify-content: center ;
@@ -212,7 +216,7 @@ a{
 }
 
 .chat-input input{
-    outline: none !important; /* Ghi đè các quy tắc khác từ Bootstrap */
+    outline: none !important;
     border-color: #cfd4da;
     box-shadow: none !important;
 }

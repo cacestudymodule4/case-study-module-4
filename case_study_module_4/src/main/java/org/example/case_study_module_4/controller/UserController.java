@@ -35,6 +35,11 @@ public class UserController {
             model.addAttribute("isUser", false);
         }
         UserDTO userDTO = userDTOService.getUserDTO(otherUsers);
+        if (!userDTO.getPosts().isEmpty()) {
+            model.addAttribute("isPost", true);
+        } else {
+            model.addAttribute("isPost", false);
+        }
         model.addAttribute("user", user);
         model.addAttribute("userDetail", userDTO);
         return "profile";
