@@ -30,7 +30,7 @@
             <a href="" style="text-decoration: none;">
                 <img class="mb-2" th:src="@{__${user.profilePic}__}"
                      alt="avatar">
-                <span class="mb-2" style="font-size: larger;font-weight: bolder;color: black"
+                <span class="mb-2" style="font-size: large; color: black"
                       th:text="${user.fullName}">
                     DaVid ToNy Tèo
                 </span>
@@ -43,7 +43,7 @@
                     <img th:src="@{__${friend.profilePic}__}"
                          th:alt="'avatar' + ${s.count}">
                     <div class="d-flex justify-content-between align-items-center w-100">
-                        <span th:text="${friend.fullName}" style="font-weight: bold;font-size: large"></span>
+                        <span th:text="${friend.fullName}"></span>
                         <span>
                             <img src="https://static.thenounproject.com/png/944726-200.png " style="display:none"
                                  th:id="'n-message' + ${friend.id}" alt="">
@@ -65,9 +65,9 @@
     </div>
     <div class="chat-box w-50" style="display: none" id="chat-box">
         <div class="chat-header" id="chat-header">
-            <div class="friend-item" style="border-bottom: none "><img
+            <div class="friend-item" style="border-bottom: none"><img
                     src="https://haycafe.vn/wp-content/uploads/2022/02/Anh-girl-xinh-Au-My-dep-nhat.jpg" alt="Friend 2">
-                <h5>John Doe</h5></div>
+                <span style="font-size: large;">John Doe</span></div>
             <div class="d-flex">
                 <i class="fas fa-phone icons" title="Voice Call" style="margin-right: 60px;"></i>
                 <i class="fas fa-video icons" title="Video Call"></i>
@@ -166,7 +166,7 @@
                 chatHeader.innerHTML = `
                  <div class="friend-item" style="border-bottom: none "><img
                     src="${data.profilePic}" alt="Friend 2">
-                <h5>${data.fullName}</h5></div>
+                <span style="font-size: large;">${data.fullName}e</span></div>
                 <div class="d-flex">
                     <i class="fas fa-phone icons" title="Voice Call" style="margin-right: 60px;"></i>
                     <i class="fas fa-video icons" title="Video Call"></i>
