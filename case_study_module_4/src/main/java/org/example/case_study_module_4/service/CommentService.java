@@ -6,4 +6,6 @@ public interface CommentService {
     Comment createComment(Comment comment);
 
     Comment gerComment(Long commentId);
+
+    void deleteComment(Long commentId);
 }

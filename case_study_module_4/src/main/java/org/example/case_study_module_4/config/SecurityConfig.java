@@ -1,5 +1,6 @@
 package org.example.case_study_module_4.config;
 
+import org.example.case_study_module_4.service.CustomOAuth2UserService;
 import org.example.case_study_module_4.service.UserDetailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +19,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
     private final UserDetailService userDetailService;
+    private final CustomOAuth2UserService customOAuth2UserService;
 
-    public SecurityConfig(UserDetailService userInfoService) {
+    public SecurityConfig(UserDetailService userInfoService,
+                          CustomOAuth2UserService customOAuth2UserService) {
         this.userDetailService = userInfoService;
+        this.customOAuth2UserService = customOAuth2UserService;
     }
 
     @Bean
@@ -50,6 +54,15 @@ public class SecurityConfig {
                         .failureUrl("/login?error=true")
                         .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/home", true)
+                )
+                .rememberMe(rememberMe -> rememberMe
+                        .key("8EWwp4nt-t_CANi_91VaGnFI0TgHyOHY7Pv5ayp_5Lc=")
+                        .tokenValiditySeconds(86400)
+                ).oauth2Login(oauth2Login -> oauth2Login
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/home", true)
+                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
+                                .userService(customOAuth2UserService))
                 )
                 .logout(logout -> logout
                         .deleteCookies("JSESSIONID")

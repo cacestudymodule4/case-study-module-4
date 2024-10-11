@@ -4,6 +4,10 @@ body {
     padding-top: 60px;
 }
 
+body.modal-open {
+    padding-right: 0 !important;
+}
+
 .navbar {
     background-color: #fff;
     border-bottom: 1px solid #ddd;
@@ -320,14 +324,14 @@ img {
 .modal-body {
     padding: 0;
 }
-.search-input input:focus{
+
+.search-input input:focus {
     outline: none !important;
     border-color: #cfd4da;
     box-shadow: none !important;
 }
+
 .search-input {
     width: 70%;
     margin: -4% 0 3% 30%;
-
-
 }

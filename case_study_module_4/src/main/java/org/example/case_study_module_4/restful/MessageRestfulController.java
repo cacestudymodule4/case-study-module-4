@@ -6,6 +6,8 @@ import org.example.case_study_module_4.service.FriendshipService;
 import org.example.case_study_module_4.service.MessageService;
 import org.example.case_study_module_4.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -35,7 +37,13 @@ public class MessageRestfulController {
 
     @GetMapping("/new-message")
     public ResponseEntity<List<User>> sendNewMessage(Principal principal) {
-        User user = userService.findUserByEmail(principal.getName());
+        User user;
+        if (principal instanceof OAuth2AuthenticationToken) {
+            OAuth2User oAuth2User = ((OAuth2AuthenticationToken) principal).getPrincipal();
+            user = userService.findUserByEmail(oAuth2User.getAttribute("email"));
+        } else {
+            user = userService.findUserByEmail(principal.getName());
+        }
         List<User> friends = friendshipService.getFriends(user);
         List<User> users = new ArrayList<>();
         for (User u : friends) {
@@ -48,7 +56,13 @@ public class MessageRestfulController {
 
     @PostMapping("/read-message")
     public ResponseEntity<Void> readMessages(@RequestBody User friend, Principal principal) {
-        User user = userService.findUserByEmail(principal.getName());
+        User user;
+        if (principal instanceof OAuth2AuthenticationToken) {
+            OAuth2User oAuth2User = ((OAuth2AuthenticationToken) principal).getPrincipal();
+            user = userService.findUserByEmail(oAuth2User.getAttribute("email"));
+        } else {
+            user = userService.findUserByEmail(principal.getName());
+        }
         List<Message> messages = messageService.getMessagesByStatus(friend, user);
         messageService.saveMessages(messages);
         return ResponseEntity.noContent().build();

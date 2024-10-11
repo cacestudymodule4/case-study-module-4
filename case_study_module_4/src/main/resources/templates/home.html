@@ -15,11 +15,11 @@
     <div class="sidebar-left" style="width: 15%;margin-top: -3%;">
         <a href="/home"><h3 class="mb-3">𝓥𝓷𝓰𝓻𝓪𝓶</h3></a>
         <a class="link-icon ms-3" href="/home"><i class="fa-brands fa-instagram home icons2"></i><span>Trang chủ</span></a>
-        <a class=" link-icon" href=""> <i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
-        <a class=" link-icon" href=""> <i class="far fa-heart icons2" title="Likes"></i><span>Thông báo</span></a>
-        <a class=" link-icon" href="/message"> <i class="fa-regular fa-message icons2"></i><span>Tin nhắn</span></a>
-        <a class=" link-icon" th:href="@{/user/__${user.id}__}"> <i class="far fa-user icons2"
-                                                                    title="Profile"></i><span>Trang cá nhân</span></a>
+        <a class="link-icon" href=""><i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
+        <a class="link-icon" href=""><i class="far fa-heart icons2" title="Likes"></i><span>Thông báo</span></a>
+        <a class="link-icon" href="/message"> <i class="fa-regular fa-message icons2"></i><span>Tin nhắn</span></a>
+        <a class="link-icon" th:href="@{/user/__${user.id}__}"><i class="far fa-user icons2"
+                                                                  title="Profile"></i><span>Trang cá nhân</span></a>
         <a class=" link-icon" style="margin-top: 100%" href="/logout"><i
                 class="fa-solid fa-arrow-right-from-bracket icons2"
                 title="Logout"></i><span>Đăng xuất</span></a>
@@ -35,40 +35,11 @@
                         <span class="fw-bold time" th:text="${postDTO.post.createdAt}">12 giờ</span>
                     </div>
                 </a>
-                <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <a href="#" data-bs-toggle="modal" th:data-bs-target="'#modal' + ${postDTO.post.id}">
                     <div class="dots-container">
                         <div class="dot"></div>
                     </div>
                 </a>
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <a href="#">
-                                    <div class="modal-a a1 text-center">
-                                        Bỏ theo dõi
-                                    </div>
-                                </a>
-                                <a href="#">
-                                    <div class="modal-a text-center">
-                                        Ẩn bài viết
-                                    </div>
-                                </a>
-                                <a href="#">
-                                    <div class="modal-a text-center">
-                                        Báo cáo
-                                    </div>
-                                </a>
-                                <a href="#" data-bs-dismiss="modal">
-                                    <div class="modal-a a1 text-center">
-                                        Huỷ
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div th:id="'carouselExample_' + ${postIdx.index}" class="carousel slide" data-bs-ride="carousel">
                 <a th:href="@{/post/view/__${postDTO.post.id}__}">
@@ -100,7 +71,8 @@
                             th:data-user-id="${user.id}"
                             th:data-post-id="${postDTO.post.id}"
                             th:onclick="toggleLike(this.getAttribute('data-post-id'), this.getAttribute('data-user-id'))">
-                        <i class="fa-solid fa-heart" style="color:red; display: none" id="like-icon-${postDTO.post.id}"></i>
+                        <i class="fa-solid fa-heart" style="color:red; display: none"
+                           id="like-icon-${postDTO.post.id}"></i>
                     </a>
                     <a
                             th:data-user-id="${user.id}"
@@ -114,7 +86,6 @@
                 <div>
                     <p class="likes" th:id="'like-count-' + ${postDTO.post.id}" th:text="${postDTO.like} + ' likes'">0
                         likes</p>
-                    <p class="desc"><strong th:text="${postDTO.post.title}">Hôm nay buồn quá mọi người ạ 🥲 </strong></p>
                     <span class="desc" th:text="${postDTO.post.content}">Chuyện là hôm qua em mới chia tay người yêu Em buồn quá em đi học code.Có cái code khó quá em học không
                     được em buồn nữa </span>
                 </div>
@@ -122,6 +93,50 @@
                         th:href="@{/post/view/__${postDTO.post.id}__}"
                         style="color:#737373 ;"> xem tất cả <span th:text="${postDTO.commentList.size()}">300</span>
                     bình luận</a></div>
+            </div>
+            <div class="modal fade" th:id="'modal' + ${postDTO.post.id}" tabindex="-1"
+                 aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <th:block th:if="${user.id != postDTO.user.id}">
+                                <a href="#">
+                                    <div class="modal-a a1 text-center">
+                                        Bỏ theo dõi
+                                    </div>
+                                </a>
+                                <a href="#">
+                                    <div class="modal-a text-center">
+                                        Ẩn bài viết
+                                    </div>
+                                </a>
+                                <a href="#">
+                                    <div class="modal-a text-center">
+                                        Báo cáo
+                                    </div>
+                                </a>
+                            </th:block>
+                            <th:block th:if="${user.id == postDTO.user.id}">
+                                <a href="#">
+                                    <div class="modal-a a1 text-center">
+                                        Chỉnh sửa
+                                    </div>
+                                </a>
+                                <a th:href="@{/post/delete/__${postDTO.post.id}__}">
+                                    <div class="modal-a text-center">
+                                        Xóa
+                                    </div>
+                                </a>
+                            </th:block>
+                            <a href="#" data-bs-dismiss="modal">
+                                <div class="modal-a a1 text-center">
+                                    Huỷ
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -173,8 +188,6 @@
             checkAndCountLikes(postId)
         });
     });
-</script>
-<script>
     const checkAndCountLikes = (postId) => {
         fetch(`/api/like/${postId}`)
             .then(res => res.json())
