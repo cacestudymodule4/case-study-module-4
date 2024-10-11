@@ -53,9 +53,10 @@ a {
 
 .friend-item img {
     width: 40px;
-    height: 50px;
+    height: 40px;
     border-radius: 50%;
     margin-right: 10px;
+    object-fit: cover;
 }
 
 .chat-box {
@@ -97,7 +98,6 @@ a {
 
 .message-content {
     max-width: 60%;
-
     padding: 10px 15px;
     background-color: #fff;
     border-radius: 20px;
@@ -192,7 +192,6 @@ a {
 
 .icons:hover {
     transform: scale(1.1);
-    color: #007bff;
 }
 
 .text-message {

@@ -14,9 +14,9 @@
 <div class="container-fluid main-container">
     <div class="sidebar-left" style="width: 15%;margin-top: -3%;">
         <a href="/home"><h3 class="mb-3">𝓥𝓷𝓰𝓻𝓪𝓶</h3></a>
-        <a class="link-icon ms-3" href="/home"><i class="fa-brands fa-instagram home icons2"></i><span>Trang chủ</span></a>
+        <a class="link-icon ms-3" href="/home"><i class="fa-brands fa-instagram home icons2"></i><span style="font-weight: bold">Trang chủ</span></a>
         <a class="link-icon" href=""> <i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
-        <a class="link-icon notification" href=""> <i class="far fa-heart icons2"
+        <a class="link-icon notification" href="/notification"> <i class="far fa-heart icons2"
                                                       title="Likes"></i><span>Thông báo</span>
             <span class="notification-badge">6</span>
         </a>
@@ -31,7 +31,7 @@
                 class="fa-solid fa-arrow-right-from-bracket icons2"
                 title="Logout"></i><span>Đăng xuất</span></a>
     </div>
-    <div class="content-area " style="margin-left: 34%;margin-top: -2%">
+    <div class="content-area" style="margin-left: 34%;margin-top: -2%">
         <div class="feed-post mt-1 mb-5" th:each="postDTO,postIdx :${postDTOS}">
             <div class="post-header">
                 <a th:href="@{/user/__${postDTO.user.id}__}">
@@ -153,7 +153,6 @@
                 <img th:src="@{__${user.profilePic}__}" alt="avatar">
                 <div>
                     <strong th:text="${user.fullName}">Lọ Lem 006</strong><br>
-                    <small th:text="${user.email}">@Nguyễn Thị Vỹ</small>
                 </div>
             </div>
         </a>
@@ -165,7 +164,6 @@
                         <img th:src="@{__${usert.profilePic}__}" alt="">
                         <div>
                             <strong th:text="${usert.fullName}">Linh Lòng</strong><br>
-                            <small th:text="${usert.email}">@Hoàng Thị Linh</small>
                         </div>
                     </div>
                 </a>
