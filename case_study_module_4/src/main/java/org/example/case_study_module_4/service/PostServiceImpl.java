@@ -79,4 +79,14 @@ public class PostServiceImpl implements PostService {
     public Post findPostById(Long postId) {
         return postRepository.findById(postId).orElse(null);
     }
+
+    @Override
+    public Page<Post> findAll(Pageable pageable) {
+        return postRepository.findAll(pageable);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        postRepository.deleteById(id);
+    }
 }
