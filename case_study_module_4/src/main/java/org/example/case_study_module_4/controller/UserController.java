@@ -54,23 +54,9 @@ public class UserController {
         return modelAndView;
     }
 
-    @PostMapping("/user/edit-profile")
-    public String editProfile(Principal principal
-            , @RequestParam("name") String name
-            , @RequestParam("bio") String bio
-            , @RequestParam("password") String password
-            , @RequestParam("profilePicture") MultipartFile profilePicture
-            , RedirectAttributes redirectAttributes) {
-        User updateUser = userService.findUserByEmail(principal.getName());
-        if (profilePicture != null && !profilePicture.isEmpty()) {
-            String avatarUrl = fileStorageService.storeFile(profilePicture);
-            updateUser.setProfilePic(avatarUrl);
-        }
-        updateUser.setFullName(name);
-        updateUser.setBio(bio);
-        updateUser.setPassword(password);
-        userService.save(updateUser);
-        redirectAttributes.addFlashAttribute("message", "Cập nhật thông tin thành công!");
-        return "redirect:/user/edit-profile";
+    @GetMapping("/user/change-password")
+    public ModelAndView changePassword() {
+        ModelAndView modelAndView = new ModelAndView("change_password");
+        return modelAndView;
     }
 }

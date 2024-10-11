@@ -8,65 +8,44 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-
-
-        <link rel="stylesheet" th:href="@{/property/home/home.css}">
-        <link rel="stylesheet" th:href="@{/property/suggest_friend/suggest.css}">
-
+    <link rel="stylesheet" th:href="@{/property/home/home.css}">
+    <link rel="stylesheet" th:href="@{/property/suggest_friend/suggest.css}">
 </head>
 <body>
 <div class="container-fluid main-container ">
-    <div class="sidebar-left  ">
+    <div class="sidebar-left">
         <h3 class="mb-3">𝓥𝓷𝓰𝓻𝓪𝓶</h3>
         <a class="link-icon ms-3" href=""><i class="fa-brands fa-instagram home icons2"></i><span>Trang chủ</span></a>
-        <a class=" link-icon " href=""> <i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
-        <a class=" link-icon  " href=""> <i class="far fa-heart icons2" title="Likes"></i><span>Thông báo</span></a>
-        <a class=" link-icon  " href="/message"> <i class="fa-regular fa-message icons2"></i><span>Tin nhắn</span></a>
-        <a class=" link-icon " href=""> <i class="far fa-user icons2" title="Profile"></i><span>Trang cá nhân</span></a>
-        <a class=" link-icon " style="margin-top: 100%" href="/logout"><i
+        <a class="link-icon" href=""> <i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
+        <a class="link-icon" href="/notification"> <i class="far fa-heart icons2" title="Likes"></i><span>Thông báo</span></a>
+        <a class="link-icon" href="/message"> <i class="fa-regular fa-message icons2"></i><span>Tin nhắn</span></a>
+        <a class="link-icon" href=""> <i class="far fa-user icons2" title="Profile"></i><span>Trang cá nhân</span></a>
+        <a class="link-icon" style="margin-top: 100%" href="/logout"><i
                 class="fa-solid fa-arrow-right-from-bracket icons2"
                 title="Logout"></i><span>Đăng xuất</span></a>
     </div>
     <div class="w-80 list" style="width: 100vh">
-
         <div class="list-add mb-3">
             <h1 class="suggest">Thông báo</h1>
-            <div class=" d-flex flex-column-1 justify-content-center align-items-center w-100  mb-3">
-                <img src="https://astral.vn/wp-content/uploads/2023/05/anh-gai-xinh-lo-clip-169.jpg" alt=""
-
-                     class="me-2 avatar-img ">
-                <div class="d-flex align-items-center flex-grow-1 " style="margin-left: 8px">
-                    <span class="name-real text-muted" style="font-size: large;font-weight: bold">Nguyễn Tuấn</span>
-                    <span class="text-muted"
-                          style="font-size: medium;margin-left: 25px">Đã thích bình luận của bạn</span>
-                </div>
-            </div>
-            <div class=" d-flex flex-column-1 justify-content-center align-items-center w-100  mb-3">
-                <img src="https://astral.vn/wp-content/uploads/2023/05/anh-gai-xinh-lo-clip-169.jpg" alt=""
-
-                     class="me-2 avatar-img ">
-                <div class="d-flex align-items-center flex-grow-1 " style="margin-left: 8px">
-                    <span class="name-real text-muted" style="font-size: large;font-weight: bold">Nguyễn hưng</span>
-                    <span class="text-muted"
-                          style="font-size: medium;margin-left: 25px">Đã theo dõi bạn</span>
-                </div>
-            </div>
-            <div class=" d-flex flex-column-1 justify-content-center align-items-center w-100  mb-3">
-                <img src="https://astral.vn/wp-content/uploads/2023/05/anh-gai-xinh-lo-clip-169.jpg" alt=""
-
-                     class="me-2 avatar-img ">
-                <div class="d-flex align-items-center flex-grow-1 " style="margin-left: 8px">
-                    <span class="name-real text-muted" style="font-size: large;font-weight: bold">Nguyễn hưng</span>
-                    <span class="text-muted"
-                          style="font-size: medium;margin-left: 25px">Đã Gởi yêu cầu kết bạn</span>
-                </div>
+            <div th:each="noti,notiIdx : ${listNoti}">
+                <a id="notiItem"
+                   th:data-id="${noti.getId()}"
+                   th:href="${noti.getPost() != null ? '/post/view/' + noti.getPost().getId() : '/user/' + noti.sender.getId()}"
+                   class=" d-flex flex-column-1 justify-content-center align-items-center w-100  mb-3">
+                    <img th:src="${noti.sender.profilePic}" alt="" class="me-2 avatar-img ">
+                    <div class="d-flex align-items-center flex-grow-1 " style="margin-left: 8px">
+                        <span class="name-real text-muted" style="font-size: large;font-weight: bold"
+                              th:text="${noti.sender.fullName}"></span>
+                        <span class="text-muted fs-6"
+                              th:style="${!noti.isRead} ? 'font-weight: bold;margin-left: 25px' : 'margin-left: 25px'"
+                              th:text="${noti.message}"></span>
+                    </div>
+                </a>
             </div>
         </div>
         <div class="container mt-5 text-align:center footer" style="font-size: small;width: 140% ;margin-left: -3%">
             <div class="  d-flex justify-content-between support" style="width: 95%;;margin-top: 8%">
-                <a
-                        href="">Meta</a>
+                <a href="">Meta</a>
                 <a href="">Giới thiệu</a>
                 <a href="">Blog</a>
                 <a href="">Việc làm</a>
@@ -85,6 +64,9 @@
     </div>
 
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -98,8 +80,23 @@
             }
         });
     });
+
+    $(document).on("click", "#notiItem", function (event) {
+        event.preventDefault()
+        let notiId = $(this).data("id");
+        $.ajax({
+            url: 'http://localhost:8080/api/notification/update/' + notiId,
+            method: 'PUT',
+            data: {isRead : true},
+            success: (response) => {
+                console.log("Notification updated successfully");
+                window.location.href = $(event.target).closest('a').attr('href');
+            },
+            error: (error) => {
+                console.error("Error updating notification", error);
+            }
+        });
+    })
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

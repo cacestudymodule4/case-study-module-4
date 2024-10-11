@@ -7,6 +7,8 @@ import org.example.case_study_module_4.repository.NotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class NotificationServiceImpl implements NotificationService {
     @Autowired
@@ -49,6 +51,21 @@ public class NotificationServiceImpl implements NotificationService {
         notification.setRecipient(otherUser);
         notification.setSender(user);
         notification.setPost(null);
+        notificationRepository.save(notification);
+    }
+
+    @Override
+    public List<Notification> findAllByRecipientId(long recipientId) {
+        return notificationRepository.findAllByRecipientId(recipientId);
+    }
+
+    @Override
+    public Notification findNotificationById(long notificationId) {
+        return notificationRepository.findById(notificationId).orElse(null);
+    }
+
+    @Override
+    public void saveNotification(Notification notification) {
         notificationRepository.save(notification);
     }
 }
