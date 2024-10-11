@@ -16,8 +16,14 @@
         <a href="/home"><h3 class="mb-3">𝓥𝓷𝓰𝓻𝓪𝓶</h3></a>
         <a class="link-icon ms-3" href="/home"><i class="fa-brands fa-instagram home icons2"></i><span>Trang chủ</span></a>
         <a class=" link-icon" href=""> <i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
-        <a class=" link-icon" href=""> <i class="far fa-heart icons2" title="Likes"></i><span>Thông báo</span></a>
-        <a class=" link-icon" href="/message"> <i class="fa-regular fa-message icons2"></i><span>Tin nhắn</span></a>
+        <a class=" link-icon notification" href=""> <i class="far fa-heart icons2" title="Likes"></i><span>Thông báo</span>
+            <span class="notification-badge">6</span>
+        </a>
+        <a class=" link-icon notification" href="/message">
+            <i class="fa-regular fa-message icons2"></i>
+            <span>Tin nhắn</span>
+            <span class="notification-badge">5</span>
+        </a>
         <a class=" link-icon" th:href="@{/user/__${user.id}__}"> <i class="far fa-user icons2" title="Profile"></i><span>Trang cá nhân</span></a>
         <a class=" link-icon" style="margin-top: 100%" href="/logout"><i
                 class="fa-solid fa-arrow-right-from-bracket icons2"
@@ -39,35 +45,7 @@
                         <div class="dot"></div>
                     </div>
                 </a>
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <a href="#">
-                                    <div class="modal-a a1 text-center">
-                                        Bỏ theo dõi
-                                    </div>
-                                </a>
-                                <a href="#">
-                                    <div class="modal-a text-center">
-                                        Ẩn bài viết
-                                    </div>
-                                </a>
-                                <a href="#">
-                                    <div class="modal-a text-center">
-                                        Báo cáo
-                                    </div>
-                                </a>
-                                <a href="#" data-bs-dismiss="modal">
-                                    <div class="modal-a a1 text-center">
-                                        Huỷ
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
             </div>
             <div th:id="'carouselExample_' + ${postIdx.index}" class="carousel slide" data-bs-ride="carousel">
                 <a th:href="@{/post/view/__${postDTO.post.id}__}">
@@ -153,6 +131,35 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content ">
+            <div class="modal-body">
+                <a href="#">
+                    <div class="modal-a a1 text-center">
+                        Bỏ theo dõi
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="modal-a text-center">
+                        Ẩn bài viết
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="modal-a text-center">
+                        Báo cáo
+                    </div>
+                </a>
+                <a href="#" data-bs-dismiss="modal">
+                    <div class="modal-a a1 text-center">
+                        Huỷ
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const items = document.querySelectorAll('.suggestion-item');
@@ -174,6 +181,7 @@
     });
 </script>
 <script>
+
     const checkAndCountLikes = (postId) => {
         fetch(`/api/like/${postId}`)
             .then(res => res.json())

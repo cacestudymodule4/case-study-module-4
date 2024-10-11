@@ -7,9 +7,11 @@ body {
     display: flex;
     flex-direction: row;
 }
-a{
-    color: black ;
+
+a {
+    color: black;
 }
+
 .sidebar {
     background-color: #fff;
     width: 4%;
@@ -51,7 +53,7 @@ a{
 
 .friend-item img {
     width: 40px;
-    height: 40px;
+    height: 50px;
     border-radius: 50%;
     margin-right: 10px;
 }
@@ -203,15 +205,26 @@ a{
 .friend-name, .text-message {
     display: block;
 }
-.message-default{
-    margin-top: 25%;
+
+.message-default {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-.chat-input input{
+
+.chat-input input {
     outline: none !important;
     border-color: #cfd4da;
     box-shadow: none !important;
+}
+
+.message-content {
+    max-width: 60% !important;
+}
+
+.message-content span {
+    max-width: 60%;
+    word-wrap: break-word;
+    word-break: break-all;
 }
