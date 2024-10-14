@@ -156,8 +156,36 @@
                 </div>
             </div>
         </div>
+        <div th:if="${!postDTOS.isEmpty()}" class="feed-post">
+            <div class="notification">
+                <div class="check-icon">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                </div>
+                <h2>Bạn đã xem hết rồi</h2>
+                <p>Bạn đã xem hết các bài viết mới nhất.</p>
+            </div>
+        </div>
+        <div class="container mt-5 text-align:center footer" style="font-size: small;width: 200% ;margin-left: -30%">
+            <div class="  d-flex justify-content-between support" style="width: 100%;margin-top: 17%;color:#787878 ">
+                <a
+                        href="">Meta</a>
+                <a href="">Giới thiệu</a>
+                <a href="">Blog</a>
+                <a href="">Việc làm</a>
+                <a href="">Trợ giúp</a>
+                <a href="">Quyền riêng tư</a>
+                <a href="">Điều khoản</a>
+                <a href="">Vị trí</a>
+                <a href="">Vngram Lite</a>
+                <a href="">Threads</a>
+                <a href="">Tải thông tin người liên hệ lên & người không phải người dùng</a>
+                <a href="">Meta đã xác minh</a></div>
+            <div class="mt-3 pb-5 " style="font-size: small;color:#787878;margin-left: 40%  ">
+                © 2024 Instagram from Meta
+            </div>
+        </div>
     </div>
-    <div class="sidebar-right" style="width: 15%;margin-top:-2%">
+    <div class="sidebar-right" style="width: 26%;margin-top:-2%">
         <a th:href="@{/user/__${user.id}__}">
             <div class="user-profile">
                 <img th:src="@{__${user.profilePic}__}" alt="avatar">
@@ -166,21 +194,34 @@
                 </div>
             </div>
         </a>
-        <div class="suggestions">
-            <p class="fw-bold" style="color:#737373 ;">Gợi ý cho bạn</p>
+        <div class="suggestions" style="width: 100%">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <p style="color:#737373 ; font-size: small">Gợi ý cho bạn</p>
+                <a href=""><p class="see-all" >Xem tất cả</p></a>
+            </div>
             <th:block th:each="usert :${top4User}">
                 <a th:href="@{/user/__${usert.id}__}">
                     <div class="suggestion-item">
                         <img th:src="@{__${usert.profilePic}__}" alt="">
-                        <div>
-                            <strong th:text="${usert.fullName}">Linh Lòng</strong><br>
+                        <div class="d-flex align-items-center justify-content-between" style="width: 100%">
+                            <span style="font-size: small" th:text="${usert.fullName}">Linh Lòng</span><br>
+                            <a href=""><span class="follow-text">Theo dõi</span></a>
                         </div>
                     </div>
                 </a>
             </th:block>
-            <div>
-                <a href="/friendship/search"><p class="fw-bold" style="color:#737373 ;margin-top: 30px">Xem tất cả</p>
-                </a>
+            <div class="mt-4" style="font-size: 12px;color:#cacaca">
+                <p class="mb-1">Giới thiệu
+                    Trợ giúp,
+                    Báo chí,
+                    API,
+                    Việc làm.</p>
+                <p class="mb-1">Quyền riêng tư,
+                    Điều khoản,
+                    Vị trí,
+                    Ngôn ngữ.</p>
+                <p class="mb-3">Meta đã xác mình.</p>
+                <p class="mb-1">© 2024 Instagram from Meta</p>
             </div>
         </div>
     </div>
