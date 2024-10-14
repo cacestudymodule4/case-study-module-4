@@ -5,7 +5,6 @@ import org.example.case_study_module_4.model.Message;
 import org.example.case_study_module_4.model.Notification;
 import org.example.case_study_module_4.model.User;
 import org.example.case_study_module_4.service.*;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;

@@ -31,6 +31,11 @@
                             <span th:text="${error}" style="font-size: 14px; color: red"></span>
                         </div>
                     </th:block>
+                    <th:block th:if="${notify != null}">
+                        <div>
+                            <span th:text="${notify}" style="font-size: 14px; color: green"></span>
+                        </div>
+                    </th:block>
                     <div class="mb-3">
                         <label>
                             <input type="text" class="form-control input-custom  " style="height: 42px"

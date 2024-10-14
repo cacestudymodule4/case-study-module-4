@@ -1,9 +1,11 @@
 package org.example.case_study_module_4.controller;
 
 import org.example.case_study_module_4.model.Message;
+import org.example.case_study_module_4.model.Notification;
 import org.example.case_study_module_4.model.User;
 import org.example.case_study_module_4.service.FriendshipService;
 import org.example.case_study_module_4.service.MessageService;
+import org.example.case_study_module_4.service.NotificationService;
 import org.example.case_study_module_4.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,13 +31,16 @@ public class MessageController {
     private final MessageService messageService;
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
+    private final NotificationService notificationService;
 
     public MessageController(FriendshipService friendshipService,
                              UserService userService,
-                             MessageService messageService) {
+                             MessageService messageService,
+                             NotificationService notificationService) {
         this.friendshipService = friendshipService;
         this.userService = userService;
         this.messageService = messageService;
+        this.notificationService = notificationService;
     }
 
     @GetMapping("/message")
@@ -50,6 +55,10 @@ public class MessageController {
         model.addAttribute("user", user);
         List<User> friends = friendshipService.getFriends(user);
         model.addAttribute("friends", friends);
+        List<Message> messages = messageService.getMessagesByReceiver(user);
+        model.addAttribute("newMessages", messages.size());
+        List<Notification> notifications = notificationService.findNotificationsByRecipientIdIsRead(user.getId());
+        model.addAttribute("newNotify", notifications.size());
         return "message";
     }
 

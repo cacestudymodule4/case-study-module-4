@@ -369,3 +369,59 @@ h3,
     background-color: #666; /* Màu khi hover */
     cursor: pointer;
 }
+
+.see-all {
+    color: #737373;
+    margin-left: -242%;
+    font-size: small
+}
+
+.see-all:hover {
+    color: #cacaca;
+}
+
+.notification {
+    text-align: center;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+
+}
+
+/*icon thông báo đã xem hết bài đăng*/
+.check-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(#e66465, #9198e5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 40px;
+    margin: 0 auto 20px;
+}
+
+.notification h2 {
+    margin: 10px 0;
+    font-size: 24px;
+}
+
+.notification p {
+    font-size: 14px;
+    color: #737373;
+}
+
+.support a {
+    color: #787878 !important;
+}
+
+.follow-text:hover {
+    color: black;
+}
+
+.follow-text {
+    margin-left: -300%;
+    font-size: small;
+    color: #57b9f9
+}

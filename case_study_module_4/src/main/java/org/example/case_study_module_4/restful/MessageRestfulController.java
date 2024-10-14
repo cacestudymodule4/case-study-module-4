@@ -67,4 +67,17 @@ public class MessageRestfulController {
         messageService.saveMessages(messages);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/countNewMessage")
+    public ResponseEntity<Integer> countNewMessage(Principal principal) {
+        User user;
+        if (principal instanceof OAuth2AuthenticationToken) {
+            OAuth2User oAuth2User = ((OAuth2AuthenticationToken) principal).getPrincipal();
+            user = userService.findUserByEmail(oAuth2User.getAttribute("email"));
+        } else {
+            user = userService.findUserByEmail(principal.getName());
+        }
+        List<Message> messages = messageService.getMessagesByReceiver(user);
+        return ResponseEntity.ok(messages.size());
+    }
 }
