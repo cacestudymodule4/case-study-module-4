@@ -15,7 +15,7 @@
 <div class="container-fluid main-container ">
     <div class="sidebar-left" style="width: 15%;margin-top: -3%;">
         <a href="/home"><h3 class="mb-3">𝓥𝓷𝓰𝓻𝓪𝓶</h3></a>
-        <a class="link-icon ms-3" href="/home"><i class="fa-brands fa-instagram home icons2"></i><span
+        <a class="link-icon ms-3" href="/home"><i class="fa-regular fa-house fs-3"></i><span
                 style="font-weight: bold">Trang chủ</span></a>
         <a class="link-icon" href="/friendship/search"> <i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
         <a class="link-icon notification" href="/notification"> <i class="far fa-heart icons2"
@@ -61,11 +61,11 @@
                             th:style="${friend.status != 'notFriend' ? 'display: none;' : ''}">
                         Kết bạn
                     </button>
-                    <button class="btn btn-outline-secondary ms-2 follow" th:id="'cancel-request-' + ${friend.otherUser.id}"
+                    <button class="btn btn-outline-secondary ms-2 un-follow" th:id="'cancel-request-' + ${friend.otherUser.id}"
                             th:style="${friend.status != 'pending' ? 'display: none;' : ''}">
                         Xóa lời mời
                     </button>
-                    <button class="btn btn-outline-secondary ms-2 follow" th:id="'d-friend-' + ${friend.otherUser.id}"
+                    <button class="btn btn-outline-secondary ms-2 un-follow" th:id="'d-friend-' + ${friend.otherUser.id}"
                             th:style="${friend.status != 'accepted' ? 'display: none;' : ''}">
                         Xóa bạn bè
                     </button>

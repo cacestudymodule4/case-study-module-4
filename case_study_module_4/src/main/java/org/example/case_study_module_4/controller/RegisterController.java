@@ -50,6 +50,7 @@ public class RegisterController {
             return "redirect:/register";
         } else {
             registerService.registerUser(user);
+            redirectAttributes.addFlashAttribute("notify", "Đăng kí thành công");
             return "redirect:/login";
         }
     }
