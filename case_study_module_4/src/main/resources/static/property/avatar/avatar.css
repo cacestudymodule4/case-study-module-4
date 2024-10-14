@@ -46,3 +46,6 @@ body {
     border-radius: 5px;
     cursor: pointer;
 }
+ul {
+    list-style-type: none;
+}

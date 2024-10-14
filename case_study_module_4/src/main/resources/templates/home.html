@@ -10,6 +10,13 @@
     <link rel="stylesheet" th:href="@{/property/home/home.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" th:href="@{/property/like/like.css}">
+    <style>
+        .is-follow-text {
+            margin-left: -227%;
+            font-size: small;
+            color: #57b9f9;
+        }
+    </style>
 </head>
 <body>
 <div class="container-fluid main-container">
@@ -203,11 +210,15 @@
             <th:block th:each="usert :${top4User}">
                 <div class="suggestion-item">
                     <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
-                        <a th:href="@{/user/__${usert.id}__}">
-                            <img th:src="@{__${usert.profilePic}__}" alt="">
-                            <p th:text="${usert.fullName}" style="display: inline-block; margin-bottom: 0">Linh Lòng</p>
+                        <a th:href="@{/user/__${usert.otherUser.id}__}">
+                            <img th:src="@{__${usert.otherUser.profilePic}__}" alt="">
+                            <p th:text="${usert.otherUser.fullName}" style="display: inline-block; margin-bottom: 0">
+                                Linh Lòng</p>
                         </a>
-                        <a href="" style="display:block;"><span class="follow-text">Theo dõi</span></a>
+                        <a href="" th:style="'display: ' + ${usert.status == 'n-Follow' ? 'block' : 'none'}"><span
+                                class="follow-text">Theo dõi</span></a>
+                        <a href="" th:style="'display: ' + ${usert.status == 'isFollow' ? 'block' : 'none'}"><span
+                                class="is-follow-text">Đã theo dõi</span></a>
                     </div>
                 </div>
             </th:block>
