@@ -33,4 +33,13 @@ public class UserServiceImpl implements UserService {
     public User findUserById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public List<User> findByFullName(String fullName) {
+        if (fullName == null || fullName.isEmpty()) {
+            fullName = "";
+        }
+        String str = "%" + fullName + "%";
+        return userRepository.findByFullName(str);
+    }
 }

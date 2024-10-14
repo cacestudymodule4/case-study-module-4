@@ -55,17 +55,27 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public List<Notification> findAllByRecipientId(long recipientId) {
+    public List<Notification> findAllByRecipientId(Long recipientId) {
         return notificationRepository.findAllByRecipientId(recipientId);
     }
 
     @Override
-    public Notification findNotificationById(long notificationId) {
+    public Notification findNotificationById(Long notificationId) {
         return notificationRepository.findById(notificationId).orElse(null);
     }
 
     @Override
     public void saveNotification(Notification notification) {
         notificationRepository.save(notification);
+    }
+
+    @Override
+    public void saveNotifications(List<Notification> notifications) {
+        notificationRepository.saveAll(notifications);
+    }
+
+    @Override
+    public List<Notification> findNotificationsByRecipientIdIsRead(Long recipientId) {
+        return notificationRepository.findAllByRecipientIdIsRead(recipientId);
     }
 }

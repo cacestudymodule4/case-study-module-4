@@ -8,10 +8,20 @@ import java.util.List;
 
 public interface NotificationService {
     void sendLikeNotification(User user, Post post);
+
     void sendCommentNotification(User user, Post post);
+
     void sendFollowNotification(User follower, User followee);
+
     void sendFriendNotification(User user, User otherUser);
-    List<Notification> findAllByRecipientId(long recipientId);
-    Notification findNotificationById(long notificationId);
+
+    List<Notification> findAllByRecipientId(Long recipientId);
+
+    Notification findNotificationById(Long notificationId);
+
     void saveNotification(Notification notification);
+
+    void saveNotifications(List<Notification> notifications);
+
+    List<Notification> findNotificationsByRecipientIdIsRead(Long recipientId);
 }

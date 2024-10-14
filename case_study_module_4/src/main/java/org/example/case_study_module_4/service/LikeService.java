@@ -1,11 +1,18 @@
 package org.example.case_study_module_4.service;
 
-import org.example.case_study_module_4.model.Post;
+import org.example.case_study_module_4.model.Like;
+import org.example.case_study_module_4.model.User;
+
+import java.util.List;
 
 public interface LikeService {
-    Post updateLike(Long postId, Long userId);
+    List<Like> getLikedByPostId(Long postId);
 
-    Long countLikes(Long postId);
+    Like getLikedByUserId(Long userId, Long postId);
 
-    boolean isLikedByUser(Long postId, Long userId);
+    void deleteLike(Like like);
+
+    Like addLike(Like like);
+
+    List<User> getUserLikedByPostId(Long postId);
 }

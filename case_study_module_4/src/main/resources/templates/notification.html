@@ -6,7 +6,6 @@
     <title>Vngram</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" th:href="@{/property/home/home.css}">
     <link rel="stylesheet" th:href="@{/property/suggest_friend/suggest.css}">
@@ -15,20 +14,35 @@
 <div class="container-fluid main-container ">
     <div class="sidebar-left" style="width: 15%;margin-top: -3%;">
         <a href="/home"><h3 class="mb-3">𝓥𝓷𝓰𝓻𝓪𝓶</h3></a>
-        <a class="link-icon ms-3" href="/home"><i class="fa-brands fa-instagram home icons2"></i><span>Trang chủ</span></a>
-        <a class="link-icon" href=""><i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
-        <a class="link-icon" href="/notification"><i class="far fa-heart icons2"
-                                                     title="Likes"></i><span>Thông báo</span></a>
-        <a class="link-icon" href="/message"> <i class="fa-regular fa-message icons2"></i><span>Tin nhắn</span></a>
-        <a class="link-icon" th:href="@{/user/__${user.id}__}"><i class="far fa-user icons2"
-                                                                  title="Profile"></i><span>Trang cá nhân</span></a>
+        <a class="link-icon ms-3" href="/home"><i class="fa-brands fa-instagram home icons2"></i><span
+                style="font-weight: bold">Trang chủ</span></a>
+        <a class="link-icon" href="/friendship/search"> <i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
+        <a class="link-icon notification" href="/notification"> <i class="far fa-heart icons2"
+                                                                   title="Likes"></i><span>Thông báo</span>
+            <th:block th:if="${newNotify > 0}">
+                <span class="notification-badge" th:text="${newNotify}">6</span>
+            </th:block>
+        </a>
+        <a class="link-icon notification" href="/message">
+            <i class="fa-regular fa-message icons2"></i>
+            <span>Tin nhắn</span>
+            <th:block th:if="${newMessages > 0}">
+                <span class="notification-badge" th:text="${newMessages}">5</span>
+            </th:block>
+        </a>
+        <a class="link-icon" th:href="@{/user/__${user.id}__}"> <i class="far fa-user icons2"
+                                                                   title="Profile"></i><span>Trang cá nhân</span></a>
         <a class="link-icon" style="margin-top: 100%" href="/logout"><i
                 class="fa-solid fa-arrow-right-from-bracket icons2"
                 title="Logout"></i><span>Đăng xuất</span></a>
     </div>
     <div class="w-80 list" style="width: 100vh">
         <div class="list-add mb-3">
-            <h1 class="suggest">Thông báo</h1>
+            <h1 class="suggest" style="display:inline-block; width:49%">Thông báo</h1>
+            <button id="mark-all-read" class="btn btn-outline-secondary mr-2" style="display:inline-block;">Đánh dấu
+                tất cả đã
+                đọc
+            </button>
             <div th:each="noti,notiIdx : ${listNoti}">
                 <a id="notiItem"
                    th:data-id="${noti.getId()}"
@@ -69,8 +83,16 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
-
 <script>
+    $('#mark-all-read').click(function () {
+        $.ajax({
+            url: `http://localhost:8080/api/notification/markAllRead`,
+            method: 'POST',
+            success: function () {
+                location.reload();
+            }
+        });
+    })
     document.addEventListener("DOMContentLoaded", function () {
         const items = document.querySelectorAll('.suggestion-item');
         const maxVisible = 4;

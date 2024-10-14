@@ -1,10 +1,7 @@
 package org.example.case_study_module_4.service;
 
 import org.example.case_study_module_4.DTO.PostDTO;
-import org.example.case_study_module_4.model.Comment;
-import org.example.case_study_module_4.model.Media;
-import org.example.case_study_module_4.model.Post;
-import org.example.case_study_module_4.model.User;
+import org.example.case_study_module_4.model.*;
 import org.example.case_study_module_4.repository.CommentRepository;
 import org.example.case_study_module_4.repository.LikeRepository;
 import org.example.case_study_module_4.repository.MediaRepository;
@@ -36,7 +33,7 @@ public class PostDTOServiceImpl implements PostDTOService {
         List<PostDTO> postDTOs = new ArrayList<>();
         for (Post p : posts) {
             List<Media> mediaList = mediaRepository.findByPostId(p.getId());
-            int likes = likeRepository.findByPostId(p.getId()).size();
+            List<User> likes = likeRepository.findUserByPostId(p.getId());
             List<Comment> comments = commentRepository.findByPostId(p.getId());
             postDTOs.add(new PostDTO(mediaList, p, p.getUser(), likes, comments));
         }
@@ -46,7 +43,7 @@ public class PostDTOServiceImpl implements PostDTOService {
     @Override
     public PostDTO getPostDTO(Post post) {
         List<Media> mediaList = mediaRepository.findByPostId(post.getId());
-        int likes = likeRepository.findByPostId(post.getId()).size();
+        List<User> likes = likeRepository.findUserByPostId(post.getId());
         List<Comment> comments = commentRepository.findByPostId(post.getId());
         return new PostDTO(mediaList, post, post.getUser(), likes, comments);
     }

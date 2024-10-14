@@ -40,4 +40,9 @@ public class MessageServiceImpl implements MessageService {
         }
         messageRepository.saveAll(messages);
     }
+
+    @Override
+    public List<Message> getMessagesByReceiver(User receiver) {
+        return messageRepository.findMessageByReceiverId(receiver.getId());
+    }
 }

@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/friend")
@@ -73,6 +74,12 @@ public class FriendshipRestfulController {
             user = userService.findUserByEmail(oAuth2User.getAttribute("email"));
         } else {
             user = userService.findUserByEmail(principal.getName());
+        }
+        if (Objects.equals(user.getId(), otherUser.getId())) {
+            return ResponseEntity.noContent().build();
+        }
+        if (friendshipService.getFriendship(user, otherUser) != null) {
+            return ResponseEntity.noContent().build();
         }
         Friendship friendship = friendshipService.createFriendship(user, otherUser);
         notificationService.sendFriendNotification(user, otherUser);

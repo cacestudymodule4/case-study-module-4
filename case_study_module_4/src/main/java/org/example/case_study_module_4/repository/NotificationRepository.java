@@ -13,5 +13,9 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
     @Query("SELECT n FROM Notification n WHERE n.post.id = :postId")
     List<Notification> findByPostId(@Param("postId") Long postId);
 
-    List<Notification> findAllByRecipientId(long recipientId);
+    @Query("SELECT n FROM Notification n WHERE n.recipient.id = :recipientId ORDER BY n.createdAt DESC")
+    List<Notification> findAllByRecipientId(@Param("recipientId") Long recipientId);
+
+    @Query("SELECT n FROM Notification n WHERE n.recipient.id = :recipientId AND n.isRead = FALSE")
+    List<Notification> findAllByRecipientIdIsRead(@Param("recipientId") Long recipientId);
 }

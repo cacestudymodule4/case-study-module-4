@@ -13,4 +13,6 @@ public interface MessageService {
     List<Message> getMessagesByStatus(User sender, User receiver);
 
     void saveMessages(List<Message> messages);
+
+    List<Message> getMessagesByReceiver(User receiver);
 }

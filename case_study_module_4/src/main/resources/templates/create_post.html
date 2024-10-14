@@ -69,7 +69,7 @@
     }
 
     $(function () {
-        $("button[type='submit']").click(function (event) {
+        $("#post").click(function (event) {
             event.preventDefault();
             const formData = new FormData();
             formData.append('content', $("#content").val());

@@ -12,4 +12,6 @@ public interface UserService {
     List<User> findTop4User();
 
     User findUserById(Long id);
+
+    List<User> findByFullName(String fullName);
 }

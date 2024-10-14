@@ -6,24 +6,30 @@
     <title>Vngram</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" th:href="@{/property/home/home.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" th:href="@{/property/like/like.css}">
 </head>
 <body>
 <div class="container-fluid main-container">
     <div class="sidebar-left" style="width: 15%;margin-top: -3%;">
         <a href="/home"><h3 class="mb-3">𝓥𝓷𝓰𝓻𝓪𝓶</h3></a>
-        <a class="link-icon ms-3" href="/home"><i class="fa-brands fa-instagram home icons2"></i><span style="font-weight: bold">Trang chủ</span></a>
-        <a class="link-icon" href=""> <i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
+        <a class="link-icon ms-3" href="/home"><i class="fa-brands fa-instagram home icons2"></i><span
+                style="font-weight: bold">Trang chủ</span></a>
+        <a class="link-icon" href="/friendship/search"> <i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
         <a class="link-icon notification" href="/notification"> <i class="far fa-heart icons2"
-                                                      title="Likes"></i><span>Thông báo</span>
-            <span class="notification-badge">6</span>
+                                                                   title="Likes"></i><span>Thông báo</span>
+            <th:block th:if="${newNotify > 0}">
+                <span class="notification-badge" th:text="${newNotify}">6</span>
+            </th:block>
         </a>
         <a class="link-icon notification" href="/message">
             <i class="fa-regular fa-message icons2"></i>
             <span>Tin nhắn</span>
-            <span class="notification-badge">5</span>
+            <th:block th:if="${newMessages > 0}">
+                <span class="notification-badge" th:text="${newMessages}">5</span>
+            </th:block>
         </a>
         <a class="link-icon" th:href="@{/user/__${user.id}__}"> <i class="far fa-user icons2"
                                                                    title="Profile"></i><span>Trang cá nhân</span></a>
@@ -48,50 +54,54 @@
                     </div>
                 </a>
             </div>
-            <div th:id="'carouselExample_' + ${postIdx.index}" class="carousel slide" data-bs-ride="carousel">
-                <a th:href="@{/post/view/__${postDTO.post.id}__}">
-                    <div class="carousel-inner">
+            <div th:id="'carouselExample_' + ${postIdx.index}" class="carousel slide">
+                <div class="carousel-indicators">
+                    <th:block th:each="media,s :${postDTO.mediaList}">
+                        <button type="button" th:data-bs-target="'#carouselExample_' + ${s.index}"
+                                th:data-bs-slide-to="${s.index}"
+                                th:class="${s.index == 0 ? 'active' : ''}"
+                                aria-current="true" th:aria-label="'Slide' + ${s.index}"></button>
+                    </th:block>
+                </div>
+                <div class="carousel-inner">
+                    <a th:href="@{/post/view/__${postDTO.post.id}__}">
                         <th:block th:each="media,s :${postDTO.mediaList}">
-                            <div th:class="'carousel-item' + ${s.count == 1 ? ' active':''}">
+                            <div th:class="'carousel-item' + ${s.index == 0 ? ' active':''}">
                                 <img th:src="@{__${media.mediaUrl}__}"
                                      th:alt="'media '+${s.count}">
                             </div>
                         </th:block>
-                        <button class="carousel-control-prev" type="button"
-                                th:attr="data-bs-target='#carouselExample_' + ${postIdx.index}"
-                                data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button"
-                                th:attr="data-bs-target='#carouselExample_' + ${postIdx.index}"
-                                data-bs-slide="next" style="right: -9%;">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    </div>
-                </a>
-            </div>
-            <div class="post-footer " style="margin-left: -16px">
-                <div class="post-actions " style="color: black">
-                    <a
-                            th:data-user-id="${user.id}"
-                            th:data-post-id="${postDTO.post.id}"
-                            th:onclick="toggleLike(this.getAttribute('data-post-id'), this.getAttribute('data-user-id'))">
-                        <i class="fa-solid fa-heart" style="color:red; display: none"
-                           id="like-icon-${postDTO.post.id}"></i>
                     </a>
-                    <a
-                            th:data-user-id="${user.id}"
-                            th:data-post-id="${postDTO.post.id}"
-                            th:onclick="toggleLike(this.getAttribute('data-post-id'), this.getAttribute('data-user-id'))">
-                        <i class="bi bi-heart" style="display: inline-block" id="unlike-icon-${postDTO.post.id}"></i>
+                    <button class="carousel-control-prev" type="button"
+                            th:attr="data-bs-target='#carouselExample_' + ${postIdx.index}"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button"
+                            th:attr="data-bs-target='#carouselExample_' + ${postIdx.index}"
+                            data-bs-slide="next" style="right: -9%;">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <div class="post-footer" style="margin-left: -16px">
+                <div class="post-actions" style="color: black">
+                    <a th:id="'is-like-' + ${postDTO.post.id}"
+                       th:style="'display: ' + (${postDTO.like.contains(user) ? 'inline-block' : 'none'})">
+                        <i class="fa-solid fa-heart" style="color:red"></i>
+                    </a>
+                    <a th:id="'un-like-' + ${postDTO.post.id}"
+                       th:style="'display: ' + (${postDTO.like.contains(user) ? 'none' : 'inline-block'})">
+                        <i class="bi bi-heart"></i>
                     </a>
                     <a href=""> <i class="bi bi-chat"></i></a>
                     <a href=""> <i class="bi bi-send"></i></a>
                 </div>
                 <div>
-                    <p class="likes" th:id="'like-count-' + ${postDTO.post.id}" th:text="${postDTO.like} + ' likes'">0
+                    <p class="likes" th:id="'like-count-' + ${postDTO.post.id}"
+                       th:text="${postDTO.like.size()} + ' likes'">0
                         likes</p>
                     <span class="desc" th:text="${postDTO.post.content}">Chuyện là hôm qua em mới chia tay người yêu Em buồn quá em đi học code.Có cái code khó quá em học không
                     được em buồn nữa </span>
@@ -169,87 +179,136 @@
                 </a>
             </th:block>
             <div>
-                <a href=""><p class="fw-bold" style="color:#737373 ;margin-top: 30px">Xem tất cả</p></a>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog ">
-        <div class="modal-content ">
-            <div class="modal-body">
-                <a href="#">
-                    <div class="modal-a a1 text-center">
-                        Bỏ theo dõi
-                    </div>
-                </a>
-                <a href="#">
-                    <div class="modal-a text-center">
-                        Ẩn bài viết
-                    </div>
-                </a>
-                <a href="#">
-                    <div class="modal-a text-center">
-                        Báo cáo
-                    </div>
-                </a>
-                <a href="#" data-bs-dismiss="modal">
-                    <div class="modal-a a1 text-center">
-                        Huỷ
-                    </div>
+                <a href="/friendship/search"><p class="fw-bold" style="color:#737373 ;margin-top: 30px">Xem tất cả</p>
                 </a>
             </div>
         </div>
     </div>
 </div>
+<div id="modal" class="l-modal">
+    <div class="l-modal-content">
+        <span class="close">&times;</span>
+        <h2>Like</h2>
+        <div style="width: 500px; height: 500px">
+            <ul id="listLike">
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const items = document.querySelectorAll('.suggestion-item');
-        const maxVisible = 4;
-        items.forEach((item, index) => {
-            if (index < maxVisible) {
-                item.parentElement.style.display = 'block';
-            } else {
-                item.parentElement.style.display = 'none';
-            }
+    const timeElements = document.querySelectorAll('.time');
+    // Lặp qua từng thẻ span và định dạng ngày tháng
+    timeElements.forEach(element => {
+        const createdAt = element.innerText; // Lấy giá trị ngày tháng
+        const formattedTime = moment(createdAt).fromNow(); // Định dạng khoảng thời gian
+        element.innerText = formattedTime; // Gán lại giá trị đã định dạng
+    });
+    var modal = document.getElementById("modal");
+    var span = document.getElementsByClassName("close")[0];
+    $(document).ready(function () {
+        $('[id^="like-count"]').click(function () {
+            const postId = this.id.split('-')[2];
+            getListLike(postId);
         });
-        const posts = document.querySelectorAll('.feed-post');
-        posts.forEach(post => {
-            const postId = post.querySelector('[data-post-id]').getAttribute('data-post-id');
-            checkAndCountLikes(postId)
+        $('[id^="is-like"]').click(function () {
+            const postId = this.id.split('-')[2];
+            like(postId);
+        });
+        $('[id^="un-like"]').click(function () {
+            const postId = this.id.split('-')[2];
+            like(postId);
         });
     });
-    const checkAndCountLikes = (postId) => {
-        fetch(`/api/like/${postId}`)
-            .then(res => res.json())
-            .then(data => {
-                const likeCount = data.likeCount;
-                const liked = data.liked;
 
-                document.getElementById('like-count-' + postId).innerText = likeCount + " likes";
-
-                const filledHeart = document.querySelector(`[data-post-id="${postId}"] .fa-solid.fa-heart`);
-                const emptyHeart = document.querySelector(`[data-post-id="${postId}"] .bi.bi-heart`);
-
-                if (liked) {
-                    filledHeart.style.display = 'inline-block';
-                    emptyHeart.style.display = 'none';
-                } else {
-                    filledHeart.style.display = 'none';
-                    emptyHeart.style.display = 'inline-block';
+    function like(postId) {
+        $.ajax({
+            url: "http://localhost:8080/api/like/likePost",
+            type: "post",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify({
+                id: postId
+            }),
+            success: function (data, status, xhr) {
+                if (xhr.status === 200) {
+                    updateLikeIcon(postId, "like")
+                } else if (xhr.status === 204) {
+                    updateLikeIcon(postId, "un-like")
                 }
-            });
-    }
-
-    function toggleLike(postId, userId) {
-        fetch(`/api/like/${postId}?userId=${userId}`, {
-            method: 'POST',
-        }).then(response => {
-            if (response.ok) {
-                checkAndCountLikes(postId)
             }
         });
+    }
+
+    function updateLikeIcon(postId, status) {
+        if (status === "like") {
+            $('#is-like-' + postId).show();
+            $('#un-like-' + postId).hide();
+        } else if (status === 'un-like') {
+            $('#is-like-' + postId).hide();
+            $('#un-like-' + postId).show();
+        }
+        updateCountLike(postId)
+    }
+
+    function updateCountLike(postId) {
+        $.ajax({
+            url: "http://localhost:8080/api/like/list",
+            type: "post",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify({
+                id: postId
+            }),
+            success: function (data) {
+                $('#like-count-' + postId).html(data.length + ' likes')
+            }
+        });
+    }
+
+    function getListLike(postId) {
+        $.ajax({
+            url: `http://localhost:8080/api/like/list`,
+            method: 'POST',
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({
+                id: postId
+            }),
+            success: function (data) {
+                showListLike(data);
+            },
+            error: function (xhr, status, error) {
+                console.log('Lỗi khi chấp nhận lời mời kết bạn:', error);
+            }
+        });
+    }
+
+    function showListLike(data) {
+        $('#listLike').empty();
+        data.forEach(item => {
+            const likeHtml = `
+                <a href="/user/${item.user.id}">
+                    <li>
+                        <div style="width: 459px">
+                            <img src="${item.user.profilePic}"
+                                 alt="Profile" class="profile-img">
+                            <p style="color: black; display: inline-block">${item.user.fullName}</p>
+                        </div>
+                    </li>
+                </a>`;
+            $('#listLike').append(likeHtml);
+        });
+        modal.style.display = "block";
+    }
+
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
     }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>

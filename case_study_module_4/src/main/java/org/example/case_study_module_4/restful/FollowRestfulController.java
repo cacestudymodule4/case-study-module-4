@@ -71,4 +71,18 @@ public class FollowRestfulController {
         notificationService.sendFollowNotification(user, otherUser);
         return ResponseEntity.ok(true);
     }
+
+    @PostMapping("/deleteFollower")
+    public ResponseEntity<Void> deleteFollower(@RequestBody User otherUser, Principal principal) {
+        User user;
+        if (principal instanceof OAuth2AuthenticationToken) {
+            OAuth2User oAuth2User = ((OAuth2AuthenticationToken) principal).getPrincipal();
+            user = userService.findUserByEmail(oAuth2User.getAttribute("email"));
+        } else {
+            user = userService.findUserByEmail(principal.getName());
+        }
+        Follow follow = followService.getFollow(otherUser, user);
+        followService.deleteFollow(follow);
+        return ResponseEntity.noContent().build();
+    }
 }
