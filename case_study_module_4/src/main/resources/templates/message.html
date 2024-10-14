@@ -47,7 +47,7 @@
                         <span>
                             <img src="https://static.thenounproject.com/png/944726-200.png " style="display:none"
                                  th:id="'n-message' + ${friend.id}" alt="">
-                    </span>
+                        </span>
                     </div>
                 </div>
             </a>
@@ -76,6 +76,7 @@
         <div class="chat-messages" id="messages">
         </div>
         <div class="chat-input">
+            <label for="message"></label>
             <input type="text" placeholder="Type a message..." id="message" onkeydown="handleEnterPress(event)"
                    oninput="checkInput()">
             <i class="fas fa-camera"></i>
@@ -166,7 +167,7 @@
                 chatHeader.innerHTML = `
                  <div class="friend-item" style="border-bottom: none "><img
                     src="${data.profilePic}" alt="Friend 2">
-                <span style="font-size: large;">${data.fullName}e</span></div>
+                <span style="font-size: large;">${data.fullName}</span></div>
                 <div class="d-flex">
                     <i class="fas fa-phone icons" title="Voice Call" style="margin-right: 60px;"></i>
                     <i class="fas fa-video icons" title="Video Call"></i>
@@ -245,9 +246,9 @@
         }));
         const messagesDiv = document.getElementById('messages');
         messagesDiv.innerHTML += `
-        <div class="message sent">
-            <div class="message-content">${content}</div>
-        </div>`;
+            <div class="message sent">
+                <div class="message-content">${content}</div>
+            </div>`;
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
         document.getElementById('message').value = "";
     }
@@ -257,11 +258,26 @@
         if (message.sender.id == friendId) {
             const messagesDiv = document.getElementById('messages');
             messagesDiv.innerHTML += `
-            <div class="message">
-                <div class="message-content"><span>${message.content}</span>
-                </div>
-            </div>`;
+                <div class="message">
+                    <div class="message-content"><span>${message.content}</span>
+                    </div>
+                </div>`;
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            $.ajax({
+                url: "http://localhost:8080/history",
+                type: "post",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    sender: {
+                        id: id,
+                        email: email
+                    },
+                    receiver: {
+                        id: friendId
+                    }
+                })
+            });
         } else {
             $('#n-message' + message.sender.id).show();
         }

@@ -18,4 +18,6 @@ public interface PostService {
     Post findPostById(Long postId);
 
     void deletePostById(Long postId);
+
+    Post updatePost(Post post);
 }

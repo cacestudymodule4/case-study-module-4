@@ -97,4 +97,9 @@ public class PostServiceImpl implements PostService {
         notificationRepository.deleteAll(notifications);
         postRepository.deleteById(postId);
     }
+
+    @Override
+    public Post updatePost(Post post) {
+        return postRepository.save(post);
+    }
 }

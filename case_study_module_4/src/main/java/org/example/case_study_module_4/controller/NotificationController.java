@@ -1,7 +1,9 @@
 package org.example.case_study_module_4.controller;
 
+import org.example.case_study_module_4.model.Message;
 import org.example.case_study_module_4.model.Notification;
 import org.example.case_study_module_4.model.User;
+import org.example.case_study_module_4.service.MessageService;
 import org.example.case_study_module_4.service.NotificationService;
 import org.example.case_study_module_4.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +22,13 @@ import java.util.List;
 public class NotificationController {
     @Autowired
     private NotificationService notificationService;
-
     @Autowired
     private UserService userService;
+    private final MessageService messageService;
+
+    public NotificationController(MessageService messageService) {
+        this.messageService = messageService;
+    }
 
     @GetMapping("")
     public ModelAndView notification(Principal principal) {
@@ -37,6 +43,10 @@ public class NotificationController {
         mav.addObject("user", receiver);
         List<Notification> listNoti = notificationService.findAllByRecipientId(receiver.getId());
         mav.addObject("listNoti", listNoti);
+        List<Message> messages = messageService.getMessagesByReceiver(receiver);
+        mav.addObject("newMessages", messages.size());
+        List<Notification> notifications = notificationService.findNotificationsByRecipientIdIsRead(receiver.getId());
+        mav.addObject("newNotify", notifications.size());
         return mav;
     }
 }
