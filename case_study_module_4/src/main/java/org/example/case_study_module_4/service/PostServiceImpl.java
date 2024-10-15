@@ -81,12 +81,17 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<Post> findAll(Pageable pageable) {
-        return postRepository.findAll(pageable);
+    public List<Post> findAllByDeletedIsFalse() {
+        return postRepository.findDeletedPosts();
     }
 
     @Override
     public void deleteById(Long id) {
         postRepository.deleteById(id);
+    }
+
+    @Override
+    public void save(Post post) {
+        postRepository.save(post);
     }
 }

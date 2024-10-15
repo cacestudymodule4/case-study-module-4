@@ -24,9 +24,8 @@ public class AdminController {
     private final CommentService commentService;
 
     @GetMapping
-    public String getAllPosts(Model model,
-                              @RequestParam(defaultValue = "0") int page) {
-        Page<Post> postList = postService.findAll(PageRequest.of(page, 10));
+    public String getAllPosts(Model model) {
+        List<Post> postList = postService.findAllByDeletedIsFalse();
         model.addAttribute("postList", postList);
         List<User> userList = userService.findAllByDeletedIsFalse();
         model.addAttribute("userList", userList);
@@ -37,7 +36,9 @@ public class AdminController {
 
     @PostMapping("/post/delete/{id}")
     public String deletePost(@PathVariable Long id) {
-        postService.deleteById(id);
+        Post post = postService.findPostById(id);
+        post.setDeleted(true);
+        postService.save(post);
         return "redirect:/admin";
     }
 

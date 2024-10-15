@@ -3,9 +3,6 @@ package org.example.case_study_module_4.service;
 import org.example.case_study_module_4.model.Media;
 import org.example.case_study_module_4.model.Post;
 import org.example.case_study_module_4.model.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -20,7 +17,9 @@ public interface PostService {
 
     Post findPostById(Long postId);
 
-    Page<Post> findAll(Pageable pageable);
+    List<Post> findAllByDeletedIsFalse();
 
     void deleteById(Long id);
+
+    void save(Post post);
 }

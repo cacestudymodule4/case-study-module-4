@@ -16,5 +16,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findTop4User();
 
     @Query("SELECT u FROM  User u WHERE u.isDeleted = FALSE ")
-    List<User>  findAllByDeletedIsFalse();
+    List<User>findAllByDeletedIsFalse();
 }

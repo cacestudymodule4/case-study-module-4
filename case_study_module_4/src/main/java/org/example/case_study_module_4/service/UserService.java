@@ -1,9 +1,6 @@
 package org.example.case_study_module_4.service;
 
 import org.example.case_study_module_4.model.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
