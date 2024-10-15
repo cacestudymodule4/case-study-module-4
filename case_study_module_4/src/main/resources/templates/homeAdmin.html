@@ -10,7 +10,7 @@
 
 <div class="container">
 
-    <!--navigation-->
+    <!-------------------navigation------------------------->
     <div class="navigation">
         <ul>
             <li>
@@ -40,7 +40,7 @@
         </ul>
     </div>
 
-    <!-- main -->
+    <!-------------------------- main ----------------------------->
     <div class="main">
         <div class="topbar">
             <div class="toggle">
@@ -52,7 +52,7 @@
             </div>
         </div>
 
-        <!--    cards   -->
+        <!------------------------------- cards ------------------------>
         <div class="cardBox">
             <div class="card">
                 <div>
@@ -90,7 +90,7 @@
 
         <div class="posts">
 
-            <!--    recent users-->
+            <!--------------------- recent users ------------------------->
             <div class="recentUsers">
                 <div class="cardHeader">
                     <h2>Recent Users</h2>
@@ -115,7 +115,8 @@
                         <td th:text="${user.fullName}"></td>
                         <td th:text="${user.bio}"></td>
                         <td>
-                            <form th:action="@{/admin/user/delete/{id}(id=${user.id})}" method="post">
+                            <form th:action="@{/admin/user/delete/{id}(id=${user.id})}" method="post"
+                                  onsubmit="return confirmDelete(event)">
                                 <button type="submit" class="btn-delete">Delete</button>
                             </form>
                         </td>
@@ -142,7 +143,8 @@
                         <td th:text="${comment.user.getFullName()}"></td>
                         <td th:text="${comment.content}"></td>
                         <td>
-                            <form th:action="@{/admin/comment/delete/{id}(id=${comment.id})}" method="post">
+                            <form th:action="@{/admin/comment/delete/{id}(id=${comment.id})}" method="post"
+                                  onsubmit="return confirmDelete(event)">
                                 <button type="submit" class="btn-delete">Delete</button>
                             </form>
                         </td>
@@ -162,7 +164,6 @@
                 <thead>
                 <tr>
                     <td>Author</td>
-                    <td>Title</td>
                     <td>Content</td>
                     <td>Date</td>
                     <td>Action</td>
@@ -171,11 +172,11 @@
                 <tbody>
                 <tr th:each="post : ${postList}">
                     <td th:text="${post.user.getFullName()}"></td>
-                    <td th:text="${post.title}"></td>
-                    <td th:text="${post.content}"></td>
+                    <td th:text="${post.getContent()}"></td>
                     <td th:text="${post.createdAt}"></td>
                     <td>
-                        <form th:action="@{/admin/post/delete/{id}(id=${post.id})}" method="post">
+                        <form th:action="@{/admin/post/delete/{id}(id=${post.id})}" method="post"
+                              onsubmit="return confirmDelete(event)">
                             <button type="submit" class="btn-delete">Delete</button>
                         </form>
                     </td>
@@ -183,11 +184,16 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Toast Notification -->
+        <div id="toast" class="toast">Do you really want to delete this item?</div>
+
     </div>
 </div>
 
 <script th:src="@{/admin/homeAdmin.js}"></script>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
 </body>
 </html>

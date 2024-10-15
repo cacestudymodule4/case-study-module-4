@@ -22,28 +22,20 @@ toggle.onclick = function () {
     main.classList.toggle("active");
 };
 
-// document.querySelectorAll(".btn-delete").forEach(function (el) {
-//     el.addEventListener("click", function (e) {
-//         e.preventDefault();  // Ngăn form gửi đi ngay lập tức
-//         let form = this.closest("form");  // Lấy form tương ứng với nút xóa
-//         deleteConfirm(form);
-//     });
-// });
-//
-// function deleteConfirm(form) {
-//     Swal.fire({
-//         title: "Bạn chắc chắn muốn xóa?",
-//         text: "Hành động này không thể hoàn tác!",
-//         icon: "warning",
-//         showCancelButton: true,
-//         confirmButtonColor: "#d33",
-//         cancelButtonColor: "#3085d6",
-//         confirmButtonText: "Xác nhận",
-//         cancelButtonText: "Hủy"
-//     }).then((result) => {
-//         if (result.isConfirmed) {
-//             form.submit();  // Nếu xác nhận thì submit form
-//         }
-//     });
-// }
+function confirmDelete(event) {
+    const toast = document.getElementById('toast');
+    toast.classList.add('show'); // Show the toast notification
 
+    // Prevent form submission initially
+    event.preventDefault();
+
+    // Use a timeout to simulate confirmation logic
+    setTimeout(() => {
+        if (confirm('Are you sure you want to delete this?')) {
+            event.target.submit(); // Submit the form if confirmed
+        }
+        toast.classList.remove('show'); // Hide the toast after confirmation
+    }, 500); // Adjust timeout as needed
+
+    return false;
+}
