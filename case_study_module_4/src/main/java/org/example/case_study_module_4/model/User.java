@@ -29,5 +29,7 @@ public class User {
     private String profilePic;
     @Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp createdAt;
+
+    private boolean isDeleted ;
 }
 

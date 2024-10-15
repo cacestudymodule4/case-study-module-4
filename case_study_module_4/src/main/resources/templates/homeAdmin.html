@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link th:href="@{/admin/homeAdmin.css}" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+
+    <!-------------------navigation------------------------->
+    <div class="navigation">
+        <ul>
+            <li>
+                <a href="/admin">
+                    <span class="icon">
+                        <ion-icon name="logo-apple"></ion-icon>
+                    </span>
+                    <span class="title">𝓥𝓷𝓰𝓻𝓪𝓶</span>
+                </a>
+            </li>
+            <li>
+                <a href="/admin">
+                    <span class="icon">
+                        <ion-icon name="home-outline"></ion-icon>
+                    </span>
+                    <span class="title">Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="/logout">
+                    <span class="icon">
+                        <ion-icon name="log-out-outline"></ion-icon>
+                    </span>
+                    <span class="title">Sign Out</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-------------------------- main ----------------------------->
+    <div class="main">
+        <div class="topbar">
+            <div class="toggle">
+                <ion-icon name="menu-outline"></ion-icon>
+            </div>
+
+            <div class="user">
+                <img src="/static/admin/images/R.jpg" alt="">
+            </div>
+        </div>
+
+        <!------------------------------- cards ------------------------>
+        <div class="cardBox">
+            <div class="card">
+                <div>
+                    <div class="numbers">1,504</div>
+                    <div class="cardName">Daily Views</div>
+                </div>
+
+                <div class="iconBx">
+                    <ion-icon name="eye-outline"></ion-icon>
+                </div>
+            </div>
+
+            <div class="card">
+                <div>
+                    <div class="numbers">284</div>
+                    <div class="cardName">Comments</div>
+                </div>
+
+                <div class="iconBx">
+                    <ion-icon name="chatbubbles-outline"></ion-icon>
+                </div>
+            </div>
+
+            <div class="card">
+                <div>
+                    <div class="numbers">284</div>
+                    <div class="cardName">Users</div>
+                </div>
+
+                <div class="iconBx">
+                    <ion-icon name="people-outline"></ion-icon>
+                </div>
+            </div>
+        </div>
+
+        <div class="posts">
+
+            <!--------------------- recent users ------------------------->
+            <div class="recentUsers">
+                <div class="cardHeader">
+                    <h2>Recent Users</h2>
+                </div>
+
+                <table>
+                    <thead>
+                    <tr id="tr-table">
+                        <th>Avatar</th>
+                        <th>Full Name</th>
+                        <th>Bio</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="user : ${userList}">
+                        <td width="60px">
+                            <div class="imgBx">
+                                <img th:src="@{admin/images/R.jpg}" alt="">
+                            </div>
+                        </td>
+                        <td th:text="${user.fullName}"></td>
+                        <td th:text="${user.bio}"></td>
+                        <td>
+                            <form th:action="@{/admin/user/delete/{id}(id=${user.id})}" method="post"
+                                  onsubmit="return confirmDelete(event)">
+                                <button type="submit" class="btn-delete">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="recentComment">
+                <div class="cardComment">
+                    <h2>Recent Comment</h2>
+                </div>
+
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Author</th>
+                        <th>Content</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="comment : ${commentList}">
+                        <td th:text="${comment.user.getFullName()}"></td>
+                        <td th:text="${comment.content}"></td>
+                        <td>
+                            <form th:action="@{/admin/comment/delete/{id}(id=${comment.id})}" method="post"
+                                  onsubmit="return confirmDelete(event)">
+                                <button type="submit" class="btn-delete">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--    Recent Posts    -->
+        <div class="recentPosts">
+            <div class="cardHeader">
+                <h2>Recent Posts</h2>
+                <a href="#" class="btn">View All</a>
+            </div>
+
+            <table>
+                <thead>
+                <tr>
+                    <td>Author</td>
+                    <td>Content</td>
+                    <td>Date</td>
+                    <td>Action</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="post : ${postList}">
+                    <td th:text="${post.user.getFullName()}"></td>
+                    <td th:text="${post.getContent()}"></td>
+                    <td th:text="${post.createdAt}"></td>
+                    <td>
+                        <form th:action="@{/admin/post/delete/{id}(id=${post.id})}" method="post"
+                              onsubmit="return confirmDelete(event)">
+                            <button type="submit" class="btn-delete">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Toast Notification -->
+        <div id="toast" class="toast">Do you really want to delete this item?</div>
+
+    </div>
+</div>
+
+<script th:src="@{/admin/homeAdmin.js}"></script>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+</body>
+</html>

@@ -17,4 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u FROM User u WHERE u.fullName LIKE :fullName ORDER BY u.createdAt")
     List<User> findByFullName(@Param("fullName") String fullName);
+
+    @Query("SELECT u FROM  User u WHERE u.isDeleted = FALSE ")
+    List<User>findAllByDeletedIsFalse();
 }

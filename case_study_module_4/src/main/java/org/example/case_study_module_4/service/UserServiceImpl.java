@@ -42,4 +42,14 @@ public class UserServiceImpl implements UserService {
         String str = "%" + fullName + "%";
         return userRepository.findByFullName(str);
     }
+
+    @Override
+    public List<User> findAllByDeletedIsFalse() {
+        return userRepository.findAllByDeletedIsFalse();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
+    }
 }

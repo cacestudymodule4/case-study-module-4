@@ -14,4 +14,9 @@ public interface UserService {
     User findUserById(Long id);
 
     List<User> findByFullName(String fullName);
+
+    List<User> findAllByDeletedIsFalse();
+
+    void deleteById(Long id);
+
 }
