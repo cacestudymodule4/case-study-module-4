@@ -3,35 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instagram Messaging UI</title>
+    <title>Messaging</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" th:href="@{/property/message/message.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@3.0.3/dist/index.min.js"></script>
+    <style>
+        .notification {
+            position: relative;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 1%;
+            right: -7%;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 5px 7px;
+            font-size: 12px;
+            line-height: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 20px;
+            height: 20px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 <div class="container-fluid chat-container">
     <div class="sidebar">
         <div class="icon-bar">
-            <a href="/home"><i class="fa-brands fa-instagram home icons"></i></a>
-            <i class="fas fa-search icons" title="Search"></i>
-            <i class="far fa-heart icons" title="Likes"></i>
-            <i class="fa-regular fa-message icons"></i>
-            <i class="far fa-user icons" title="Profile"></i>
-            <a href="/logout"><i class="fa-solid fa-arrow-right-from-bracket icons" title="Logout"
-                                 style="margin-top: 50%"></i></a>
+            <a href="/home" style="margin-top: 58px"><i class="fa-brands fa-instagram home icons"></i></a>
+            <a href="/home" style="margin-top: 55px; margin-right: 14px;"><i class="fa-solid fa-house fs-3"></i></a>
+            <a href="/friendship/search" style="margin-top: 22px"><i class="fas fa-search icons" title="Search"></i></a>
+            <a href="/notification/" style="margin-top: 9px" class="notification"><i class="far fa-heart icons"
+                                                                                     title="Likes"></i>
+                <th:block th:if="${newNotify > 0}">
+                    <span class="notification-badge" th:text="${newNotify}">6</span>
+                </th:block>
+            </a>
+            <a href="/message" style="margin-top: 8px" class="notification"><i class="fa-solid fa-message icons"></i>
+                <th:block th:if="${newMessages > 0}">
+                    <span class="notification-badge" th:text="${newMessages}" id="notify-m">5</span>
+                </th:block>
+            </a>
+            <a th:href="@{/user/__${user.id}__}" style="margin-top: 10px"><i class="far fa-user icons"
+                                                                             title="Profile"></i></a>
+            <a href="/logout" style="margin-top: 269px"><i class="fa-solid fa-arrow-right-from-bracket icons"
+                                                           title="Logout"
+                                                           style="margin-top: 50%"></i></a>
         </div>
     </div>
     <div class="friends-list">
-        <div class="account-info ">
+        <div class="account-info mb-3 mt-2">
             <a href="" style="text-decoration: none;">
-                <div class="mb-2" style="font-size: larger;font-weight: bolder;color: black" th:text="${user.fullName}">
-                    DaVid ToNy Tèo
-                </div>
                 <img class="mb-2" th:src="@{__${user.profilePic}__}"
                      alt="avatar">
+                <span class="mb-2" style="font-size: large; color: black"
+                      th:text="${user.fullName}">
+                    DaVid ToNy Tèo
+                </span>
             </a>
         </div>
         <h4>Bạn Bè</h4>
@@ -40,13 +77,18 @@
                 <div class="friend-item">
                     <img th:src="@{__${friend.profilePic}__}"
                          th:alt="'avatar' + ${s.count}">
-                    <div th:text="${friend.fullName}">John Doe</div>
-                    <i class="fa-regular fa-message icons" style="display:none;" th:id="'n-message' + ${friend.id}"></i>
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                        <span th:text="${friend.fullName}"></span>
+                        <span>
+                            <img src="https://static.thenounproject.com/png/944726-200.png " style="display:none"
+                                 th:id="'n-message' + ${friend.id}" alt="">
+                        </span>
+                    </div>
                 </div>
             </a>
         </th:block>
     </div>
-    <div class="message-default w-100" id="message-default">
+    <div class="message-default" id="message-default" style="width: 100%;">
         <svg aria-label="" class="x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="80" role="img"
              viewBox="0 0 96 96" width="80"><title></title>
             <path d="M48 0C21.532 0 0 21.533 0 48s21.532 48 48 48 48-21.532 48-48S74.468 0 48 0Zm0 94C22.636 94 2 73.364 2 48S22.636 2 48 2s46 20.636 46 46-20.636 46-46 46Zm12.227-53.284-7.257 5.507c-.49.37-1.166.375-1.661.005l-5.373-4.031a3.453 3.453 0 0 0-4.989.921l-6.756 10.718c-.653 1.027.615 2.189 1.582 1.453l7.257-5.507a1.382 1.382 0 0 1 1.661-.005l5.373 4.031a3.453 3.453 0 0 0 4.989-.92l6.756-10.719c.653-1.027-.615-2.189-1.582-1.453ZM48 25c-12.958 0-23 9.492-23 22.31 0 6.706 2.749 12.5 7.224 16.503.375.338.602.806.62 1.31l.125 4.091a1.845 1.845 0 0 0 2.582 1.629l4.563-2.013a1.844 1.844 0 0 1 1.227-.093c2.096.579 4.331.884 6.659.884 12.958 0 23-9.491 23-22.31S60.958 25 48 25Zm0 42.621c-2.114 0-4.175-.273-6.133-.813a3.834 3.834 0 0 0-2.56.192l-4.346 1.917-.118-3.867a3.833 3.833 0 0 0-1.286-2.727C29.33 58.54 27 53.209 27 47.31 27 35.73 36.028 27 48 27s21 8.73 21 20.31-9.028 20.31-21 20.31Z"></path>
@@ -56,32 +98,41 @@
             <span>Gởi ảnh và tin nhắn riêng tư cho bạn bè hoặc nhóm</span></div>
         <button class="btn " style="background-color: #0295f6;color:white">Gửi tin nhắn</button>
     </div>
-    <div class="chat-box" style="display: none" id="chat-box">
+    <div class="chat-box w-50" style="display: none" id="chat-box">
         <div class="chat-header" id="chat-header">
-            <div class="friend-item" style="border-bottom: none "><img
+            <div class="friend-item" style="border-bottom: none"><img
                     src="https://haycafe.vn/wp-content/uploads/2022/02/Anh-girl-xinh-Au-My-dep-nhat.jpg" alt="Friend 2">
-                <h5>John Doe</h5></div>
+                <span style="font-size: large;">John Doe</span></div>
             <div class="d-flex">
                 <i class="fas fa-phone icons" title="Voice Call" style="margin-right: 60px;"></i>
                 <i class="fas fa-video icons" title="Video Call"></i>
             </div>
         </div>
         <div class="chat-messages" id="messages">
-            <div class="message sent">
-                <div class="message-content"></div>
-            </div>
         </div>
         <div class="chat-input">
+            <label for="message"></label>
             <input type="text" placeholder="Type a message..." id="message" onkeydown="handleEnterPress(event)"
                    oninput="checkInput()">
             <i class="fas fa-camera"></i>
-            <i class="fas fa-heart"></i>
+            <a href="#" style="font-size: 30px; margin-right:5px; text-decoration: none" id="emoji-btn">🙂</a>
             <button id="send" disabled>Send</button>
         </div>
     </div>
 </div>
 <div id="user" th:attr="data-email=${user.email}, data-id=${user.id}, data-username=${user.username}"></div>
 <script>
+    const picker = new EmojiButton();
+    const button = document.querySelector('#emoji-btn');
+    const input = document.querySelector('#message');
+    button.addEventListener('click', () => {
+        picker.togglePicker(button);
+    });
+    picker.on('emoji', emoji => {
+        input.value += emoji;
+        $('#send').prop('disabled', false);
+    });
+
     function checkInput() {
         const input = document.getElementById("message");
         const sendButton = document.getElementById("send");
@@ -151,7 +202,7 @@
                 chatHeader.innerHTML = `
                  <div class="friend-item" style="border-bottom: none "><img
                     src="${data.profilePic}" alt="Friend 2">
-                <h5>${data.fullName}</h5></div>
+                <span style="font-size: large;">${data.fullName}</span></div>
                 <div class="d-flex">
                     <i class="fas fa-phone icons" title="Voice Call" style="margin-right: 60px;"></i>
                     <i class="fas fa-video icons" title="Video Call"></i>
@@ -190,12 +241,12 @@
             if (sender.id == id) {
                 messagesDiv.innerHTML += `
                 <div class="message sent">
-                    <div class="message-content">${content}</div>
+                    <div class="message-content"><span>${content}</span></div>
                 </div>`;
             } else {
                 messagesDiv.innerHTML += `
                 <div class="message">
-                    <div class="message-content">${content}</div>
+                    <div class="message-content"><span>${content}</span></div>
                 </div>`;
             }
         });
@@ -230,9 +281,9 @@
         }));
         const messagesDiv = document.getElementById('messages');
         messagesDiv.innerHTML += `
-        <div class="message sent">
-            <div class="message-content">${content}</div>
-        </div>`;
+            <div class="message sent">
+                <div class="message-content">${content}</div>
+            </div>`;
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
         document.getElementById('message').value = "";
     }
@@ -242,11 +293,26 @@
         if (message.sender.id == friendId) {
             const messagesDiv = document.getElementById('messages');
             messagesDiv.innerHTML += `
-            <div class="message">
-                <div class="message-content">${message.content}
-                </div>
-            </div>`;
+                <div class="message">
+                    <div class="message-content"><span>${message.content}</span>
+                    </div>
+                </div>`;
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            $.ajax({
+                url: "http://localhost:8080/history",
+                type: "post",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    sender: {
+                        id: id,
+                        email: email
+                    },
+                    receiver: {
+                        id: friendId
+                    }
+                })
+            });
         } else {
             $('#n-message' + message.sender.id).show();
         }

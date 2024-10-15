@@ -5,11 +5,15 @@ import org.example.case_study_module_4.model.Friendship;
 import org.example.case_study_module_4.model.User;
 import org.example.case_study_module_4.service.FollowService;
 import org.example.case_study_module_4.service.FriendshipService;
+import org.example.case_study_module_4.service.NotificationService;
 import org.example.case_study_module_4.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/friend")
@@ -17,18 +21,26 @@ public class FriendshipRestfulController {
     private final UserService userService;
     private final FriendshipService friendshipService;
     private final FollowService followService;
+    private final NotificationService notificationService;
 
     public FriendshipRestfulController(UserService userService,
                                        FriendshipService friendshipService,
-                                       FollowService followService) {
+                                       FollowService followService, NotificationService notificationService) {
         this.userService = userService;
         this.friendshipService = friendshipService;
         this.followService = followService;
+        this.notificationService = notificationService;
     }
 
     @PostMapping("/status")
     public ResponseEntity<?> status(@RequestBody User otherUser, Principal principal) {
-        User user = userService.findUserByEmail(principal.getName());
+        User user;
+        if (principal instanceof OAuth2AuthenticationToken) {
+            OAuth2User oAuth2User = ((OAuth2AuthenticationToken) principal).getPrincipal();
+            user = userService.findUserByEmail(oAuth2User.getAttribute("email"));
+        } else {
+            user = userService.findUserByEmail(principal.getName());
+        }
         Friendship friendship = friendshipService.getFriendship(user, otherUser);
         if (friendship == null) {
             return ResponseEntity.ok("notFriend");
@@ -38,7 +50,13 @@ public class FriendshipRestfulController {
 
     @PostMapping("/delete")
     public ResponseEntity<String> delete(@RequestBody User otherUser, Principal principal) {
-        User user = userService.findUserByEmail(principal.getName());
+        User user;
+        if (principal instanceof OAuth2AuthenticationToken) {
+            OAuth2User oAuth2User = ((OAuth2AuthenticationToken) principal).getPrincipal();
+            user = userService.findUserByEmail(oAuth2User.getAttribute("email"));
+        } else {
+            user = userService.findUserByEmail(principal.getName());
+        }
         Friendship friendship = friendshipService.getFriendship(user, otherUser);
         friendshipService.deleteFriend(friendship);
         Follow follow = followService.getFollow(user, otherUser);
@@ -50,8 +68,21 @@ public class FriendshipRestfulController {
 
     @PostMapping("/add")
     public ResponseEntity<String> add(@RequestBody User otherUser, Principal principal) {
-        User user = userService.findUserByEmail(principal.getName());
+        User user;
+        if (principal instanceof OAuth2AuthenticationToken) {
+            OAuth2User oAuth2User = ((OAuth2AuthenticationToken) principal).getPrincipal();
+            user = userService.findUserByEmail(oAuth2User.getAttribute("email"));
+        } else {
+            user = userService.findUserByEmail(principal.getName());
+        }
+        if (Objects.equals(user.getId(), otherUser.getId())) {
+            return ResponseEntity.noContent().build();
+        }
+        if (friendshipService.getFriendship(user, otherUser) != null) {
+            return ResponseEntity.noContent().build();
+        }
         Friendship friendship = friendshipService.createFriendship(user, otherUser);
+        notificationService.sendFriendNotification(user, otherUser);
         Follow follow = new Follow();
         follow.setFollower(user);
         follow.setFollowee(otherUser);
@@ -61,7 +92,13 @@ public class FriendshipRestfulController {
 
     @PostMapping("/cancel")
     public ResponseEntity<String> cancel(@RequestBody User otherUser, Principal principal) {
-        User user = userService.findUserByEmail(principal.getName());
+        User user;
+        if (principal instanceof OAuth2AuthenticationToken) {
+            OAuth2User oAuth2User = ((OAuth2AuthenticationToken) principal).getPrincipal();
+            user = userService.findUserByEmail(oAuth2User.getAttribute("email"));
+        } else {
+            user = userService.findUserByEmail(principal.getName());
+        }
         Friendship friendship = friendshipService.getFriendship(user, otherUser);
         friendshipService.deleteFriend(friendship);
         return ResponseEntity.ok("notFriend");
@@ -69,7 +106,13 @@ public class FriendshipRestfulController {
 
     @PostMapping("/accept")
     public ResponseEntity<String> accept(@RequestBody User otherUser, Principal principal) {
-        User user = userService.findUserByEmail(principal.getName());
+        User user;
+        if (principal instanceof OAuth2AuthenticationToken) {
+            OAuth2User oAuth2User = ((OAuth2AuthenticationToken) principal).getPrincipal();
+            user = userService.findUserByEmail(oAuth2User.getAttribute("email"));
+        } else {
+            user = userService.findUserByEmail(principal.getName());
+        }
         Friendship friendship = friendshipService.getFriendship(user, otherUser);
         friendship.setStatus("accepted");
         friendshipService.updateFriendship(friendship);
@@ -82,7 +125,13 @@ public class FriendshipRestfulController {
 
     @PostMapping("/reject")
     public ResponseEntity<String> reject(@RequestBody User otherUser, Principal principal) {
-        User user = userService.findUserByEmail(principal.getName());
+        User user;
+        if (principal instanceof OAuth2AuthenticationToken) {
+            OAuth2User oAuth2User = ((OAuth2AuthenticationToken) principal).getPrincipal();
+            user = userService.findUserByEmail(oAuth2User.getAttribute("email"));
+        } else {
+            user = userService.findUserByEmail(principal.getName());
+        }
         Friendship friendship = friendshipService.getFriendship(user, otherUser);
         friendshipService.deleteFriend(friendship);
         return ResponseEntity.ok("notFriend");

@@ -1,7 +1,18 @@
 package org.example.case_study_module_4.service;
 
-public interface LikeService {
-    void updateLike(Long postId, Long userId);
+import org.example.case_study_module_4.model.Like;
+import org.example.case_study_module_4.model.User;
 
-    Long countLikes(Long postId);
+import java.util.List;
+
+public interface LikeService {
+    List<Like> getLikedByPostId(Long postId);
+
+    Like getLikedByUserId(Long userId, Long postId);
+
+    void deleteLike(Like like);
+
+    Like addLike(Like like);
+
+    List<User> getUserLikedByPostId(Long postId);
 }

@@ -3,23 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bình luận Bài viết Instagram</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
+    <title>Bài viết</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" th:href="@{/property/detail_page/detail.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@3.0.3/dist/index.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/property/view_post/view_post.css}">
+    <link rel="stylesheet" th:href="@{/property/like/like.css}">
 </head>
 <body>
 <div class="container">
     <div class="post-image">
-        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+        <div id="carouselExampleIndicators" class="carousel slide">
+            <div class="carousel-indicators">
+                <th:block th:each="media,s :${post.mediaList}">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" th:data-bs-slide-to="${s.index}"
+                            th:class="${s.index == 0 ? 'active' : ''}"
+                            aria-current="true" th:aria-label="'Slide' + ${s.index}"></button>
+                </th:block>
+            </div>
             <div class="carousel-inner">
                 <th:block th:each="media,s :${post.mediaList}">
-                    <div th:class="'carousel-item' + ${s.count == 1 ? ' active':''}">
+                    <div th:class="'carousel-item' + ${s.index == 0 ? ' active':''}">
                         <img th:src="@{__${media.mediaUrl}__}"
-                             th:alt="'media '+${s.count}">
+                             th:alt="'media '+${s.count}" class="d-block w-100">
                     </div>
                 </th:block>
             </div>
@@ -36,64 +44,338 @@
         </div>
     </div>
     <div class="comment-section">
-        <div class="post-header">
-            <img th:src="@{__${post.user.profilePic}__}" style="object-fit: cover"
-                 alt="User Avatar">
-            <h5 style="font-size: 16px;font-weight: bold" th:text="${post.user.fullName}"></h5>
-        </div>
-        <div class="story" style="font-size: 15px" th:text="${post.post.title}">
-            đây là một câu chuyện cảm động nhà quý vị ơi
-            đây là một câu chuyện cảm động nhà quý vị ơi
+        <div class="post-header d-flex justify-content-between">
+            <a th:href="@{/user/__${post.user.id}__}">
+                <div><img th:src="@{__${post.user.profilePic}__}" style="object-fit: cover"
+                          alt="User Avatar">
+                    <span style="font-size: 16px;font-weight: bold" th:text="${post.user.fullName}"></span></div>
+            </a>
+            <a href="/home" style="margin-bottom: 40px">
+                <i class="fa-solid fa-x"></i></a>
         </div>
         <div class="story" style="font-size: 15px" th:text="${post.post.content}">
-            đây là một câu chuyện cảm động nhà quý vị ơi
-            đây là một câu chuyện cảm động nhà quý vị ơi
+            Nội dung
         </div>
         <div class="comment-list">
+            <div class="text-center" th:style="${post.commentList.isEmpty() ? '' : 'display: none'}" id="display-c-df">
+                <h3 style="margin-top: 50%">
+                    Chưa có bình luận nào
+                </h3>
+                <p> Bẳt đầu trò chuyện</p>
+            </div>
             <div class="comment" th:each="comment : ${post.commentList}">
                 <img th:src="@{__${comment.user.profilePic}__}"
                      style="object-fit: cover" alt="User Avatar">
                 <div class="comment-content">
-                    <strong th:text="${comment.user.fullName}"></strong>: <span
-                        th:text="${comment.content}"></span>
-                    <div class="time-like ">
-                        <span class="day ml-3" th:text="${comment.createdAt}">
-                            5 ngày
-                        </span>
+                    <strong th:text="${comment.user.fullName}"></strong>
+                    <span th:text="${comment.content}" th:id="'c-content' + ${comment.id}"></span>
+                    <div class="time-like">
+                <span class="day ml-3 time" th:text="${comment.createdAt}">
+                    5 ngày
+                </span>
                         <span class="like ml-3"> 12 lượt thích </span>
                         <span class="answer ml-3">Trả lời</span>
                         <a href=""><i class="fa-solid fa-heart icon-comment" style="color:#737373"></i></a>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="foot">
-            <div class="icon-foot">
-                <a href=""><i class="bi bi-heart;" style="display: block"></i></a>
-                <a href=""><i class="fa-solid fa-heart  " style="color:red;display: inline-block"></i></a>
-                <a href=""><i class="bi bi-chat"></i></a>
-                <a href=""><i class="bi bi-send"></i></a>
-            </div>
-            <div>
-                <p style="font-weight: bold;font-size: 15px" class="total_like"
-                   th:text="${post.like} + ' lượt thích'">111.23 lượt thích </p>
-                <div class="day-foot">
-                    <span class="day day-foot" th:text="${post.post.createdAt}"> 27 tháng 9</span>
+                <a href="#" data-bs-toggle="modal" th:data-bs-target="'#modal-' + ${comment.id}"
+                   style="margin-left: -4%">
+                    <i class="fa-solid fa-ellipsis"></i>
+                </a>
+                <div class="modal fade" th:id="'modal-' + ${comment.id}" tabindex="-1"
+                     aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <th:block th:if="${user.id == comment.user.id}">
+                                    <a href="#" data-bs-dismiss="modal" class="c-edit-btn"
+                                       th:data-comment-id="${comment.id}"
+                                       th:data-comment-content="${comment.content}">
+                                        <div class="modal-a a1 text-center">
+                                            Chỉnh sửa
+                                        </div>
+                                    </a>
+                                </th:block>
+                                <th:block th:if="${user.id == comment.user.id || user.id == post.user.id}">
+                                    <a th:href="@{/comment/delete/__${comment.id}__/__${post.post.id}__}">
+                                        <div class="modal-a text-center">
+                                            Xoá
+                                        </div>
+                                    </a>
+                                </th:block>
+                                <th:block th:if="${user.id != comment.user.id}">
+                                    <a href="#">
+                                        <div class="modal-a a1 text-center">
+                                            Báo cáo
+                                        </div>
+                                    </a>
+                                </th:block>
+                                <a href="#" data-bs-dismiss="modal">
+                                    <div class="modal-a a1 text-center">
+                                        Huỷ
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="foot d-flex justify-content-between">
+            <div>
+                <div class="icon-foot">
+                    <a id="is-like"
+                       th:style="'display: ' + (${post.like.contains(user) ? 'inline-block' : 'none'})"><i
+                            class="fa-solid fa-heart" style="color:red"></i></a>
+                    <a id="un-like"
+                       th:style="'display: ' + (${post.like.contains(user) ? 'none' : 'inline-block'})"><i
+                            class="bi bi-heart"></i></a>
+                    <a href=""><i class="bi bi-chat"></i></a>
+                    <a href=""><i class="bi bi-send"></i></a>
+                </div>
+                <div>
+                    <p style="font-weight: bold;font-size: 15px" class="total_like" id="like-count"
+                       th:text="${post.like.size()} + ' lượt thích'">111.23 lượt thích </p>
+                    <div class="day-foot">
+                        <span class="day day-foot time" th:text="${post.post.createdAt}"> 27 tháng 9</span>
+                    </div>
+                </div>
+            </div>
+            <th:block th:if="${user.id == post.user.id}">
+                <div class="dropdown">
+                    <a class="dropdown-toggle custom_dropdown" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <i class="fa-solid fa-bars"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Chỉnh
+                            sửa</a></li>
+                        <li><a class="dropdown-item" th:href="@{/post/delete/__${post.post.id}__}">Xoá</a></li>
+                        <li><a class="dropdown-item" href="#">Báo cáo</a></li>
+                    </ul>
+                </div>
+            </th:block>
+        </div>
         <div class="input-area">
-            <a href="" style="font-size: 30px;margin-right:5px">🙂</a>
+            <a style="font-size: 30px;margin-right:5px" id="emoji-btn">🙂</a>
+            <label for="comment"></label>
             <input type="text" class="form-control" placeholder="Nhập bình luận..." id="comment"
                    onkeydown="handleEnterPress(event)" oninput="checkInput()">
-            <button class="btn btn-primary" id="send" disabled>Gửi</button>
+            <button class="btn btn-primary" id="send" data-mode="add" disabled>Gửi</button>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content modal-edit">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel"
+                    style="margin-left: 36%;font-weight: bold">Chỉnh sửa bài viết</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body ">
+                <div class="d-flex mt-2 ms-2">
+                    <img th:src="@{__${user.profilePic}__}" alt="Profile Picture"
+                         class="profile-pic me-2" style="width: 40px;height: 40px;border-radius: 50%">
+                    <div>
+                        <h6 class="mb-0" style="font-weight: bold" th:text="${user.fullName}">John Doe</h6>
+                        <small class="text-muted">Public</small>
+                    </div>
+                </div>
+                <div id="editPostForm">
+                    <div class="mb-3">
+                        <label for="postContent"></label>
+                        <textarea class="form-control custom-textarea" id="postContent"
+                                  style="border:none;box-shadow: none;overflow:hidden; resize: none;" rows="1"
+                                  th:text="${post.post.content}"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding: 0">
+                <button class="btn btn-primary"
+                        style="width: 96%;height: 40px;margin-right: 1.5%" id="e-content">Lưu
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal" class="l-modal">
+    <div class="l-modal-content">
+        <span class="close">&times;</span>
+        <h2>Like</h2>
+        <div style="width: 500px; height: 500px">
+            <ul id="listLike">
+            </ul>
         </div>
     </div>
 </div>
 <div id="post" th:attr="data-id=${post.post.id}"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script>
     const postElement = document.getElementById('post');
     const postId = postElement.getAttribute('data-id');
+    var modal = document.getElementById("modal");
+    var span = document.getElementsByClassName("close")[0];
+    $(document).ready(function () {
+        $('#like-count').click(function () {
+            getListLike(postId);
+        });
+        $('#is-like').click(function () {
+            like(postId);
+        });
+        $('#un-like').click(function () {
+            like(postId);
+        });
+    });
+
+    function like(postId) {
+        $.ajax({
+            url: "http://localhost:8080/api/like/likePost",
+            type: "post",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify({
+                id: postId
+            }),
+            success: function (data, status, xhr) {
+                if (xhr.status === 200) {
+                    updateLikeIcon(postId, "like")
+                } else if (xhr.status === 204) {
+                    updateLikeIcon(postId, "un-like")
+                }
+            }
+        });
+    }
+
+    function updateLikeIcon(postId, status) {
+        if (status === "like") {
+            $('#is-like').show();
+            $('#un-like').hide();
+        } else if (status === 'un-like') {
+            $('#is-like').hide();
+            $('#un-like').show();
+        }
+        updateCountLike(postId)
+    }
+
+    function updateCountLike(postId) {
+        $.ajax({
+            url: "http://localhost:8080/api/like/list",
+            type: "post",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify({
+                id: postId
+            }),
+            success: function (data) {
+                $('#like-count').html(data.length + ' lượt thích')
+            }
+        });
+    }
+
+    function getListLike(postId) {
+        $.ajax({
+            url: `http://localhost:8080/api/like/list`,
+            method: 'POST',
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({
+                id: postId
+            }),
+            success: function (data) {
+                showListLike(data);
+            },
+            error: function (xhr, status, error) {
+                console.log('Lỗi khi chấp nhận lời mời kết bạn:', error);
+            }
+        });
+    }
+
+    function showListLike(data) {
+        $('#listLike').empty();
+        data.forEach(item => {
+            const likeHtml = `
+                <a href="/user/${item.user.id}">
+                    <li>
+                        <div style="width: 459px">
+                            <img src="${item.user.profilePic}"
+                                 alt="Profile" class="profile-img">
+                            <p style="color: black; display: inline-block">${item.user.fullName}</p>
+                        </div>
+                    </li>
+                </a>`;
+            $('#listLike').append(likeHtml);
+        });
+        modal.style.display = "block";
+    }
+
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    // Lấy tất cả các thẻ span có class 'time'
+    const timeElements = document.querySelectorAll('.time');
+    // Lặp qua từng thẻ span và định dạng ngày tháng
+    timeElements.forEach(element => {
+        const createdAt = element.innerText; // Lấy giá trị ngày tháng
+        const formattedTime = moment(createdAt).fromNow(); // Định dạng khoảng thời gian
+        element.innerText = formattedTime; // Gán lại giá trị đã định dạng
+    });
+    $(function () {
+        $('#e-content').click(function () {
+            const content = $('#postContent').val();
+            $.ajax({
+                url: "http://localhost:8080/api/post/edit",
+                type: "post",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    id: postId,
+                    content: content
+                }),
+                success: function (data) {
+                    location.reload();
+                }
+            })
+        })
+    })
+    const textarea = document.getElementById('postContent');
+    textarea.addEventListener('input', function () {
+        this.style.height = 'auto';  // Reset lại chiều cao
+        this.style.height = this.scrollHeight + 'px';  // Điều chỉnh theo nội dung
+    });
+    const picker = new EmojiButton();
+    const button = document.querySelector('#emoji-btn');
+    const input = document.querySelector('#comment');
+    button.addEventListener('click', () => {
+        picker.togglePicker(button);
+    });
+    picker.on('emoji', emoji => {
+        input.value += emoji;
+        $('#send').prop('disabled', false);
+    });
+    var commentId = null;
+    document.addEventListener('DOMContentLoaded', function () {
+        const cEditButtons = document.querySelectorAll('.c-edit-btn');
+        cEditButtons.forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+                document.getElementById('comment').value = this.getAttribute('data-comment-content');
+                commentId = this.getAttribute("data-comment-id");
+                const sendButton = document.getElementById('send');
+                sendButton.textContent = 'Lưu';
+                sendButton.dataset.mode = 'edit';
+                $('#send').prop('disabled', false);
+            });
+        });
+    });
 
     function handleEnterPress(event) {
         if (event.key === "Enter") {
@@ -111,6 +393,10 @@
         if (input.value.trim() !== "") {
             sendButton.disabled = false;
         } else {
+            if (sendButton.dataset.mode === 'edit') {
+                sendButton.textContent = 'Gửi';
+                sendButton.dataset.mode = 'add';
+            }
             sendButton.disabled = true;
         }
     }
@@ -122,42 +408,41 @@
 
     function sendComment() {
         const content = document.getElementById('comment').value;
-        $.ajax({
-            url: "http://localhost:8080/comment/create",
-            type: "post",
-            contentType: "application/json",
-            dataType: "json",
-            data: JSON.stringify({
-                post: {
-                    id: postId
-                },
-                content: content
-            }),
-            success: function (data) {
-                displayComment(data);
-            }
-        })
-    }
-
-    function displayComment(data) {
-        $('.comment-list').append(`
-          <div class="comment">
-                <img src="${data.user.profilePic}"
-                     style="object-fit: cover" alt="User Avatar">
-                <div class="comment-content">
-                    <strong>${data.user.fullName}</strong>: <span>${data.content}</span>
-                    <div class="time-like ">
-                        <span class="day ml-3">${data.createdAt}</span>
-                        <span class="like ml-3"> 12 lượt thích </span>
-                        <span class="answer ml-3">Trả lời</span>
-                        <a href=""><i class="fa-solid fa-heart icon-comment" style="color:#737373"></i></a>
-                    </div>
-                </div>
-            </div>`);
+        const sendButton = document.getElementById("send");
+        if (sendButton.dataset.mode === 'add') {
+            $.ajax({
+                url: "http://localhost:8080/comment/create",
+                type: "post",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    post: {
+                        id: postId
+                    },
+                    content: content
+                }),
+                success: function () {
+                    location.reload();
+                }
+            });
+        } else {
+            $.ajax({
+                url: "http://localhost:8080/comment/edit",
+                type: "post",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    id: commentId,
+                    content: content
+                }),
+                success: function () {
+                    location.reload();
+                }
+            });
+        }
     }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

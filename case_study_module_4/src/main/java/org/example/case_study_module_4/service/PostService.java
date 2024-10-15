@@ -17,9 +17,11 @@ public interface PostService {
 
     Post findPostById(Long postId);
 
-    List<Post> findAllByDeletedIsFalse();
+    void deletePostById(Long postId);
 
-    void deleteById(Long id);
+    Post updatePost(Post post);
+
+    List<Post> findAllByDeletedIsFalse();
 
     void save(Post post);
 }

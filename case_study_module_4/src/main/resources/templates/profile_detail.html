@@ -3,60 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instagram Home Clone</title>
+    <title>Trang cá nhân</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" th:href="@{/property/profile/css/profile-detail.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/property/avatar/avatar.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        #imageInput {
+            display: none;
+        }
 
+        .custom-file-upload {
+            cursor: pointer;
+            font-size: 50px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .c-custom-file-upload {
+            margin-left: 45%;
+            cursor: pointer;
+            font-size: 50px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .custom-file-upload i {
+            margin-right: 50px;
+        }
+    </style>
 </head>
 <body>
 <div class="container-fluid main-container">
-    <div class="sidebar-left" style="width: 15%;margin-top: -5%;">
-        <h3 class="mb-3">𝓥𝓷𝓰𝓻𝓪𝓶</h3>
-        <a class="link-icon ms-3" href=""><i class="fa-brands fa-instagram home icons2"></i><span>Trang chủ</span></a>
-        <a class=" link-icon " href=""> <i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
-        <a class=" link-icon  " href=""> <i class="far fa-heart icons2" title="Likes"></i><span>Thông báo</span></a>
-        <a class=" link-icon  " href=""> <i class="fa-regular fa-message icons2"></i><span>Tin nhắn</span></a>
-        <a class=" link-icon " href=""> <i class="far fa-user icons2" title="Profile"></i><span>Trang cá nhân</span></a>
-        <a class=" link-icon " style="margin-top: 70%" href=""> <i class="fa-solid fa-arrow-right-from-bracket icons2"
-                                                                   title="Logout"></i><span>Đăng xuất</span></a>
+    <div class="sidebar-left" style="width: 15%;margin-top: -3%;">
+        <a href="/home"><h3 class="mb-3">𝓥𝓷𝓰𝓻𝓪𝓶</h3></a>
+        <a class="link-icon ms-3" href="/home"><i class="fa-regular fa-house fs-3"></i><span
+                style="font-weight: bold">Trang chủ</span></a>
+        <a class="link-icon" href="/friendship/search"> <i class="fas fa-search icons2" title="Search"></i><span>Tìm kiếm</span></a>
+        <a class="link-icon notification" href="/notification"> <i class="far fa-heart icons2"
+                                                                   title="Likes"></i><span>Thông báo</span>
+            <th:block th:if="${newNotify > 0}">
+                <span class="notification-badge" th:text="${newNotify}">6</span>
+            </th:block>
+        </a>
+        <a class="link-icon notification" href="/message">
+            <i class="fa-regular fa-message icons2"></i>
+            <span>Tin nhắn</span>
+            <th:block th:if="${newMessages > 0}">
+                <span class="notification-badge" th:text="${newMessages}">5</span>
+            </th:block>
+        </a>
+        <a class="link-icon" th:href="@{/user/__${user.id}__}"> <i class="far fa-user icons2"
+                                                                   title="Profile"></i><span>Trang cá nhân</span></a>
+        <a class="link-icon" style="margin-top: 100%" href="/logout"><i
+                class="fa-solid fa-arrow-right-from-bracket icons2"
+                title="Logout"></i><span>Đăng xuất</span></a>
     </div>
     <div class="main-container2">
         <div class="container">
-            <form th:action="@{/user/edit-profile}" method="post" enctype="multipart/form-data">
-                <h2>Chỉnh sửa trang cá nhân</h2>
-                <div class="profile-header">
-                    <img id="profilePicture" name="profilePictrue" th:src="@{${user.profilePic}}" alt="Profile Picture">
-                    <div class="profile-info">
-                        <div class="username" th:text="${user.username}"></div>
-                        <div class="fullname" th:text="${user.fullName}"></div>
-                    </div>
-                    <input type="file" id="imageInput" name="profilePicture" accept=".png, .jpg, .jpeg">
+            <h2>Chỉnh sửa trang cá nhân</h2>
+            <div class="profile-header">
+                <img id="profilePicture" name="profilePictrue" th:src="@{${user.profilePic}}" alt="Profile Picture">
+                <div class="profile-info">
+                    <div class="fullname" th:text="${user.fullName}" style="font-weight: bold"></div>
                 </div>
-                <div class="form-group">
-                    <label for="name">Tên</label>
-                    <input type="text" id="name" name="name" placeholder="Tên của bạn" th:value="${user.fullName}">
-                </div>
-                <div class="form-group">
-                    <label for="bio">Tiểu sử</label>
-                    <textarea id="bio" name="bio" rows="3" placeholder="Mô tả ngắn về bản thân..." th:text="${user.bio}"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="password">Mật khẩu mới</label>
-                    <input type="password" id="password" name="password" placeholder="Nhập mật khẩu mới">
-                </div>
-                <div class="form-group">
-                    <label for="confirm-password">Xác nhận mật khẩu</label>
-                    <input type="password" id="confirm-password" name="confirm-password"
-                           placeholder="Xác nhận mật khẩu mới">
-                </div>
-                <div class="form-group">
-                    <p id="text-validate"></p>
-                </div>
-                <button type="submit" class="save-btn">Lưu thay đổi</button>
-            </form>
+                <label for="imageInput" class="custom-file-upload">
+                    <i class="bi bi-camera"></i>
+                </label>
+                <input type="file" id="imageInput" name="profilePicture" accept=".png, .jpg, .jpeg">
+            </div>
+            <div class="form-group">
+                <label for="name">Tên</label>
+                <input type="text" id="name" name="name" placeholder="Tên của bạn" th:value="${user.fullName}" required>
+            </div>
+            <div class="form-group">
+                <label for="bio">Tiểu sử</label>
+                <textarea id="bio" name="bio" rows="3" placeholder="Mô tả ngắn về bản thân..." th:text="${user.bio}"
+                          required></textarea>
+            </div>
+            <button type="submit" class="save-btn" id="saveUpdate">Lưu thay đổi</button>
             <div class="footer" style="font-size: small; text-align:center; margin-top: 40px">
                 <div>
                     <a class="support" href="">Meta</a>
@@ -79,32 +108,145 @@
         </div>
     </div>
 </div>
-
+<div id="imageModal" class="c-modal">
+    <div class="c-modal-content">
+        <span class="close close-image">&times;</span>
+        <h2>Chọn ảnh đại diện</h2>
+        <div style="width: 500px; height: 500px">
+            <img id="image" alt="Ảnh cắt">
+        </div>
+        <div>
+            <label for="cropButton" class="c-custom-file-upload">
+                <i class="bi bi-camera"></i>
+            </label>
+            <button id="cropButton" style="display:none;"></button>
+        </div>
+    </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
 <script>
+    let cropper;
+    const inputImage = document.getElementById('imageInput');
+    const image = document.getElementById('image');
+    // Lấy các phần tử modal hình ảnh và nút
+    var imageModal = document.getElementById("imageModal");
+    var closeImage = document.getElementsByClassName("close-image")[0];
+    var saveImage = document.getElementById("cropButton");
     $("#imageInput").on('change', (event) => {
         const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                $('#profilePicture').attr('src', e.target.result);
+        if (!file) return; // Nếu không có tệp nào được chọn, thoát khỏi hàm.
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            image.src = e.target.result;
+            imageModal.style.display = "block";
+            if (cropper) {
+                cropper.destroy();
             }
-            reader.readAsDataURL(file);
-        }
+            cropper = new Cropper(image, {
+                aspectRatio: 1,
+                viewMode: 3,
+            });
+        };
+        reader.readAsDataURL(file);
+        // Đặt lại giá trị của input để kích hoạt lại sự kiện khi chọn cùng một tệp
+        inputImage.value = '';
     })
+    saveImage.onclick = function () {
+        Swal.fire({
+            title: 'Uploading...',
+            text: 'Please wait while your files are being uploaded.',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+        imageModal.style.display = "none";
+        const croppedCanvas = cropper.getCroppedCanvas({
+            width: 1024,
+            height: 1024
+        });
+        croppedCanvas.toBlob((blob) => {
+            const formData = new FormData();
+            const fileName = generateUUID() + ".png";
+            formData.append('profilePicture', blob, fileName);
+            $.ajax({
+                url: "http://localhost:8080/api/user/update-avatar",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: () => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Your files have been uploaded successfully.',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+                        }
+                    });
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'There was an error uploading your files.',
+                    });
+                }
+            })
 
-    $("form").on("submit", function(event) {
-        const password = $("#password").val();
-        const confirmPassword = $("#confirm-password").val();
-        if (password === "") {
-            event.preventDefault();
-            $("#text-validate").addClass("text-danger").html("Mật khẩu không được để trống")
-        } else if (password != confirmPassword) {
-            event.preventDefault();
-            $("#text-validate").addClass("text-danger").html("Mật khẩu không khớp")
-        }
+        }, 'image/png');
+    }
+
+    function generateUUID() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
+    // Đóng modal hình ảnh khi nhấn nút đóng
+    closeImage.onclick = function () {
+        imageModal.style.display = "none";
+    }
+    $("#saveUpdate").on("click", (event) => {
+        const name = $("#name").val();
+        const bio = $("#bio").val();
+        let formData = new FormData();
+        formData.append("name", name);
+        formData.append("bio", bio);
+        Swal.fire({
+            title: 'Uploading...',
+            text: 'Please wait while your files are being uploaded.',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+        $.ajax({
+            url: "http://localhost:8080/api/user/update-info",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: () => {
+                $('.fullname').html(name);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Your files have been uploaded successfully.',
+                });
+            },
+            error: () => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'There was an error uploading your files.',
+                });
+            }
+        })
     })
 </script>
 </body>

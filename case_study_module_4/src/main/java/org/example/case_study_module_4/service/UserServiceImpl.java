@@ -2,8 +2,6 @@ package org.example.case_study_module_4.service;
 
 import org.example.case_study_module_4.model.User;
 import org.example.case_study_module_4.repository.UserRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,6 +32,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserById(Long id) {
         return userRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<User> findByFullName(String fullName) {
+        if (fullName == null || fullName.isEmpty()) {
+            fullName = "";
+        }
+        String str = "%" + fullName + "%";
+        return userRepository.findByFullName(str);
     }
 
     @Override

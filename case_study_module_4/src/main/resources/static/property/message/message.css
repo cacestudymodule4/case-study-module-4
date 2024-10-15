@@ -8,6 +8,10 @@ body {
     flex-direction: row;
 }
 
+a {
+    color: black;
+}
+
 .sidebar {
     background-color: #fff;
     width: 4%;
@@ -52,6 +56,7 @@ body {
     height: 40px;
     border-radius: 50%;
     margin-right: 10px;
+    object-fit: cover;
 }
 
 .chat-box {
@@ -98,6 +103,7 @@ body {
     border-radius: 20px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
+
 
 .message.sent .message-content {
     background-color: #dcf8c6;
@@ -186,7 +192,6 @@ body {
 
 .icons:hover {
     transform: scale(1.1);
-    color: #007bff;
 }
 
 .text-message {
@@ -199,14 +204,26 @@ body {
 .friend-name, .text-message {
     display: block;
 }
-.message-default{
+
+.message-default {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-.chat-input input{
-    outline: none !important; /* Ghi đè các quy tắc khác từ Bootstrap */
+
+.chat-input input {
+    outline: none !important;
     border-color: #cfd4da;
     box-shadow: none !important;
+}
+
+.message-content {
+    max-width: 60% !important;
+}
+
+.message-content span {
+    max-width: 60%;
+    word-wrap: break-word;
+    word-break: break-all;
 }

@@ -10,7 +10,7 @@ public class LoginController {
     @GetMapping("/login")
     public String login(@RequestParam(defaultValue = "") String error, Model model) {
         if (!error.isEmpty()) {
-            model.addAttribute("error", "Invalid username or password.");
+            model.addAttribute("error", "Tài khoản hoặc mật khẩu không đúng");
         }
         return "login";
     }

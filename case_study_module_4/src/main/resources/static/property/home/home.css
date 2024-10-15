@@ -1,7 +1,11 @@
 body {
     background-color: #fff;
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     padding-top: 60px;
+}
+
+body.modal-open {
+    padding-right: 0 !important;
 }
 
 .navbar {
@@ -88,7 +92,6 @@ body {
     max-width: 600px;
 }
 
-
 .feed-post {
     background-color: #fff;
     border: none;
@@ -133,6 +136,7 @@ body {
 }
 
 .post-footer .likes {
+    cursor: pointer;
     font-weight: bold;
 }
 
@@ -164,13 +168,11 @@ body {
 
 .carousel-item {
     height: 780px;
-
+    align-content: center;
 }
 
 .carousel-item img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
 }
 
 * {
@@ -240,7 +242,6 @@ body {
     border-radius: 50%;
 }
 
-
 a {
     color: black;
 }
@@ -252,7 +253,6 @@ a {
 .suggestion-item.show {
     display: flex;
 }
-
 
 .link-icon {
     display: flex;
@@ -266,7 +266,6 @@ a {
 
 .link-icon a:hover {
     transform: scale(1.1) !important;
-
 }
 
 .link-icon:hover {
@@ -292,6 +291,137 @@ h3,
     font-size: 13px;
 }
 
-img {
-    object-fit: cover;
+.modal-content {
+    width: 80%;
+    margin-top: 62%;
+}
+
+.modal-a {
+
+    padding: 20px 0;
+    border-bottom: 1px solid #dbdbdb !important;
+}
+
+.modal-a a {
+    margin: 0 auto !important;
+
+}
+
+.modal-a:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.modal-body {
+    padding: 0;
+}
+
+.search-input input:focus {
+    outline: none !important;
+    border-color: #cfd4da;
+    box-shadow: none !important;
+}
+
+.search-input {
+    width: 70%;
+    margin: -4% 0 3% 30%;
+}
+
+.notification {
+    position: relative;
+}
+
+.notification-badge {
+    position: absolute;
+    top: 1%;
+    right: 80%;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 5px 7px;
+    font-size: 12px;
+    line-height: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 20px;
+    height: 20px;
+    font-weight: bold;
+}
+
+/* Tùy chỉnh để làm chấm tròn nhỏ như trên Instagram */
+.carousel-indicators [data-bs-target] {
+    width: 8px;
+    height: 8px;
+    background-color: #999; /* Màu chấm khi chưa active */
+    border-radius: 50%; /* Tạo hình tròn */
+    margin: 0 4px;
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu */
+}
+
+/* Chấm tròn active */
+.carousel-indicators .active {
+    background-color: #ffffff; /* Màu chấm active (màu đậm hơn) */
+}
+
+/* Đổi màu khi hover */
+.carousel-indicators [data-bs-target]:hover {
+    background-color: #666; /* Màu khi hover */
+    cursor: pointer;
+}
+
+.see-all {
+    color: #737373;
+    margin-left: -242%;
+    font-size: small
+}
+
+.see-all:hover {
+    color: #cacaca;
+}
+
+.notification {
+    text-align: center;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+
+}
+
+/*icon thông báo đã xem hết bài đăng*/
+.check-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(#e66465, #9198e5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 40px;
+    margin: 0 auto 20px;
+}
+
+.notification h2 {
+    margin: 10px 0;
+    font-size: 24px;
+}
+
+.notification p {
+    font-size: 14px;
+    color: #737373;
+}
+
+.support a {
+    color: #787878 !important;
+}
+
+.follow-text:hover {
+    color: black;
+}
+
+.follow-text {
+    margin-left: -300%;
+    font-size: small;
+    color: #57b9f9
 }

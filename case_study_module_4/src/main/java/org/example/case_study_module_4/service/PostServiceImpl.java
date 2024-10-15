@@ -1,11 +1,7 @@
 package org.example.case_study_module_4.service;
 
-import org.example.case_study_module_4.model.Media;
-import org.example.case_study_module_4.model.Post;
-import org.example.case_study_module_4.model.User;
-import org.example.case_study_module_4.repository.FollowRepository;
-import org.example.case_study_module_4.repository.MediaRepository;
-import org.example.case_study_module_4.repository.PostRepository;
+import org.example.case_study_module_4.model.*;
+import org.example.case_study_module_4.repository.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -21,15 +17,24 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final FollowRepository followRepository;
     private final MediaRepository mediaRepository;
+    private final CommentRepository commentRepository;
+    private final LikeRepository likeRepository;
+    private final NotificationRepository notificationRepository;
 
     public PostServiceImpl(FileStorageService fileStorageService,
                            PostRepository postRepository,
                            FollowRepository followRepository,
-                           MediaRepository mediaRepository) {
+                           MediaRepository mediaRepository,
+                           CommentRepository commentRepository,
+                           LikeRepository likeRepository,
+                           NotificationRepository notificationRepository) {
         this.fileStorageService = fileStorageService;
         this.postRepository = postRepository;
         this.followRepository = followRepository;
         this.mediaRepository = mediaRepository;
+        this.commentRepository = commentRepository;
+        this.likeRepository = likeRepository;
+        this.notificationRepository = notificationRepository;
     }
 
     @Override
@@ -81,13 +86,26 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> findAllByDeletedIsFalse() {
-        return postRepository.findDeletedPosts();
+    public void deletePostById(Long postId) {
+        List<Comment> comments = commentRepository.findByPostId(postId);
+        commentRepository.deleteAll(comments);
+        List<Media> mediaList = mediaRepository.findByPostId(postId);
+        mediaRepository.deleteAll(mediaList);
+        List<Like> likes = likeRepository.findByPostId(postId);
+        likeRepository.deleteAll(likes);
+        List<Notification> notifications = notificationRepository.findByPostId(postId);
+        notificationRepository.deleteAll(notifications);
+        postRepository.deleteById(postId);
     }
 
     @Override
-    public void deleteById(Long id) {
-        postRepository.deleteById(id);
+    public Post updatePost(Post post) {
+        return postRepository.save(post);
+    }
+
+    @Override
+    public List<Post> findAllByDeletedIsFalse() {
+        return postRepository.findDeletedPosts();
     }
 
     @Override

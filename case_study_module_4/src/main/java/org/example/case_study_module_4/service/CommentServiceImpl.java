@@ -20,12 +20,17 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> findAll() {
-        return commentRepository.findAll();
+    public Comment gerComment(Long commentId) {
+        return commentRepository.findById(commentId).orElse(null);
     }
 
     @Override
-    public void deleteComment(Long id) {
-        commentRepository.deleteById(id);
+    public void deleteComment(Long commentId) {
+        commentRepository.deleteById(commentId);
+    }
+
+    @Override
+    public List<Comment> findAll() {
+        return commentRepository.findAll();
     }
 }
