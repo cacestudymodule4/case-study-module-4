@@ -20,4 +20,8 @@ public interface PostService {
     void deletePostById(Long postId);
 
     Post updatePost(Post post);
+
+    List<Post> findAllByDeletedIsFalse();
+
+    void save(Post post);
 }

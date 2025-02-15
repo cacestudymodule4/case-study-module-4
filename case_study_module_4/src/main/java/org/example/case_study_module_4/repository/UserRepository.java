@@ -19,4 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByFullName(@Param("fullName") String fullName);
 
     User findByUsername(String userName);
+
+    @Query("SELECT u FROM  User u WHERE u.isDeleted = FALSE ")
+    List<User>findAllByDeletedIsFalse();
 }

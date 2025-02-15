@@ -102,4 +102,14 @@ public class PostServiceImpl implements PostService {
     public Post updatePost(Post post) {
         return postRepository.save(post);
     }
+
+    @Override
+    public List<Post> findAllByDeletedIsFalse() {
+        return postRepository.findDeletedPosts();
+    }
+
+    @Override
+    public void save(Post post) {
+        postRepository.save(post);
+    }
 }

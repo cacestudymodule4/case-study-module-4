@@ -22,5 +22,7 @@ public class Post {
     @ManyToOne
     @JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "fk_post_user"))
     private User user;
+
+    private boolean deleted;
 }
 

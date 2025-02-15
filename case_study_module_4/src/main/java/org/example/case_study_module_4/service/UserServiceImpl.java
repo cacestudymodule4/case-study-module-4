@@ -47,4 +47,13 @@ public class UserServiceImpl implements UserService {
     public User findUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+
+    public List<User> findAllByDeletedIsFalse() {
+        return userRepository.findAllByDeletedIsFalse();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
+    }
 }
