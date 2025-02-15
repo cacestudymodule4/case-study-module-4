@@ -32,14 +32,16 @@ public class RegisterController {
     public String registerUser(@ModelAttribute("user") User user, @RequestParam(value = "re-password", defaultValue = "") String rePassword, RedirectAttributes redirectAttributes) {
         boolean error = false;
         if (rePassword.isEmpty() || !rePassword.equals(user.getPassword())) {
-            redirectAttributes.addFlashAttribute("passwordError", "Mật khẩu không chính xác");
+            redirectAttributes.addFlashAttribute("passwordError", "Mật khẩu không khớp");
             error = true;
         }
         if (user.getEmail().isEmpty() || !user.getEmail().matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
             redirectAttributes.addFlashAttribute("emailError", "Email không đúng định dạng example@example.com");
             error = true;
         }
-        if (userService.findUserByEmail(user.getEmail()) != null) {
+        String username = user.getEmail().replaceAll("@.*", "");
+        user.setUsername(username);
+        if (userService.findUserByUsername(username) != null) {
             redirectAttributes.addFlashAttribute("emailError", "Email đã có người sử dụng");
             error = true;
         }

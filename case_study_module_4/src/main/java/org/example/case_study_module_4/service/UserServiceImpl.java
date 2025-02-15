@@ -42,4 +42,9 @@ public class UserServiceImpl implements UserService {
         String str = "%" + fullName + "%";
         return userRepository.findByFullName(str);
     }
+
+    @Override
+    public User findUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 }
